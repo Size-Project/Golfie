@@ -3,7 +3,7 @@ package com.golfie.auth.application;
 import com.golfie.auth.infrastructure.kakao.KakaoUserFactory;
 import com.golfie.auth.infrastructure.naver.NaverUserFactory;
 import com.golfie.auth.infrastructure.OauthUserFactory;
-import com.golfie.auth.infrastructure.Oauth2UserInfo;
+import com.golfie.auth.infrastructure.OauthUserInfo;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,7 +17,7 @@ public class SocialClient {
         this.naverUserFactory = naverUserFactory;
     }
 
-    public Oauth2UserInfo getUserInfo(String code, String provider) {
+    public OauthUserInfo getUserInfo(String code, String provider) {
         OauthUserFactory oauthUserFactory = null;
 
         if (provider.equals("Kakao")) {
