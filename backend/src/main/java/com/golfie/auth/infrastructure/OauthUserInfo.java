@@ -1,6 +1,8 @@
 package com.golfie.auth.infrastructure;
 
-public interface Oauth2UserInfo {
+public interface OauthUserInfo {
     String getProviderId();
     String getEmail();
+    String getAgeRange();
+    String getGender();
 }

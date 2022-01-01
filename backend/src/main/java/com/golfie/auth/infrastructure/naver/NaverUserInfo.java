@@ -1,8 +1,8 @@
 package com.golfie.auth.infrastructure.naver;
 
-import com.golfie.auth.infrastructure.Oauth2UserInfo;
+import com.golfie.auth.infrastructure.OauthUserInfo;
 
-public class NaverUserInfo implements Oauth2UserInfo {
+public class NaverUserInfo implements OauthUserInfo {
     @Override
     public String getProviderId() {
         return null;
@@ -10,6 +10,16 @@ public class NaverUserInfo implements Oauth2UserInfo {
 
     @Override
     public String getEmail() {
+        return null;
+    }
+
+    @Override
+    public String getAgeRange() {
+        return null;
+    }
+
+    @Override
+    public String getGender() {
         return null;
     }
 }

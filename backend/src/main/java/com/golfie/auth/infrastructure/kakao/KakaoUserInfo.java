@@ -1,11 +1,10 @@
 package com.golfie.auth.infrastructure.kakao;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.golfie.auth.infrastructure.Oauth2UserInfo;
+import com.golfie.auth.infrastructure.OauthUserInfo;
 
-public class KakaoUserInfo implements Oauth2UserInfo {
+public class KakaoUserInfo implements OauthUserInfo {
     private String id;
-
     @JsonProperty("kakao_account")
     private KakaoAccount kakaoAccount;
 
@@ -25,5 +24,15 @@ public class KakaoUserInfo implements Oauth2UserInfo {
     @Override
     public String getEmail() {
         return kakaoAccount.getEmail();
+    }
+
+    @Override
+    public String getAgeRange() {
+        return kakaoAccount.getAgeRange();
+    }
+
+    @Override
+    public String getGender() {
+        return kakaoAccount.getGender();
     }
 }

@@ -1,25 +1,23 @@
 package com.golfie.auth.presentation.dto;
 
-import lombok.NoArgsConstructor;
-
 public class SocialLoginRequest {
-    private String code;
 
-    private String provider;
+    private String code;
+    private String providerName;
 
     public SocialLoginRequest() {
     }
 
-    public SocialLoginRequest(String code, String provider) {
+    public SocialLoginRequest(String code, String providerName) {
         this.code = code;
-        this.provider = provider;
+        this.providerName = providerName;
     }
 
     public String getCode() {
         return code;
     }
 
-    public String getProvider() {
-        return provider;
+    public String getProviderName() {
+        return providerName;
     }
 }
