@@ -1,12 +1,14 @@
 package com.golfie.auth.application;
 
 import com.golfie.auth.infrastructure.SocialProvider;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
+@Profile("dev")
 @Component
-public class ProviderSelectorProviderSelector implements ProviderSelectorFactory {
+public class SocialProviderSelector implements ProviderSelectorFactory {
 
     @Override
     public SocialProvider getSocialProvider(String providerName) {

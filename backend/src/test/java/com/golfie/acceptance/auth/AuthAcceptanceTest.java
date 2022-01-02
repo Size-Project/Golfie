@@ -1,17 +1,18 @@
 package com.golfie.acceptance.auth;
 
 import com.golfie.acceptance.AcceptanceTest;
+import com.golfie.auth.application.dto.TokenDto;
 import com.golfie.auth.presentation.dto.SocialLoginRequest;
 import com.golfie.user.domain.User;
 import com.golfie.user.domain.UserRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.http.Method;
-import io.restassured.response.ExtractableResponse;
-import io.restassured.response.Response;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,22 +21,45 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     @Autowired
     private UserRepository userRepository;
 
-    @DisplayName("소셜 로그인 - 성공")
-    @Test
-    void oauth_Login() {
-        SocialLoginRequest socialLoginRequest = new SocialLoginRequest("code", "Test");
+    private final SocialLoginRequest socialLoginRequest = new SocialLoginRequest("CODE", "TEST");
 
-        ExtractableResponse<Response> response = RestAssured
+    @BeforeEach
+    void setup() {
+        userRepository.deleteAll();
+    }
+
+    @DisplayName("소셜 로그인 - 소셜 서비스 인증 후 토큰을 생성하여 반환한다.")
+    @Test
+    void oauth_Login_Return_JwtToken() {
+        TokenDto tokenResponse = RestAssured
                 .given()
                     .port(port)
+                    .accept(MediaType.APPLICATION_JSON_VALUE)
                     .contentType(ContentType.JSON)
                     .body(socialLoginRequest)
                 .when()
                     .request(Method.POST, "/api/login/oauth")
                 .then()
-                    .extract();
+                    .extract()
+                    .as(TokenDto.class);
 
-        assertThat(response.body()).isNotNull();
+        assertThat(tokenResponse.getAccessToken()).isNotBlank();
+    }
+
+    @DisplayName("소셜 로그인 - 소셜 서비스에서 받은 토큰을 이용하여 사용자 개인 정보를 불러온다.")
+    @Test
+    void oauth_Login_Return_User_Account_Information() {
+        TokenDto tokenResponse = RestAssured
+                .given()
+                    .port(port)
+                    .accept(MediaType.APPLICATION_JSON_VALUE)
+                    .contentType(ContentType.JSON)
+                    .body(socialLoginRequest)
+                .when()
+                    .request(Method.POST, "/api/login/oauth")
+                .then()
+                    .extract()
+                    .as(TokenDto.class);
 
         User user = userRepository.findByEmailAndProviderId("test@test.com", "1234").get();
 

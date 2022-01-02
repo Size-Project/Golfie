@@ -2,7 +2,10 @@ package com.golfie.auth.application.dto;
 
 public class TokenDto {
 
-    private final String accessToken;
+    private String accessToken;
+
+    public TokenDto() {
+    }
 
     private TokenDto(String token) {
         this.accessToken = token;

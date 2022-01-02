@@ -7,14 +7,14 @@ import org.springframework.context.annotation.Profile;
 
 @Profile("dev")
 public enum SocialProvider {
-    KAKAO("Kakao", new KakaoLoginStrategy(
+    KAKAO("KAKAO", new KakaoLoginStrategy(
             KakaoOauthInfo.clientId,
             KakaoOauthInfo.redirectUri,
             KakaoOauthInfo.userInfoRequestUri,
             KakaoOauthInfo.accessTokenRequestUri)
     ),
-    NAVER("Naver", new NaverLoginStrategy()),
-    TEST("Test");
+    NAVER("NAVER", new NaverLoginStrategy()),
+    TEST("TEST");
 
     private final String providerName;
     private SocialLoginStrategy socialLoginStrategy;
