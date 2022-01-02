@@ -1,7 +1,7 @@
 package com.golfie.common.fixture;
 
 import com.golfie.auth.application.ProviderSelectorFactory;
-import com.golfie.auth.infrastructure.SocialProvider;
+import com.golfie.auth.infrastructure.OauthUserInfo;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +10,8 @@ import org.springframework.stereotype.Component;
 public class TestSocialProviderSelector implements ProviderSelectorFactory {
 
     @Override
-    public SocialProvider getSocialProvider(String providerName) {
-        return SocialProvider.TEST;
+    public OauthUserInfo getUserInfoFromSocialProvider(String code, String providerName) {
+        return TestUserInfo.of();
     }
+
 }

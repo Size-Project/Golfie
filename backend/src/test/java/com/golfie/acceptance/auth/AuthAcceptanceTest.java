@@ -30,7 +30,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("소셜 로그인 - 소셜 서비스 인증 후 토큰을 생성하여 반환한다.")
     @Test
-    void oauth_Login_Return_JwtToken() {
+    void socialLogin_Return_JwtToken() {
         TokenDto tokenResponse = RestAssured
                 .given()
                     .port(port)
@@ -46,9 +46,9 @@ public class AuthAcceptanceTest extends AcceptanceTest {
         assertThat(tokenResponse.getAccessToken()).isNotBlank();
     }
 
-    @DisplayName("소셜 로그인 - 소셜 서비스에서 받은 토큰을 이용하여 사용자 개인 정보를 불러온다.")
+    @DisplayName("소셜 로그인 - 소셜 서비스에서 받은 토큰을 이용하여 소셜 계정 개인 정보를 불러온다.")
     @Test
-    void oauth_Login_Return_User_Account_Information() {
+    void socialLogin_Return_User_Account_Profile() {
         TokenDto tokenResponse = RestAssured
                 .given()
                     .port(port)
@@ -61,12 +61,14 @@ public class AuthAcceptanceTest extends AcceptanceTest {
                     .extract()
                     .as(TokenDto.class);
 
-        User user = userRepository.findByEmailAndProviderId("test@test.com", "1234").get();
+        User user = userRepository.findByEmailAndProviderId("test@test.com", "12345678").get();
 
         User target = User.builder()
                 .id(1L)
                 .email("test@test.com")
-                .providerId("1234")
+                .providerId("12345678")
+                .ageRange("20~29")
+                .gender("male")
                 .build();
 
         assertThat(user)

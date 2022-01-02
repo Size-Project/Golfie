@@ -5,17 +5,19 @@ import com.golfie.auth.infrastructure.OauthUserInfo;
 public class TestUserInfo implements OauthUserInfo {
 
     private final String id;
+    private final String email;
+    private final String ageRange;
+    private final String gender;
 
-    private TestUserInfo(String id) {
+    public TestUserInfo(String id, String email, String ageRange, String gender) {
         this.id = id;
+        this.email = email;
+        this.ageRange = ageRange;
+        this.gender = gender;
     }
 
     public static TestUserInfo of() {
-        return new TestUserInfo("1234");
-    }
-
-    public String getId() {
-        return id;
+        return new TestUserInfo("12345678", "test@test.com", "20~29", "male");
     }
 
     @Override
@@ -25,16 +27,16 @@ public class TestUserInfo implements OauthUserInfo {
 
     @Override
     public String getEmail() {
-        return "test@test.com";
+        return email;
     }
 
     @Override
     public String getAgeRange() {
-        return null;
+        return ageRange;
     }
 
     @Override
     public String getGender() {
-        return null;
+        return gender;
     }
 }

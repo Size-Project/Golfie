@@ -1,7 +1,7 @@
 package com.golfie.auth.application;
 
-import com.golfie.auth.infrastructure.SocialProvider;
+import com.golfie.auth.infrastructure.OauthUserInfo;
 
 public interface ProviderSelectorFactory {
-    SocialProvider getSocialProvider(String providerName);
+    OauthUserInfo getUserInfoFromSocialProvider(String code, String providerName);
 }

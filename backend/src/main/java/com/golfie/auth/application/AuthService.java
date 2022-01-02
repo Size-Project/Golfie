@@ -23,8 +23,7 @@ public class AuthService {
     @Transactional
     public TokenDto login(SocialLoginRequest socialLoginRequest) {
         OauthUserInfo oauthUserInfo = providerSelectorFactory
-                .getSocialProvider(socialLoginRequest.getProviderName())
-                .getUserInfo(socialLoginRequest.getCode());
+                .getUserInfoFromSocialProvider(socialLoginRequest.getCode(), socialLoginRequest.getProviderName());
 
         User user = findOrCreateUser(oauthUserInfo);
 

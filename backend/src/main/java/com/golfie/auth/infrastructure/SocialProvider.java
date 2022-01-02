@@ -5,7 +5,6 @@ import com.golfie.auth.infrastructure.kakao.KakaoOauthInfo;
 import com.golfie.auth.infrastructure.naver.NaverLoginStrategy;
 import org.springframework.context.annotation.Profile;
 
-@Profile("dev")
 public enum SocialProvider {
     KAKAO("KAKAO", new KakaoLoginStrategy(
             KakaoOauthInfo.clientId,
