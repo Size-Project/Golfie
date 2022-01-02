@@ -6,8 +6,9 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 @Component
-public class SocialProviderSelector {
+public class ProviderSelectorProviderSelector implements ProviderSelectorFactory {
 
+    @Override
     public SocialProvider getSocialProvider(String providerName) {
         return Arrays.stream(SocialProvider.values())
                 .filter(provider -> provider.getProviderName().equals(providerName))

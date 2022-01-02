@@ -3,7 +3,9 @@ package com.golfie.auth.infrastructure;
 import com.golfie.auth.infrastructure.kakao.KakaoLoginStrategy;
 import com.golfie.auth.infrastructure.kakao.KakaoOauthInfo;
 import com.golfie.auth.infrastructure.naver.NaverLoginStrategy;
+import org.springframework.context.annotation.Profile;
 
+@Profile("dev")
 public enum SocialProvider {
     KAKAO("Kakao", new KakaoLoginStrategy(
             KakaoOauthInfo.clientId,
@@ -12,14 +14,18 @@ public enum SocialProvider {
             KakaoOauthInfo.accessTokenRequestUri)
     ),
     NAVER("Naver", new NaverLoginStrategy()),
-    TEST("Test", null);
+    TEST("Test");
 
     private final String providerName;
-    private final SocialLoginStrategy socialLoginStrategy;
+    private SocialLoginStrategy socialLoginStrategy;
 
     SocialProvider(String providerName, SocialLoginStrategy socialLoginStrategy) {
         this.providerName = providerName;
         this.socialLoginStrategy = socialLoginStrategy;
+    }
+
+    SocialProvider(String providerName) {
+        this.providerName = providerName;
     }
 
     public OauthUserInfo getUserInfo(String code) {
@@ -28,5 +34,9 @@ public enum SocialProvider {
 
     public String getProviderName() {
         return providerName;
+    }
+
+    public void setSocialLoginStrategy(SocialLoginStrategy socialLoginStrategy) {
+        this.socialLoginStrategy = socialLoginStrategy;
     }
 }

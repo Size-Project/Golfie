@@ -2,7 +2,6 @@ package com.golfie.auth.application;
 
 import com.golfie.auth.application.dto.TokenDto;
 import com.golfie.auth.infrastructure.OauthUserInfo;
-import com.golfie.auth.infrastructure.SocialProvider;
 import com.golfie.auth.presentation.dto.SocialLoginRequest;
 import com.golfie.auth.util.*;
 import com.golfie.user.domain.User;
@@ -19,11 +18,11 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
-    private final SocialProviderSelector socialProviderSelector;
+    private final ProviderSelectorFactory providerSelectorFactory;
 
     @Transactional
     public TokenDto login(SocialLoginRequest socialLoginRequest) {
-        OauthUserInfo oauthUserInfo = socialProviderSelector
+        OauthUserInfo oauthUserInfo = providerSelectorFactory
                 .getSocialProvider(socialLoginRequest.getProviderName())
                 .getUserInfo(socialLoginRequest.getCode());
 
