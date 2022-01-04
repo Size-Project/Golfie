@@ -1,4 +1,4 @@
-package com.golfie.common;
+package com.golfie.common.docs;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
