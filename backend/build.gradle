@@ -34,8 +34,6 @@ bootJar {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-//    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-//    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
@@ -49,7 +47,6 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-//    testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'io.rest-assured:rest-assured'
 
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
@@ -64,6 +61,12 @@ asciidoctor {
     inputs.dir snippetsDir
     dependsOn test
 }
+
+task copySecret(type: Copy) {
+    from './security'
+    into 'src/main/resources/'
+}
+
 
 task copyDocument(type: Copy) {
     dependsOn 'asciidoctor'
