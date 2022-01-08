@@ -1,3 +1,3 @@
 [submodule "backend/security"]
 	path = backend/security
-	url = git@github.com:Size-Project/Golfie.git
+	url = https://github.com/Size-Project/security.git
