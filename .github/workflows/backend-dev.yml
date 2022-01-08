@@ -1,0 +1,41 @@
+name: backend-dev-cicd
+
+on:
+  push:
+    branches: [ develop ]
+
+defaults:
+  run:
+    working-directory: ./backend
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+          token: ${{ secrets.GIT_TOKEN }}
+
+      - name: Test and Build
+        run: ./gradlew clean build
+
+      - name: Deliver using scp
+        uses: appleboy/scp-action@master
+        with:
+          username: ec2-user
+          host: ${{ secrets.HOST }}
+          key: ${{ secrets.RSA_PRIVATE_KEY }}
+          source: "./build/libs/*.jar"
+          target: "/home/ec2-user/fieldtrip/backend/build/"
+
+      - name: Deploy using ssh
+        uses: appleboy/ssh-action@master
+        with:
+          username: ec2-user
+          host: ${{ secrets.HOST }}
+          key: ${{ secrets.RSA_PRIVATE_KEY }}
+          script_stop: true  # stop script after first failure
+          script: sh /home/ec2-user/fieldtrip/backend/script/run_server.sh
