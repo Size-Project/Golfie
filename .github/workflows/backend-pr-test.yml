@@ -5,6 +5,10 @@ on:
     branches: [ develop ]
     types: [ opened ]
 
+defaults:
+  run:
+    working-directory: ./backend
+
 jobs:
   build:
     if: contains(github.event.pull_request.labels.*.id, 3663784521) # backend 라벨 id: 3663784521
