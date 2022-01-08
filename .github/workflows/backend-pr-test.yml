@@ -1,0 +1,25 @@
+name: backend-pr-test
+
+on:
+  pull_request:
+    branches: [ develop ]
+    types: [ opened ]
+
+defaults:
+  run:
+    working-directory: ./backend
+
+jobs:
+  build:
+    if: contains(github.event.pull_request.labels.*.id, 3663784521) # backend 라벨 id: 3663784521
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+          token: ${{ secrets.GIT_TOKEN }}
+
+      - name: Test and Build
+        run: ./gradlew clean build

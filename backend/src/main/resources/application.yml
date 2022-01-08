@@ -1,5 +1,11 @@
 spring:
   profiles:
+    active: dev
+
+---
+
+spring:
+  profiles:
     include:
       - auth
       - datasource
