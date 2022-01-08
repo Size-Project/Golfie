@@ -1,7 +1,7 @@
 name: frontend-dev-cicd               # Workflow 이름
 on:                                  # Event 감지
   push:
-    branches: [ develop ]
+    branches: [ chore/build#19 ]
 
 defaults:
   run:
