@@ -28,8 +28,8 @@ jobs:
           username: ec2-user
           host: ${{ secrets.HOST }}
           key: ${{ secrets.RSA_PRIVATE_KEY }}
-          source: "./build/libs/*.jar"
-          target: "/home/ec2-user/fieldtrip/backend/build/"
+          source: "./backend/build/libs/*.jar"
+          target: "/home/ec2-user/fieldtrip/"
 
       - name: Deploy using ssh
         uses: appleboy/ssh-action@master
