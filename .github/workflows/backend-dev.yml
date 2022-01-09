@@ -22,13 +22,22 @@ jobs:
       - name: Test and Build
         run: ./gradlew clean build
 
-      - name: Deliver using scp
+      - name: Deliver jar using scp
         uses: appleboy/scp-action@master
         with:
           username: ec2-user
           host: ${{ secrets.HOST }}
           key: ${{ secrets.RSA_PRIVATE_KEY }}
           source: "./backend/build/libs/*.jar"
+          target: "/home/ec2-user/fieldtrip/"
+
+      - name: Deliver script using scp
+        uses: appleboy/scp-action@master
+        with:
+          username: ec2-user
+          host: ${{ secrets.HOST }}
+          key: ${{ secrets.RSA_PRIVATE_KEY }}
+          source: "./backend/script/deploy_script.sh"
           target: "/home/ec2-user/fieldtrip/"
 
       - name: Deploy using ssh
@@ -38,4 +47,6 @@ jobs:
           host: ${{ secrets.HOST }}
           key: ${{ secrets.RSA_PRIVATE_KEY }}
           script_stop: true  # stop script after first failure
-          script: sh /home/ec2-user/fieldtrip/backend/script/run_server.sh
+          script: |
+            ls -al
+            sh /home/ec2-user/fieldtrip/backend/script/deploy_script.sh
