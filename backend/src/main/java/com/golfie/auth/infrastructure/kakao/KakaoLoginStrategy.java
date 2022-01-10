@@ -4,25 +4,22 @@ import com.golfie.auth.infrastructure.OauthUserInfo;
 import com.golfie.auth.infrastructure.SocialLoginStrategy;
 import com.golfie.auth.infrastructure.dto.KakaoAccessTokenResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-@RequiredArgsConstructor
+@Component
 public class KakaoLoginStrategy implements SocialLoginStrategy {
     private static final String AUTHORIZATION = "Authorization";
     private static final String CONTENT_TYPE = "Content-Type";
     private static final String CHARSET = "application/x-www-form-urlencoded;charset=utf-8";
     private static final String BEARER_FORM = "Bearer %s";
     private static final String GRANT_TYPE = "authorization_code";
-
-    private final String clientId;
-    private final String redirectUri;
-    private final String userInfoRequestUri;
-    private final String accessTokenRequestUri;
 
     @Override
     public OauthUserInfo getUserInfo(String code) {
@@ -33,7 +30,7 @@ public class KakaoLoginStrategy implements SocialLoginStrategy {
 
         try {
             return new RestTemplate().exchange(
-                    userInfoRequestUri,
+                    KakaoOauthInfo.userInfoRequestUri,
                     HttpMethod.GET,
                     new HttpEntity<>(headers),
                     KakaoUserInfo.class
@@ -47,8 +44,8 @@ public class KakaoLoginStrategy implements SocialLoginStrategy {
     public String getAccessToken(String code) {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", GRANT_TYPE);
-        params.add("client_id", clientId);
-        params.add("redirect_uri", redirectUri);
+        params.add("client_id", KakaoOauthInfo.clientId);
+        params.add("redirect_uri", KakaoOauthInfo.redirectUri);
         params.add("code", code);
 
         HttpHeaders headers = new HttpHeaders();
@@ -57,7 +54,7 @@ public class KakaoLoginStrategy implements SocialLoginStrategy {
         try {
             KakaoAccessTokenResponse kakaoAccessTokenResponse =
                     new RestTemplate().exchange(
-                        accessTokenRequestUri,
+                        KakaoOauthInfo.accessTokenRequestUri,
                         HttpMethod.POST,
                         new HttpEntity<>(params, headers),
                         KakaoAccessTokenResponse.class
@@ -65,7 +62,7 @@ public class KakaoLoginStrategy implements SocialLoginStrategy {
 
             return kakaoAccessTokenResponse.getAccessToken();
         } catch (Exception e) {
-            throw new IllegalArgumentException("");
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 }
