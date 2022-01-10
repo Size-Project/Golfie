@@ -3,6 +3,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'org.asciidoctor.convert' version '1.5.8'
     id 'java'
+    id 'jacoco'
 }
 
 group = 'com'
@@ -17,6 +18,10 @@ configurations {
 
 repositories {
     mavenCentral()
+}
+
+jacoco {
+    toolVersion = '0.8.7'
 }
 
 ext {
@@ -54,6 +59,65 @@ task copySecret(type: Copy) {
 test {
     outputs.dir snippetsDir
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        html.enabled true
+        xml.enabled true
+        csv.enabled false
+
+        html.destination file("src/jacoco/jacoco.html")
+        xml.destination file("src/jacoco/jacoco.xml")
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it,
+                    exclude: [
+                            '**/*GolfieApplication*',
+                            '**/auth/infrastructure/kakao',
+                            '**/auth/infrastructure/naver',
+                            '**/*Response*',
+                            '**/*Request*',
+                    ])
+        }))
+    }
+
+    finalizedBy 'jacocoTestCoverageVerification'
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            element = 'CLASS'
+            enabled = true
+
+            limit {
+                counter = 'METHOD'
+                value = 'COVEREDRATIO'
+                minimum = 0.65
+            }
+
+            limit {
+                counter = 'INSTRUCTION'
+                value = 'COVEREDRATIO'
+                minimum = 0.65
+            }
+
+            excludes = [
+                    '**.*GolfieApplication*',
+                    '**.*Kakao*',
+                    '**.*Naver*',
+                    '**.*Response*',
+                    '**.*Request*',
+                    '**.*User*',
+            ]
+
+        }
+    }
 }
 
 asciidoctor {
