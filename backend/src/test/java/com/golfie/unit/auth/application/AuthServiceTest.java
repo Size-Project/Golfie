@@ -48,7 +48,7 @@ class AuthServiceTest {
         //arrange
         SocialLoginRequest socialLoginRequest = new SocialLoginRequest(CODE, PROVIDER_NAME);
 
-        TestUserInfo userInfo = TestUserInfo.of();
+        TestUserInfo userInfo = TestUserInfo.create();
 
         User user = User.builder()
                 .id(1L)
@@ -85,7 +85,7 @@ class AuthServiceTest {
         //arrange
         SocialLoginRequest socialLoginRequest = new SocialLoginRequest(CODE, PROVIDER_NAME);
 
-        TestUserInfo userInfo = TestUserInfo.of();
+        TestUserInfo userInfo = TestUserInfo.create();
 
         User user = User.builder()
                 .id(1L)

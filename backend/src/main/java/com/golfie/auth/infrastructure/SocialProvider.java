@@ -4,14 +4,10 @@ import com.golfie.auth.infrastructure.kakao.KakaoLoginStrategy;
 import com.golfie.auth.infrastructure.kakao.KakaoOauthInfo;
 import com.golfie.auth.infrastructure.naver.NaverLoginStrategy;
 import org.springframework.context.annotation.Profile;
+import org.springframework.web.client.RestTemplate;
 
 public enum SocialProvider {
-    KAKAO("KAKAO", new KakaoLoginStrategy(
-            KakaoOauthInfo.clientId,
-            KakaoOauthInfo.redirectUri,
-            KakaoOauthInfo.userInfoRequestUri,
-            KakaoOauthInfo.accessTokenRequestUri)
-    ),
+    KAKAO("KAKAO", new KakaoLoginStrategy()),
     NAVER("NAVER", new NaverLoginStrategy()),
     TEST("TEST");
 
