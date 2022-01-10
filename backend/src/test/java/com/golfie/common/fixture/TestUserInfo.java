@@ -16,7 +16,7 @@ public class TestUserInfo implements OauthUserInfo {
         this.gender = gender;
     }
 
-    public static TestUserInfo of() {
+    public static TestUserInfo create() {
         return new TestUserInfo("12345678", "test@test.com", "20~29", "male");
     }
 

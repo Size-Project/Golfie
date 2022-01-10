@@ -9,7 +9,7 @@ public class TestLoginStrategy implements SocialLoginStrategy {
 
     @Override
     public OauthUserInfo getUserInfo(String code) {
-        return TestUserInfo.of();
+        return TestUserInfo.create();
     }
 
     @Override

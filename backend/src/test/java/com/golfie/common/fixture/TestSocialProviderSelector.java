@@ -11,7 +11,7 @@ public class TestSocialProviderSelector implements ProviderSelectorFactory {
 
     @Override
     public OauthUserInfo getUserInfoFromSocialProvider(String code, String providerName) {
-        return TestUserInfo.of();
+        return TestUserInfo.create();
     }
 
 }

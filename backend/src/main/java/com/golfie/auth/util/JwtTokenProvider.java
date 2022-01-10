@@ -33,12 +33,12 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public String getPayload(String token) {
+    public String getPayload(String token, String key) {
         return Jwts.parser()
                 .setSigningKey(base64SecretKey)
                 .parseClaimsJws(token)
                 .getBody()
-                .getSubject();
+                .get(key, String.class);
     }
 
     public boolean validateToken(String token) {
@@ -50,9 +50,6 @@ public class JwtTokenProvider {
             log.trace(e.getMessage());
         } catch (ExpiredJwtException e) {
             log.info("만료된 토큰입니다.");
-            log.trace(e.getMessage());
-        } catch (UnsupportedJwtException e) {
-            log.info("지원되지 않는 형식의 토큰입니다.");
             log.trace(e.getMessage());
         }
         return false;
