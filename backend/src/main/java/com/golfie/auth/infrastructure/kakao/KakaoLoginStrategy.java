@@ -1,10 +1,10 @@
 package com.golfie.auth.infrastructure.kakao;
 
+import com.golfie.auth.exception.KakaoApiAccessException;
 import com.golfie.auth.infrastructure.OauthUserInfo;
 import com.golfie.auth.infrastructure.SocialLoginStrategy;
 import com.golfie.auth.infrastructure.dto.KakaoAccessTokenResponse;
-import lombok.RequiredArgsConstructor;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import com.golfie.common.exception.ErrorCode;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -36,7 +36,7 @@ public class KakaoLoginStrategy implements SocialLoginStrategy {
                     KakaoUserInfo.class
                 ).getBody();
         } catch (Exception e) {
-            throw new IllegalArgumentException("");
+            throw new KakaoApiAccessException(ErrorCode.KAKAO_ACCESS);
         }
     }
 
@@ -62,7 +62,7 @@ public class KakaoLoginStrategy implements SocialLoginStrategy {
 
             return kakaoAccessTokenResponse.getAccessToken();
         } catch (Exception e) {
-            throw new IllegalArgumentException(e.getMessage());
+            throw new KakaoApiAccessException(ErrorCode.KAKAO_ACCESS);
         }
     }
 }
