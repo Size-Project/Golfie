@@ -80,8 +80,11 @@ jacocoTestReport {
                             '**/*GolfieApplication*',
                             '**/auth/infrastructure/kakao',
                             '**/auth/infrastructure/naver',
+                            '**/*Dto*',
                             '**/*Response*',
                             '**/*Request*',
+                            '**/*Exception*',
+                            '**/*Error*',
                     ])
         }))
     }
@@ -111,9 +114,12 @@ jacocoTestCoverageVerification {
                     '**.*GolfieApplication*',
                     '**.*Kakao*',
                     '**.*Naver*',
+                    '**.*Dto*',
                     '**.*Response*',
                     '**.*Request*',
                     '**.*User*',
+                    '**.*Exception*',
+                    '**.*Error*',
             ]
 
         }

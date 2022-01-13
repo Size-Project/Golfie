@@ -1,7 +1,9 @@
 package com.golfie.auth.application;
 
+import com.golfie.auth.exception.UnsupportedSocialProviderException;
 import com.golfie.auth.infrastructure.OauthUserInfo;
 import com.golfie.auth.infrastructure.SocialProvider;
+import com.golfie.common.exception.ErrorCode;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +23,7 @@ public class SocialProviderSelector implements ProviderSelectorFactory {
         return Arrays.stream(SocialProvider.values())
                 .filter(provider -> provider.getProviderName().equals(providerName))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(""));
+                .orElseThrow(() -> new UnsupportedSocialProviderException(ErrorCode.UNSUPPORTED_SOCIAL_PROVIDER));
     }
 
 }

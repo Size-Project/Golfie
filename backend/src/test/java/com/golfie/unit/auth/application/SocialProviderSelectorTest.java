@@ -1,6 +1,7 @@
 package com.golfie.unit.auth.application;
 
 import com.golfie.auth.application.SocialProviderSelector;
+import com.golfie.auth.exception.UnsupportedSocialProviderException;
 import com.golfie.auth.infrastructure.SocialProvider;
 import com.golfie.common.fixture.TestUserInfo;
 import org.junit.jupiter.api.DisplayName;
@@ -56,7 +57,7 @@ class SocialProviderSelectorTest {
         String providerName = "UNSUPPORTED_PROVIDER";
 
         //act and assert
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(UnsupportedSocialProviderException.class, () -> {
             ReflectionTestUtils.invokeMethod(socialProviderSelector, "getSocialProviderByName", providerName);
         });
     }
