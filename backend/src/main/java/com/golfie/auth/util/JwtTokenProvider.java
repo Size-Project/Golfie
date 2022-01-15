@@ -10,6 +10,7 @@ import java.util.Date;
 @Slf4j
 @Component
 public class JwtTokenProvider {
+    private static final String CLAIM_KEY = "user";
 
     private final String base64SecretKey;
     private final Long tokenValidityInMilliseconds;
@@ -26,7 +27,7 @@ public class JwtTokenProvider {
         Date validity = new Date(now.getTime() + tokenValidityInMilliseconds);
 
         return Jwts.builder()
-                .claim("user", payload)
+                .claim(CLAIM_KEY, payload)
                 .setIssuedAt(now)
                 .setExpiration(validity)
                 .signWith(SignatureAlgorithm.HS512, base64SecretKey)

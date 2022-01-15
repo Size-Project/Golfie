@@ -12,6 +12,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import static com.golfie.common.exception.ErrorCode.NAVER_ACCESS;
+
 @Component
 public class NaverLoginStrategy implements SocialLoginStrategy {
     private static final String AUTHORIZATION = "Authorization";
@@ -33,7 +35,7 @@ public class NaverLoginStrategy implements SocialLoginStrategy {
                     NaverUserInfo.class
             ).getBody();
         } catch (Exception e) {
-            throw new NaverApiAccessException(ErrorCode.NAVER_ACCESS);
+            throw new NaverApiAccessException(NAVER_ACCESS);
         }
     }
 
@@ -57,7 +59,7 @@ public class NaverLoginStrategy implements SocialLoginStrategy {
             assert naverAccessTokenResponse != null;
             return naverAccessTokenResponse.getAccessToken();
         } catch (Exception e) {
-            throw new NaverApiAccessException(ErrorCode.NAVER_ACCESS);
+            throw new NaverApiAccessException(NAVER_ACCESS);
         }
     }
 }

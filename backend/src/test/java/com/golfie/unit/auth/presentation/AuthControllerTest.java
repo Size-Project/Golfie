@@ -5,6 +5,7 @@ import com.golfie.auth.application.AuthService;
 import com.golfie.auth.application.dto.TokenDto;
 import com.golfie.auth.presentation.AuthController;
 import com.golfie.auth.presentation.dto.SocialLoginRequest;
+import com.golfie.auth.util.JwtTokenProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest({
-    AuthController.class
+    AuthController.class,
+    JwtTokenProvider.class
 })
 class AuthControllerTest {
 
