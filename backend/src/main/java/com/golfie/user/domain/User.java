@@ -16,6 +16,8 @@ public class User {
 
     private String providerId;
 
+    private String nickname;
+
     private String email;
 
     private String imageUrl;
@@ -30,24 +32,13 @@ public class User {
 
     private String message;
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getProviderId() {
-        return providerId;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
     public User() {
     }
 
     @Builder
     public User(Long id,
                 String providerId,
+                String nickname,
                 String email,
                 String imageUrl,
                 String ageRange,
@@ -58,6 +49,7 @@ public class User {
     {
         this.id = id;
         this.providerId = providerId;
+        this.nickname = nickname;
         this.email = email;
         this.imageUrl = imageUrl;
         this.ageRange = ageRange;
@@ -65,5 +57,45 @@ public class User {
         this.years = years;
         this.avgScore = avgScore;
         this.message = message;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getProviderId() {
+        return providerId;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public String getAgeRange() {
+        return ageRange;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public int getYears() {
+        return years;
+    }
+
+    public int getAvgScore() {
+        return avgScore;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }

@@ -1,0 +1,18 @@
+= 유저 API
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:nofooter:
+
+== 유저 조회
+- Request
+include::{snippets}/user-me/http-request.adoc[]
+
+- Response
+include::{snippets}/user-me/http-response.adoc[]
