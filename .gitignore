@@ -64,3 +64,6 @@ fabric.properties
 
 # VSCode configuration
 cspell.json
+
+./backend/BOOT-INF
+

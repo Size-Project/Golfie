@@ -4,7 +4,6 @@ import com.golfie.auth.exception.KakaoApiAccessException;
 import com.golfie.auth.infrastructure.OauthUserInfo;
 import com.golfie.auth.infrastructure.SocialLoginStrategy;
 import com.golfie.auth.infrastructure.dto.KakaoAccessTokenResponse;
-import com.golfie.common.exception.ErrorCode;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -12,6 +11,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import static com.golfie.common.exception.ErrorCode.KAKAO_ACCESS;
 
 @Component
 public class KakaoLoginStrategy implements SocialLoginStrategy {
@@ -36,7 +37,7 @@ public class KakaoLoginStrategy implements SocialLoginStrategy {
                     KakaoUserInfo.class
                 ).getBody();
         } catch (Exception e) {
-            throw new KakaoApiAccessException(ErrorCode.KAKAO_ACCESS);
+            throw new KakaoApiAccessException(KAKAO_ACCESS);
         }
     }
 
@@ -62,7 +63,7 @@ public class KakaoLoginStrategy implements SocialLoginStrategy {
 
             return kakaoAccessTokenResponse.getAccessToken();
         } catch (Exception e) {
-            throw new KakaoApiAccessException(ErrorCode.KAKAO_ACCESS);
+            throw new KakaoApiAccessException(KAKAO_ACCESS);
         }
     }
 }

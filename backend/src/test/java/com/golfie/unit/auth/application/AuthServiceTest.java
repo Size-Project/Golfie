@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
 
@@ -113,5 +114,18 @@ class AuthServiceTest {
                 .findByEmailAndProviderId(userInfo.getEmail(), userInfo.getProviderId());
         verify(userRepository, never())
                 .save(any());
+    }
+
+    @DisplayName("유저의 소셜 서비스 이메일의 앞 부분을 따서 닉네임을 생성한다.")
+    @Test
+    void create_Nickname_From_User_Email() {
+        //arrange
+        String email = "test1234@naver.com";
+
+        //act
+        String nickname = ReflectionTestUtils.invokeMethod(authService, "createNicknameFromEmail", email);
+
+        //assert
+        assertThat(nickname).isEqualTo("test1234");
     }
 }

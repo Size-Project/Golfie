@@ -39,13 +39,20 @@ public class AuthService {
     }
 
     private User createUser(OauthUserInfo userInfo) {
+        String nickname = createNicknameFromEmail(userInfo.getEmail());
+
         User user = User.builder()
                 .providerId(userInfo.getProviderId())
+                .nickname(nickname)
                 .email(userInfo.getEmail())
                 .ageRange(userInfo.getAgeRange())
                 .gender(userInfo.getGender())
                 .build();
 
         return userRepository.save(user);
+    }
+
+    private String createNicknameFromEmail(String email) {
+        return email.split("@")[0];
     }
 }

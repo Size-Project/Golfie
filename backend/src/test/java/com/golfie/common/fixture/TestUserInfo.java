@@ -9,7 +9,7 @@ public class TestUserInfo implements OauthUserInfo {
     private final String ageRange;
     private final String gender;
 
-    public TestUserInfo(String id, String email, String ageRange, String gender) {
+    private TestUserInfo(String id, String email, String ageRange, String gender) {
         this.id = id;
         this.email = email;
         this.ageRange = ageRange;

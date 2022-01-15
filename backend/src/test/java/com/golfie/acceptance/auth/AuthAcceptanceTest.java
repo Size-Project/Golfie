@@ -13,6 +13,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -65,6 +66,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
 
         User target = User.builder()
                 .id(1L)
+                .nickname("test")
                 .email("test@test.com")
                 .providerId("12345678")
                 .ageRange("20~29")
@@ -75,4 +77,5 @@ public class AuthAcceptanceTest extends AcceptanceTest {
                 .usingRecursiveComparison()
                 .isEqualTo(target);
     }
+
 }

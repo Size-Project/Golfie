@@ -35,6 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+BOOT-INF/
 
 application-auth.yml
 application-dev.yml
