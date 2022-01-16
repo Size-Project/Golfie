@@ -1,0 +1,28 @@
+name: frontend-pr-test
+
+on:
+  pull_request:
+    branches: [ develop ]
+    types: [ opened ]
+
+defaults:
+  run:
+    working-directory: ./frontend
+
+jobs:
+  build:
+    if: contains(github.event.pull_request.labels.*.id, 3663778475) # frontend 라벨 id: 3663778475
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Check Node v            # Node v 확인
+        run: node -v
+
+      - name: Install Dependencies    # 의존 파일 설치
+        run: yarn install --frozen-lockfile
+
+      - name: Test and Build
+        run: yarn build
