@@ -17,6 +17,11 @@ export const GlobalStyle = createGlobalStyle`
     --color-gray-100: #efefef;
     --color-white: #ffffff;
   }
+  
+  @font-face {
+    font-family: 'CoHeadline';
+    src: url("./assets/fonts/Co Headline Corp.ttf");
+  }
 
   ${reset};
 `;
