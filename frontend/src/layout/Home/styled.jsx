@@ -259,4 +259,123 @@ export const StyledHomeRecommend = styled.div`
   }
 `;
 
-export const StyledHomeNearLocation = styled.div``;
+export const StyledHomeNearLocation = styled.div`
+  color: var(--color-black);
+  margin-bottom: 30px;
+
+  .top-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    padding: 0 20px;
+    line-height: 24px;
+    font-size: 16px;
+    font-weight: 500;
+
+    b {
+      font-weight: bold;
+    }
+
+    .all-button {
+      height: 17px;
+      font-size: 12px;
+      color: var(--color-main);
+    }
+  }
+
+  .location-list-wrap {
+    display: flex;
+    gap: 20px;
+    padding: 20px 0;
+    overflow-y: hidden;
+    overflow-x: auto;
+    overscroll-behavior: contain;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .location-list-item {
+      :first-child {
+        margin-left: 20px;
+      }
+
+      :last-child {
+        margin-right: 20px;
+      }
+
+      min-width: 120px;
+      width: 120px;
+      min-height: 116px;
+      height: 116px;
+      box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.16);
+      border-radius: 50%;
+    }
+  }
+`;
+
+export const StyledHomeFriendLocation = styled.div`
+  padding: 0 20px;
+
+  .top-title {
+    margin-bottom: 20px;
+    line-height: 25px;
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  .location-grid-wrap {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+
+    .location-grid-item {
+      .location-img-wrap {
+        position: relative;
+        padding: 50% 0;
+        border-radius: 8px;
+        box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.16);
+        margin-bottom: 10px;
+
+        svg {
+          right: 10px;
+          bottom: 10px;
+          position: absolute;
+          width: 18.5px;
+          height: 17px;
+          fill: var(--color-main);
+        }
+      }
+
+      .location-info {
+        padding: 0 5px;
+
+        .location-title {
+          margin-bottom: 5px;
+          line-height: 20px;
+          font-size: 14px;
+          font-weight: bold;
+        }
+
+        .location-desc {
+          display: flex;
+          align-items: center;
+          font-size: 10px;
+          font-weight: 500;
+
+          div {
+            display: flex;
+            align-items: center;
+          }
+
+          span {
+            color: var(--color-gray-300);
+          }
+          svg {
+            margin-right: 4px;
+          }
+        }
+      }
+    }
+  }
+`;
