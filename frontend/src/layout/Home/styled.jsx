@@ -7,18 +7,25 @@ export const StyledHomeHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  //TO DO: 헤더 sticky로 구현할지
-  //position: sticky;
-  //top: 0;
-  //z-index: 10;
-  //background-color: var(--color-white);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--color-white);
 
-  img {
-    &:first-child {
-      margin-right: 18.3px;
+  .logo {
+    img {
+      width: 81px;
+      height: 29px;
     }
-    padding: 16px 0 8px;
-    width: 20px;
+  }
+  .header-button {
+    img {
+      &:first-child {
+        margin-right: 18.3px;
+      }
+      padding: 16px 0 8px;
+      width: 20px;
+    }
   }
 `;
 
