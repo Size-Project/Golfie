@@ -19,11 +19,19 @@ const LoginPage = () => {
   const response_type = 'code';
   const kakaoLink = `https://kauth.kakao.com/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}
   `;
+  const APIserver = 'http://field-trip.duckdns.org:8080';
 
   useEffect(() => {
     const code = params.get('code');
     if (code !== null) {
-      console.log(code);
+      async function getJWT() {
+        const response = await axios.post(`${APIserver}/api/login/oauth`, {
+          code,
+          providerName: 'KAKAO',
+        });
+        console.log(response);
+      }
+      getJWT();
     }
   }, []);
 
