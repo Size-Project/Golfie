@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Wrapper } from './styled';
+import { useParams, useLocation } from 'react-router-dom';
 import mainIcon from 'assets/icons/mainIcon.png';
 import googleLoginIcon from 'assets/icons/googleLoginIcon.png';
 import naverLoginIcon from 'assets/icons/naverLoginIcon.png';
@@ -11,11 +12,21 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 
 const LoginPage = () => {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
   const client_id = '0e7846ce2b8ea8f27a487ba067a3d527';
   const redirect_uri = 'http://localhost:3000/account/login';
   const response_type = 'code';
   const kakaoLink = `https://kauth.kakao.com/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}
   `;
+
+  useEffect(() => {
+    const code = params.get('code');
+    if (code !== null) {
+      console.log(code);
+    }
+  }, []);
+
   const handleClick = async () => {};
   return (
     <Wrapper>
