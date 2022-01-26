@@ -8,11 +8,11 @@ const HomeHeader = () => {
   return (
     <StyledHomeHeader>
       <div className="logo">
-        <img src={LogoText} />
+        <img src={LogoText} alt="로고 텍스트" />
       </div>
       <div className="header-button">
-        <img src={IconAlarm} />
-        <img src={IconMessage} />
+        <img src={IconAlarm} alt="알림" />
+        <img src={IconMessage} alt="메신저" />
       </div>
     </StyledHomeHeader>
   );
