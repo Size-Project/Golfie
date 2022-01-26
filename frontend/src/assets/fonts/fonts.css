@@ -1,0 +1,21 @@
+@font-face {
+    font-family: "Co Headline";
+    font-style: normal;
+    src: url("./Co Headline Corp.ttf");
+}
+
+@font-face {
+    font-family: "Co Text";
+    font-style: normal;
+    src: url("./Co Text Corp Regular.ttf");
+}
+
+@font-face {
+    font-family: "Noto Sans Light";
+    src: url("./NotoSansKR-Light.otf");
+}
+
+@font-face {
+    font-family: "Noto Sans Regular";
+    src: url("./NotoSansKR-Regular.otf");
+}
