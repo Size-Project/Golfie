@@ -1,14 +1,14 @@
 package com.golfie.auth.presentation.dto;
 
-public class SocialLoginRequest {
+public class SignUpReadyRequest {
 
     private String code;
     private String providerName;
 
-    public SocialLoginRequest() {
+    public SignUpReadyRequest() {
     }
 
-    public SocialLoginRequest(String code, String providerName) {
+    public SignUpReadyRequest(String code, String providerName) {
         this.code = code;
         this.providerName = providerName;
     }

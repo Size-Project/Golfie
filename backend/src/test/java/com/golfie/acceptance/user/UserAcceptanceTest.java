@@ -2,7 +2,7 @@ package com.golfie.acceptance.user;
 
 import com.golfie.acceptance.AcceptanceTest;
 import com.golfie.auth.application.dto.TokenDto;
-import com.golfie.auth.presentation.dto.SocialLoginRequest;
+import com.golfie.auth.presentation.dto.SignUpRequest;
 import com.golfie.user.presentation.dto.UserProfileResponse;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -18,17 +18,34 @@ public class UserAcceptanceTest extends AcceptanceTest {
     @DisplayName("로그인된 사용자의 프로필 정보를 조회한다.")
     @Test
     void find_Logged_In_User_Profile() {
-        final SocialLoginRequest socialLoginRequest =
-                new SocialLoginRequest("CODE", "TEST");
+        //arrange
+        SignUpRequest signUpRequest = new SignUpRequest(
+                "test@test.com",
+                "testImageUrl",
+                "20-29",
+                "MALE",
+                "TEST",
+                "junslee",
+                "hello"
+        );
 
+        UserProfileResponse target = UserProfileResponse.builder()
+                .nickname("junslee")
+                .email("test@test.com")
+                .gender("MALE")
+                .ageRange("20-29")
+                .imageUrl("testImageUrl")
+                .build();
+
+        //act
         TokenDto tokenResponse = RestAssured
                 .given()
                     .port(port)
                     .accept(MediaType.APPLICATION_JSON_VALUE)
                     .contentType(ContentType.JSON)
-                    .body(socialLoginRequest)
+                    .body(signUpRequest)
                 .when()
-                    .request(Method.POST, "/api/login/oauth")
+                    .request(Method.POST, "/api/signup/oauth")
                 .then()
                     .extract()
                     .as(TokenDto.class);
@@ -45,13 +62,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
                     .extract()
                     .as(UserProfileResponse.class);
 
-        UserProfileResponse target = UserProfileResponse.builder()
-                .nickname("test")
-                .email("test@test.com")
-                .ageRange("20~29")
-                .gender("male")
-                .build();
-
+        //assert
         assertThat(userProfileResponse)
                 .usingRecursiveComparison()
                 .isEqualTo(target);

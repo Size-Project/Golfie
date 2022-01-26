@@ -1,0 +1,40 @@
+= 유저 API
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:nofooter:
+
+== 유저 조회
+==== Request
+include::{snippets}/user-me/http-request.adoc[]
+
+==== Response
+include::{snippets}/user-me/http-response.adoc[]
+
+== 닉네임 검증
+==== Request
+include::{snippets}/user-validate-nickname/http-request.adoc[]
+
+==== Response
+include::{snippets}/user-validate-nickname/http-response.adoc[]
+
+== 닉네임 검증 - 중복 예외
+==== Request
+include::{snippets}/user-validate-nickname-duplicate/http-request.adoc[]
+
+==== Response
+include::{snippets}/user-validate-nickname-duplicate/http-response.adoc[]
+
+== 닉네임 검증 - 유효성 검사 예외
+==== Request
+include::{snippets}/user-validate-nickname-invalidate/http-request.adoc[]
+
+==== Response
+include::{snippets}/user-validate-nickname-invalidate/http-response.adoc[]
+
