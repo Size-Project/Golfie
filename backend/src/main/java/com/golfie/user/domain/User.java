@@ -1,11 +1,7 @@
 package com.golfie.user.domain;
 
-import lombok.Builder;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.golfie.user.domain.profile.*;
+import javax.persistence.*;
 
 @Entity
 public class User {
@@ -14,88 +10,63 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String providerId;
+    @Embedded
+    private SocialProfile socialProfile;
 
-    private String nickname;
-
-    private String email;
-
-    private String imageUrl;
-
-    private String ageRange;
-
-    private String gender;
-
-    private int years;
-
-    private int avgScore;
-
-    private String message;
+    @Embedded
+    private BasicProfile basicProfile;
 
     public User() {
     }
 
-    @Builder
-    public User(Long id,
-                String providerId,
-                String nickname,
-                String email,
-                String imageUrl,
-                String ageRange,
-                String gender,
-                int years,
-                int avgScore,
-                String message)
-    {
+    public User(SocialProfile socialProfile) {
+        this(null, new BasicProfile(), socialProfile);
+    }
+
+    public User(Long id, SocialProfile socialProfile) {
+        this(id, new BasicProfile(), socialProfile);
+    }
+
+    public User(BasicProfile basicProfile, SocialProfile socialProfile) {
+        this.basicProfile = basicProfile;
+        this.socialProfile = socialProfile;
+    }
+
+    public User(Long id, BasicProfile basicProfile, SocialProfile socialProfile) {
         this.id = id;
-        this.providerId = providerId;
-        this.nickname = nickname;
-        this.email = email;
-        this.imageUrl = imageUrl;
-        this.ageRange = ageRange;
-        this.gender = gender;
-        this.years = years;
-        this.avgScore = avgScore;
-        this.message = message;
+        this.basicProfile = basicProfile;
+        this.socialProfile = socialProfile;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getProviderId() {
-        return providerId;
-    }
-
-    public String getNickname() {
-        return nickname;
+    public ProviderName getProviderName() {
+        return socialProfile.getProviderName();
     }
 
     public String getEmail() {
-        return email;
+        return socialProfile.getEmail();
     }
 
     public String getImageUrl() {
-        return imageUrl;
+        return socialProfile.getImageUrl();
     }
 
-    public String getAgeRange() {
-        return ageRange;
+    public AgeRange getAgeRange() {
+        return socialProfile.getAgeRange();
     }
 
-    public String getGender() {
-        return gender;
+    public Gender getGender() {
+        return socialProfile.getGender();
     }
 
-    public int getYears() {
-        return years;
+    public String getNickname() {
+        return basicProfile.getNickname();
     }
 
-    public int getAvgScore() {
-        return avgScore;
-    }
-
-    public String getMessage() {
-        return message;
+    public String getBio() {
+        return basicProfile.getBio();
     }
 }
