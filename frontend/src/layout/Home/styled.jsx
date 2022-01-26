@@ -18,6 +18,7 @@ export const StyledHomeHeader = styled.div`
       height: 29px;
     }
   }
+
   .header-button {
     img {
       &:first-child {
@@ -31,6 +32,7 @@ export const StyledHomeHeader = styled.div`
 
 export const StyledHomeBanner = styled.div`
   padding: 30px 20px 40px;
+  font-family: Noto Sans Light;
 
   .swiper-pagination-horizontal {
     bottom: 0 !important;
@@ -47,11 +49,12 @@ export const StyledHomeBanner = styled.div`
       background-color: var(--color-main);
     }
   }
+
   .swiper-slide {
     height: 268px;
     .banner-item {
       span {
-        font-weight: 500;
+        font-family: Noto Sans Regular;
       }
 
       .banner-text {
@@ -77,6 +80,7 @@ export const StyledHomeSchedule = styled.div`
   margin-bottom: 50px;
 
   .schedule-title {
+    font-family: 'Co Text';
     font-size: 22px;
     line-height: 28px;
     margin-bottom: 20px;
