@@ -113,6 +113,7 @@ jacocoTestCoverageVerification {
             excludes = [
                     '**.*GolfieApplication*',
                     '**.*Kakao*',
+                    '**.Profile',
                     '**.*Naver*',
                     '**.*Dto*',
                     '**.*Response*',

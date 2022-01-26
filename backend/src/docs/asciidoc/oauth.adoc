@@ -1,0 +1,32 @@
+= 소셜 서비스 API
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:nofooter:
+
+== 회원가입 준비
+==== Request
+include::{snippets}/social-signup-ready/http-request.adoc[]
+
+==== Response
+include::{snippets}/social-signup-ready/http-response.adoc[]
+
+== 회원가입 완료
+==== Request
+include::{snippets}/social-signup-complete/http-request.adoc[]
+
+==== Response
+include::{snippets}/social-signup-complete/http-response.adoc[]
+
+== 회원가입 준비 - 이미 가입된 유저 예외
+==== Request
+include::{snippets}/social-signup-validate/http-request.adoc[]
+
+==== Response
+include::{snippets}/social-signup-validate/http-response.adoc[]

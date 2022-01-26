@@ -1,12 +1,9 @@
 package com.golfie.common.interceptor;
 
-import com.golfie.auth.presentation.dto.LoginUser;
-import com.golfie.auth.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
