@@ -25,11 +25,12 @@ const LoginPage = () => {
     const code = params.get('code');
     if (code !== null) {
       async function getJWT() {
-        const response = await axios.post(`${APIserver}/api/login/oauth`, {
+        console.log(code);
+        const response = await axios.post('/api/signup/oauth/prepare', {
           code,
           providerName: 'KAKAO',
         });
-        console.log(response);
+        console.log(response.data);
       }
       getJWT();
     }
