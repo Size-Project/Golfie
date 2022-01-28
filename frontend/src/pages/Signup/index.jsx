@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import qs from 'qs';
 import axios from 'axios';
 import { setCookie } from 'utils/cookie';
+import API from 'api';
 
 const SignupPage = (a) => {
   const [nickname, setNickname] = useState('');
@@ -29,10 +30,25 @@ const SignupPage = (a) => {
     const signupDate = { ...queryData, nickname, bio: 'hello' };
     const response = await axios.post('/api/signup/oauth', signupDate);
     setCookie('jwt', response.data.accessToken, { path: '/' });
-    // console.log(response.data.accessToken);
     navigate('/');
     refreshPage();
   };
+
+  useEffect(() => {
+    const code = queryData.code;
+    console.log(queryData);
+    async function readySignup() {
+      try {
+        const response = await API.POST({
+          url: '/api/login/oauth',
+          data: { code, providerName: 'KAKAO' },
+        });
+      } catch (error) {
+        alert('이미 회원가입되어있습니다');
+      }
+    }
+    readySignup();
+  }, []);
 
   return (
     <div>
