@@ -1,38 +1,45 @@
 import React, { useEffect } from 'react';
 import { Wrapper } from './styled';
-import { useParams, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate, createSearchParams } from 'react-router-dom';
 import mainIcon from 'assets/icons/mainIcon.png';
 import googleLoginIcon from 'assets/icons/googleLoginIcon.png';
 import naverLoginIcon from 'assets/icons/naverLoginIcon.png';
 import kakaoLoginIcon from 'assets/icons/kakaoLoginIcon.png';
 import axios from 'axios';
-// REST API KEY = 0e7846ce2b8ea8f27a487ba067a3d527
-// GET /oauth/authorize?client_id={REST_API_KEY}&redirect_uri={REDIRECT_URI}&response_type=code HTTP/1.1
-// Host: kauth.kakao.com
+import qs from 'qs';
+
 axios.defaults.withCredentials = true;
 
 const LoginPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const params = new URLSearchParams(location.search);
-  const client_id = '0e7846ce2b8ea8f27a487ba067a3d527';
-  const redirect_uri = 'http://localhost:3000/account/login';
+  const kakao_client_id = '0e7846ce2b8ea8f27a487ba067a3d527';
+  const naver_client_id = 'QB8NNIWvrYAYTP5Wffcv';
+  const naver_state = 'hLiDdL2uhPtsftcU';
+  const kakao_redirect_uri = 'http://localhost:3000/account/login';
+  const naver_redirect_uri = 'http://localhost:3000/account/login/redirect';
   const response_type = 'code';
-  const kakaoLink = `https://kauth.kakao.com/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}
+  const kakaoLink = `https://kauth.kakao.com/oauth/authorize?client_id=${kakao_client_id}&redirect_uri=${kakao_redirect_uri}&response_type=${response_type}
   `;
-  const APIserver = 'http://field-trip.duckdns.org:8080';
+  const naverLink = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naver_client_id}&redirect_uri=${naver_redirect_uri}&state=${naver_state}`;
 
   useEffect(() => {
     const code = params.get('code');
     if (code !== null) {
-      async function getJWT() {
-        console.log(code);
+      async function getUserdata() {
         const response = await axios.post('/api/signup/oauth/prepare', {
           code,
           providerName: 'KAKAO',
         });
-        console.log(response.data);
+        if (response.data) {
+          navigate({
+            pathname: '/account/signup',
+            search: `?${createSearchParams(response.data)}`,
+          });
+        }
       }
-      getJWT();
+      getUserdata();
     }
   }, []);
 
@@ -45,12 +52,14 @@ const LoginPage = () => {
       </header>
       <section className="login-box">
         <div className="icons">
-          <img
-            src={naverLoginIcon}
-            onClick={handleClick}
-            alt="네이버 로그인 아이콘"
-            className="login-icon"
-          />
+          <a href={naverLink}>
+            <img
+              src={naverLoginIcon}
+              onClick={handleClick}
+              alt="네이버 로그인 아이콘"
+              className="login-icon"
+            />
+          </a>
           <a href={kakaoLink}>
             <img
               src={kakaoLoginIcon}
