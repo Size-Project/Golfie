@@ -69,4 +69,8 @@ public class User {
     public String getBio() {
         return basicProfile.getBio();
     }
+
+    public String toPayload() {
+        return this.id.toString();
+    }
 }

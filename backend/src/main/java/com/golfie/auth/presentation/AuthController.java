@@ -2,6 +2,7 @@ package com.golfie.auth.presentation;
 
 import com.golfie.auth.application.AuthService;
 import com.golfie.auth.application.dto.TokenDto;
+import com.golfie.auth.presentation.dto.LoginRequest;
 import com.golfie.auth.presentation.dto.SignUpReadyResponse;
 import com.golfie.auth.presentation.dto.SignUpRequest;
 import com.golfie.auth.presentation.dto.SignUpReadyRequest;
@@ -16,6 +17,12 @@ public class AuthController {
 
     public AuthController(AuthService authService) {
         this.authService = authService;
+    }
+
+    @PostMapping("/login/oauth")
+    public ResponseEntity<TokenDto> login(@RequestBody LoginRequest loginRequest) {
+        TokenDto tokenDto = authService.login(loginRequest);
+        return ResponseEntity.ok(tokenDto);
     }
 
     @PostMapping("/signup/oauth/prepare")
