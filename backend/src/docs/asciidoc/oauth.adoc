@@ -10,6 +10,13 @@ endif::[]
 :sectlinks:
 :nofooter:
 
+== 로그인
+==== Request
+include::{snippets}/social-login/http-request.adoc[]
+
+==== Response
+include::{snippets}/social-login/http-response.adoc[]
+
 == 회원가입 준비
 ==== Request
 include::{snippets}/social-signup-ready/http-request.adoc[]

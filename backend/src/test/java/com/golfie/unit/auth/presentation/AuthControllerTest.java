@@ -1,10 +1,12 @@
 package com.golfie.unit.auth.presentation;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.golfie.auth.application.AuthService;
 import com.golfie.auth.application.dto.TokenDto;
 import com.golfie.auth.exception.AlreadyRegisteredInUserException;
 import com.golfie.auth.presentation.AuthController;
+import com.golfie.auth.presentation.dto.LoginRequest;
 import com.golfie.auth.presentation.dto.SignUpReadyRequest;
 import com.golfie.auth.presentation.dto.SignUpReadyResponse;
 import com.golfie.auth.presentation.dto.SignUpRequest;
@@ -38,6 +40,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     JwtTokenProvider.class
 })
 class AuthControllerTest extends DocumentationBase {
+    public static final String CODE = "CODE";
+    public static final String PROVIDER_NAME = "TEST";
+    public static final String JWT_TOKEN = "Bearer token";
 
     @MockBean
     private AuthService authService;
@@ -47,11 +52,50 @@ class AuthControllerTest extends DocumentationBase {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    @DisplayName("로그인")
+    @Test
+    void login() throws Exception {
+        //arrange
+        LoginRequest loginRequest = new LoginRequest(CODE, PROVIDER_NAME);
+        TokenDto tokenDto = TokenDto.of(JWT_TOKEN);
+
+        given(authService.login(any())).willReturn(tokenDto);
+
+        //act
+        ResultActions result = mockMvc.perform(post("/api/login/oauth")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(loginRequest)));
+
+        //assert
+        String body = result.andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        verify(authService, times(1))
+                .login(any());
+
+        assertThat(body).isEqualTo(objectMapper.writeValueAsString(tokenDto));
+
+        //docs
+        result.andDo(document("social-login",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                requestFields(
+                        fieldWithPath("code").type(STRING).description("인증코드"),
+                        fieldWithPath("providerName").type(STRING).description("프로바이더이름")
+                ),
+                responseFields(
+                        fieldWithPath("accessToken").type(STRING).description("토큰")
+                )
+        ));
+    }
+
     @DisplayName("회원가입 준비")
     @Test
     void prepare_Signup() throws Exception {
         //arrange
-        SignUpReadyRequest signUpReadyRequest = new SignUpReadyRequest("CODE", "TEST");
+        SignUpReadyRequest signUpReadyRequest = new SignUpReadyRequest(CODE, PROVIDER_NAME);
         SignUpReadyResponse signUpReadyResponse = new SignUpReadyResponse(
                 "test@test.com",
                 "testImageUrl",
@@ -137,7 +181,7 @@ class AuthControllerTest extends DocumentationBase {
     @Test
     void already_Registered_In_Exception() throws Exception {
         //arrange
-        SignUpReadyRequest signUpReadyRequest = new SignUpReadyRequest("CODE", "TEST");
+        SignUpReadyRequest signUpReadyRequest = new SignUpReadyRequest(CODE, PROVIDER_NAME);
         doThrow(new AlreadyRegisteredInUserException(ALREADY_REGISTERED_IN_USER))
                 .when(authService).prepareSignUp(any());
 

@@ -3,6 +3,7 @@ package com.golfie.auth.application;
 import com.golfie.auth.application.dto.TokenDto;
 import com.golfie.auth.exception.AlreadyRegisteredInUserException;
 import com.golfie.auth.infrastructure.OauthUserInfo;
+import com.golfie.auth.presentation.dto.LoginRequest;
 import com.golfie.auth.presentation.dto.SignUpReadyResponse;
 import com.golfie.auth.presentation.dto.SignUpRequest;
 import com.golfie.auth.presentation.dto.SignUpReadyRequest;
@@ -12,6 +13,7 @@ import com.golfie.user.domain.UserRepository;
 import com.golfie.user.domain.profile.BasicProfile;
 import com.golfie.user.domain.profile.ProviderName;
 import com.golfie.user.domain.profile.SocialProfile;
+import com.golfie.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 import static com.golfie.common.exception.ErrorCode.ALREADY_REGISTERED_IN_USER;
+import static com.golfie.common.exception.ErrorCode.USER_NOT_FOUND;
 
 @RequiredArgsConstructor
 @Service
@@ -27,6 +30,15 @@ public class AuthService {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final ProviderSelectorFactory providerSelectorFactory;
+
+    @Transactional(readOnly = true)
+    public TokenDto login(LoginRequest loginRequest) {
+        OauthUserInfo oauthUserInfo = providerSelectorFactory
+                .getUserInfoFromSocialProvider(loginRequest.getCode(), loginRequest.getProviderName());
+        User user = userRepository.findByEmailAndProviderName(oauthUserInfo.getEmail(), oauthUserInfo.getProviderName())
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+        return TokenDto.of(jwtTokenProvider.createToken(user.toPayload()));
+    }
 
     public SignUpReadyResponse prepareSignUp(SignUpReadyRequest signUpReadyRequest) {
         OauthUserInfo oauthUserInfo = providerSelectorFactory
@@ -38,8 +50,7 @@ public class AuthService {
     @Transactional
     public TokenDto signUp(SignUpRequest signUpRequest) {
         User user = findOrCreateUser(signUpRequest);
-        String token = jwtTokenProvider.createToken(user.getId().toString());
-        return TokenDto.of(token);
+        return TokenDto.of(jwtTokenProvider.createToken(user.toPayload()));
     }
 
     private User findOrCreateUser(SignUpRequest signUpRequest) {

@@ -23,6 +23,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -56,6 +58,9 @@ public class UserServiceTest {
         assertThat(userProfileResponse)
                 .usingRecursiveComparison()
                 .isEqualTo(result);
+
+        verify(userRepository, times(1))
+                .findById(1L);
     }
 
     @DisplayName("존재하지 않는 회원의 경우 예외를 반환하다.")
@@ -79,5 +84,8 @@ public class UserServiceTest {
         assertThrows(DuplicatedNicknameException.class, () ->
             userService.validateNickname(nicknameRequest)
         );
+
+        verify(userRepository, times(1))
+                .existsByNickname("junslee");
     }
 }

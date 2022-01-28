@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import static com.golfie.common.exception.ErrorCode.DUPLICATE_NICKNAME;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -78,6 +78,9 @@ public class UserControllerTest extends DocumentationBase {
         assertThat(body)
                 .isEqualTo(objectMapper.writeValueAsString(userProfileResponse));
 
+        verify(userService, times(1))
+                .findUser(any());
+
         //docs
         result.andDo(document("user-me",
                 preprocessRequest(prettyPrint()),
@@ -133,11 +136,9 @@ public class UserControllerTest extends DocumentationBase {
                 .getResponse()
                 .getContentAsString();
 
-        ApplicationExceptionDto exceptionDto =
-                new ApplicationExceptionDto("U003", "유효하지 않은 닉네임입니다.");
-
-        assertThat(body)
-                .isEqualTo(objectMapper.writeValueAsString(exceptionDto));
+        assertThat(body).isEqualTo(objectMapper.writeValueAsString(
+                new ApplicationExceptionDto("U003", "유효하지 않은 닉네임입니다."))
+        );
 
         //docs
         result.andDo(document("user-validate-nickname-invalidate",
@@ -172,11 +173,12 @@ public class UserControllerTest extends DocumentationBase {
                 .getResponse()
                 .getContentAsString();
 
-        ApplicationExceptionDto exceptionDto =
-                new ApplicationExceptionDto("U002", "중복된 회원의 닉네임입니다.");
+        assertThat(body).isEqualTo(objectMapper.writeValueAsString(
+                        new ApplicationExceptionDto("U002", "중복된 회원의 닉네임입니다."))
+                );
 
-        assertThat(body)
-                .isEqualTo(objectMapper.writeValueAsString(exceptionDto));
+        verify(userService, times(1))
+                .validateNickname(any());
 
         //docs
         result.andDo(document("user-validate-nickname-duplicate",

@@ -2,6 +2,7 @@ package com.golfie.acceptance.auth;
 
 import com.golfie.acceptance.AcceptanceTest;
 import com.golfie.auth.application.dto.TokenDto;
+import com.golfie.auth.presentation.dto.LoginRequest;
 import com.golfie.auth.presentation.dto.SignUpReadyRequest;
 import com.golfie.auth.presentation.dto.SignUpReadyResponse;
 import com.golfie.auth.presentation.dto.SignUpRequest;
@@ -28,6 +29,63 @@ public class AuthAcceptanceTest extends AcceptanceTest {
     @BeforeEach
     void setup() {
         userRepository.deleteAll();
+    }
+
+    @DisplayName("로그인 - 유저는 로그인에 성공하고 토큰을 발급받는다.")
+    @Test
+    void login_Success() {
+        SignUpReadyRequest signUpReadyRequest = new SignUpReadyRequest("CODE", "TEST");
+
+        SignUpReadyResponse signUpReadyResponse = RestAssured
+                .given()
+                    .port(port)
+                    .accept(MediaType.APPLICATION_JSON_VALUE)
+                    .contentType(ContentType.JSON)
+                    .body(signUpReadyRequest)
+                .when()
+                    .request(Method.POST, "/api/signup/oauth/prepare")
+                .then()
+                    .extract()
+                    .as(SignUpReadyResponse.class);
+
+
+        SignUpRequest signUpRequest = new SignUpRequest(
+                signUpReadyResponse.getEmail(),
+                signUpReadyResponse.getProfileImage(),
+                signUpReadyResponse.getAgeRange(),
+                signUpReadyResponse.getGender(),
+                signUpReadyResponse.getProviderName(),
+                "junslee",
+                "hello"
+        );
+
+        RestAssured
+            .given()
+                .port(port)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(ContentType.JSON)
+                .body(signUpRequest)
+            .when()
+                .request(Method.POST, "/api/signup/oauth")
+            .then()
+                .extract()
+                .as(TokenDto.class);
+
+
+        LoginRequest loginRequest = new LoginRequest("CODE", "TEST");
+
+        TokenDto tokenDto = RestAssured
+                .given()
+                    .port(port)
+                    .contentType(ContentType.JSON)
+                    .body(loginRequest)
+                .when()
+                    .request(Method.POST, "/api/login/oauth")
+                .then()
+                    .extract()
+                    .as(TokenDto.class);
+
+        assertThat(tokenDto).isNotNull();
     }
 
     @DisplayName("회원가입 준비 - 소셜 서비스 인증 후 계정 정보를 반환한다.")
