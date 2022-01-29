@@ -40,11 +40,11 @@ const SignupPage = (a) => {
     async function readySignup() {
       try {
         const response = await API.POST({
-          url: '/api/login/oauth',
+          url: '/api/signup/oauth/prepare',
           data: { code, providerName: 'KAKAO' },
         });
       } catch (error) {
-        alert('이미 회원가입되어있습니다');
+        alert('카카오 로그인 에러');
       }
     }
     readySignup();

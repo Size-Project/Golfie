@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
 import { Wrapper } from './styled';
-import { useLocation, useNavigate, createSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import mainIcon from 'assets/icons/mainIcon.png';
 import googleLoginIcon from 'assets/icons/googleLoginIcon.png';
 import naverLoginIcon from 'assets/icons/naverLoginIcon.png';
 import kakaoLoginIcon from 'assets/icons/kakaoLoginIcon.png';
 import axios from 'axios';
 import API from 'api';
-import qs from 'qs';
 
 axios.defaults.withCredentials = true;
 
@@ -15,7 +14,6 @@ const LoginPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const params = new URLSearchParams(location.search);
-
   const kakaoLink = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=${process.env.REACT_APP_KAKAO_RESPONSE_TYPE}`;
   useEffect(() => {
     const code = params.get('code');
@@ -27,7 +25,7 @@ const LoginPage = () => {
             data: { code, providerName: 'KAKAO' },
           });
         } catch (error) {
-          // navigate(`/account/signup/?code=${code}`);
+          navigate(`/account/signup/?code=${code}`);
         }
       }
       login();
