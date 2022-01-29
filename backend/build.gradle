@@ -123,6 +123,7 @@ jacocoTestCoverageVerification {
                     '**.*User*',
                     '**.*Exception*',
                     '**.*Error*',
+                    '**.s3.**',
             ]
 
         }
