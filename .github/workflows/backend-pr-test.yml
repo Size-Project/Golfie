@@ -3,7 +3,7 @@ name: backend-pr-test
 on:
   pull_request:
     branches: [ develop ]
-    types: [ opened ]
+    types: [ opened, reopened, labeled, synchronize ]
 
 defaults:
   run:

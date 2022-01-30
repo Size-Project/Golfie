@@ -1,0 +1,6 @@
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: field-trip-bucket
