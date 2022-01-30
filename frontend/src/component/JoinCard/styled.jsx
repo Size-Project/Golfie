@@ -78,6 +78,17 @@ export const StyledJoinCardHorizontal = styled.div`
           }
         }
       }
+
+      .join-like {
+        display: flex;
+        align-items: end;
+        transition: 200ms;
+        &.true {
+          svg {
+            fill: var(--color-main);
+          }
+        }
+      }
     }
   }
 

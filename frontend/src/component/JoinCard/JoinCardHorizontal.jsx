@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyledJoinCardHorizontal } from './styled';
 import { ReactComponent as SVGSchedule } from '../../assets/images/svg/tag-schedule.svg';
 import { ReactComponent as SVGCash } from '../../assets/images/svg/tag-cash.svg';
@@ -6,6 +6,12 @@ import { ReactComponent as SVGHeart } from '../../assets/images/svg/ic-heart.svg
 import { ReactComponent as SVGUser } from '../../assets/images/svg/ic-user.svg';
 
 const JoinCardHorizontal = () => {
+  const [like, setLike] = useState(false);
+
+  const handleJoinLike = () => {
+    setLike(!like);
+  };
+
   return (
     <StyledJoinCardHorizontal>
       <div className="card-image">
@@ -21,7 +27,9 @@ const JoinCardHorizontal = () => {
               <b>파크밸리cc | </b>강원 원주
             </div>
           </div>
-          <SVGHeart />
+          <div className={`join-like ${String(like)}`}>
+            <SVGHeart onClick={handleJoinLike} />
+          </div>
         </div>
       </div>
       <div className="card-content">
