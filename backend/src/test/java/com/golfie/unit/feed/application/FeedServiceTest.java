@@ -41,16 +41,13 @@ public class FeedServiceTest {
     @Test
     void upload_Feed_Images_And_Save_A_Feed() throws IOException {
         //arrange
-        List<MultipartFile> mockMultipartFiles = Arrays.asList(
-                new MockMultipartFile("ec2.jpeg", new FileInputStream("/Users/junslee/projects/Golfie/backend/src/test/resources/ec2.jpeg")),
+        List<MultipartFile> mockMultipartFiles = List.of(
                 new MockMultipartFile("testImage.png", new FileInputStream("/Users/junslee/projects/Golfie/backend/src/test/resources/testImage.png"))
         );
-
         String content = "This is my feed.";
         FeedCreateRequest feedCreateRequest = new FeedCreateRequest(mockMultipartFiles, content);
 
         Feed feed = new Feed();
-
         given(feedRepository.save(any())).willReturn(feed);
         given(s3Uploader.uploadFeedImages(any(),any())).willReturn(List.of("imageUrl"));
 
