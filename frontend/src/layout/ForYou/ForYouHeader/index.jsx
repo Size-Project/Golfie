@@ -1,17 +1,13 @@
-import IconAlarm from 'assets/images/common/icon-alarm.png';
-import IconMessage from 'assets/images/common/icon-message.png';
 import IconSearch from 'assets/images/common/icon-search.png';
 import { Wrapper } from './styled';
+import ForYouHeaderTop from '../ForYouHeaderTop';
+import ForYouHeaderSearch from '../ForYouSearch';
 
 const ForYouHeader = () => {
   return (
     <Wrapper>
-      <div className="top-header">
-        <span className="subtitle">For You</span>
-        <span className="icons">
-          <img src={IconAlarm} className="icon alram-icon" alt="" />
-          <img src={IconMessage} className="icon message-icon" alt="" />
-        </span>
+      <div className="foryou-header-top">
+        <ForYouHeaderTop></ForYouHeaderTop>
       </div>
       <div className="intro">
         <div>
@@ -22,17 +18,7 @@ const ForYouHeader = () => {
         </div>
       </div>
       <div className="search-bar-box">
-        <div className="search-bar">
-          <label className="search-label" htmlFor="search">
-            <img src={IconSearch} className="search-icon" alt="" />
-          </label>
-          <input
-            type="text"
-            name="search"
-            className="search-input"
-            placeholder="원하는 키워드를 입력하세요"
-          />
-        </div>
+        <ForYouHeaderSearch />
       </div>
     </Wrapper>
   );
