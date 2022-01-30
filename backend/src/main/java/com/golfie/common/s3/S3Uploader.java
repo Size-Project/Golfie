@@ -5,17 +5,19 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
+@Profile("dev")
 @Component
-public class S3Uploader {
+public class S3Uploader implements StorageUploader {
 
     private final AmazonS3 amazonS3;
 
@@ -26,13 +28,23 @@ public class S3Uploader {
         this.amazonS3 = amazonS3;
     }
 
-    public String upload(MultipartFile multipartFile) throws IOException {
-        File uploadFile = convertToFile(multipartFile).orElseThrow(() ->
-                new IllegalArgumentException("파일 변환에 실패하였습니다."));
-        String filename = "/" + UUID.randomUUID() + uploadFile.getName();
-        amazonS3.putObject(new PutObjectRequest(bucketName, filename, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
-        removeFile(uploadFile);
-        return amazonS3.getUrl(bucketName, filename).toString();
+    public List<String> uploadFeedImages(Long userId, List<MultipartFile> multipartFiles) throws IOException {
+        List<File> uploadFiles = new ArrayList<>();
+        for (MultipartFile multipartFile : multipartFiles) {
+            File uploadFile = convertToFile(multipartFile).orElseThrow(() ->
+                    new IllegalArgumentException("파일 변환에 실패하였습니다.")
+            );
+            uploadFiles.add(uploadFile);
+        }
+
+        return uploadFiles.stream()
+            .map(uploadFile -> {
+                final String filename = "feed/images/" + userId + "/" + UUID.randomUUID() + extension(uploadFile);
+                amazonS3.putObject(new PutObjectRequest(bucketName, filename, uploadFile)
+                        .withCannedAcl(CannedAccessControlList.PublicRead));
+                removeFile(uploadFile);
+                return amazonS3.getUrl(bucketName, filename).toString();
+            }).collect(Collectors.toList());
     }
 
     private void removeFile(File uploadFile) {
@@ -44,7 +56,7 @@ public class S3Uploader {
     }
 
     private Optional<File> convertToFile(MultipartFile file) throws IOException {
-        File convertFile = new File(file.getName());
+        File convertFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
         if (convertFile.createNewFile()) {
             try (FileOutputStream fos = new FileOutputStream(convertFile)) {
                 fos.write(file.getBytes());
@@ -52,6 +64,11 @@ public class S3Uploader {
             return Optional.of(convertFile);
         }
         return Optional.empty();
+    }
+
+    private String extension(File file) {
+        String[] split = file.getName().split("\\.");
+        return "." + split[split.length - 1];
     }
 
 }
