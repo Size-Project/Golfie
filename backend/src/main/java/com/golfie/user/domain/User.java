@@ -1,7 +1,10 @@
 package com.golfie.user.domain;
 
+import com.golfie.feed.domain.Feed;
 import com.golfie.user.domain.profile.*;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -16,26 +19,33 @@ public class User {
     @Embedded
     private BasicProfile basicProfile;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Feed> feeds;
+
     public User() {
     }
 
     public User(SocialProfile socialProfile) {
-        this(null, new BasicProfile(), socialProfile);
-    }
-
-    public User(Long id, SocialProfile socialProfile) {
-        this(id, new BasicProfile(), socialProfile);
+        this(null, new BasicProfile(), socialProfile, new ArrayList<>());
     }
 
     public User(BasicProfile basicProfile, SocialProfile socialProfile) {
-        this.basicProfile = basicProfile;
-        this.socialProfile = socialProfile;
+        this(null, basicProfile, socialProfile, new ArrayList<>());
+    }
+
+    public User(Long id, SocialProfile socialProfile) {
+        this(id, new BasicProfile(), socialProfile, new ArrayList<>());
     }
 
     public User(Long id, BasicProfile basicProfile, SocialProfile socialProfile) {
+        this(id, basicProfile, socialProfile, new ArrayList<>());
+    }
+
+    public User(Long id, BasicProfile basicProfile, SocialProfile socialProfile, List<Feed> feeds) {
         this.id = id;
         this.basicProfile = basicProfile;
         this.socialProfile = socialProfile;
+        this.feeds = feeds;
     }
 
     public Long getId() {

@@ -1,10 +1,13 @@
 package com.golfie.unit.feed.application;
 
+import com.golfie.common.fixture.TestUserInfo;
 import com.golfie.common.s3.S3Uploader;
 import com.golfie.feed.application.FeedService;
 import com.golfie.feed.domain.Feed;
 import com.golfie.feed.domain.FeedRepository;
 import com.golfie.feed.presentation.dto.FeedCreateRequest;
+import com.golfie.user.domain.User;
+import com.golfie.user.domain.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,6 +38,9 @@ public class FeedServiceTest {
     private FeedRepository feedRepository;
 
     @Mock
+    private UserRepository userRepository;
+
+    @Mock
     private S3Uploader s3Uploader;
 
     @DisplayName("피드 이미지를 s3 버킷에 업로드한다.")
@@ -47,7 +53,10 @@ public class FeedServiceTest {
         String content = "This is my feed.";
         FeedCreateRequest feedCreateRequest = new FeedCreateRequest(mockMultipartFiles, content);
 
+        User user = new User(TestUserInfo.create().toSocialProfile());
         Feed feed = new Feed();
+
+        given(userRepository.findById(any())).willReturn(java.util.Optional.of(user));
         given(feedRepository.save(any())).willReturn(feed);
         given(s3Uploader.uploadFeedImages(any(),any())).willReturn(List.of("imageUrl"));
 

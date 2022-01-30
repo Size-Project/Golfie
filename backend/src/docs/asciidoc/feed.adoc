@@ -10,7 +10,7 @@ endif::[]
 :sectlinks:
 :nofooter:
 
-== 피드 생성
+== 피드 등록
 ==== Request
 include::{snippets}/feed-create/http-request.adoc[]
 
