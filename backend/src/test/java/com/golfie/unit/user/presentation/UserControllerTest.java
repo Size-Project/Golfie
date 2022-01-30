@@ -5,14 +5,12 @@ import com.golfie.auth.util.JwtTokenProvider;
 import com.golfie.common.docs.DocumentationBase;
 import com.golfie.common.exception.ApplicationExceptionDto;
 import com.golfie.user.application.UserService;
-import com.golfie.user.domain.profile.AgeRange;
 import com.golfie.user.exception.DuplicatedNicknameException;
 import com.golfie.user.presentation.UserController;
 import com.golfie.user.presentation.dto.NicknameRequest;
 import com.golfie.user.presentation.dto.UserProfileResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -34,8 +32,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest({
-        UserController.class,
-        JwtTokenProvider.class
+    UserController.class,
+    JwtTokenProvider.class
 })
 public class UserControllerTest extends DocumentationBase {
     private static final String AUTHORIZATION = "Authorization";
