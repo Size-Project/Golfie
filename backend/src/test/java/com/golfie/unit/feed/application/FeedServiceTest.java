@@ -5,6 +5,7 @@ import com.golfie.feed.application.FeedService;
 import com.golfie.feed.domain.Feed;
 import com.golfie.feed.domain.FeedRepository;
 import com.golfie.feed.presentation.dto.FeedCreateRequest;
+import org.apache.http.entity.ContentType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,11 +15,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
+import static com.golfie.common.util.FileUtils.fileToMultipart;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -41,9 +47,11 @@ public class FeedServiceTest {
     @Test
     void upload_Feed_Images_And_Save_A_Feed() throws IOException {
         //arrange
+        URL resource = ClassLoader.getSystemResource("testImage.png");
         List<MultipartFile> mockMultipartFiles = List.of(
-                new MockMultipartFile("testImage.png", new FileInputStream("/Users/junslee/projects/Golfie/backend/src/test/resources/testImage.png"))
+                fileToMultipart(new File(Objects.requireNonNull(resource).getFile()))
         );
+
         String content = "This is my feed.";
         FeedCreateRequest feedCreateRequest = new FeedCreateRequest(mockMultipartFiles, content);
 
@@ -62,4 +70,5 @@ public class FeedServiceTest {
         verify(s3Uploader, times(1))
                 .uploadFeedImages(any(), any());
     }
+
 }
