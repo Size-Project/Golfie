@@ -5,11 +5,13 @@ import SignupPage from 'pages/Signup';
 import ErrorPage from 'pages/Error';
 import NavigationBar from './component/NavigationBar/NavigationBar';
 import FeedPage from './pages/Feed';
+import JoinPage from './pages/Join';
 
 function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/join" element={<JoinPage />} />
         <Route path="/feed" element={<FeedPage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/account/login/*" element={<LoginPage />} />
