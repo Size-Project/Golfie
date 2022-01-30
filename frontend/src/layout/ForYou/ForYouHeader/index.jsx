@@ -23,7 +23,7 @@ const ForYouHeader = () => {
       </div>
       <div className="search-bar-box">
         <div className="search-bar">
-          <label className="search-label" for="search">
+          <label className="search-label" htmlFor="search">
             <img src={IconSearch} className="search-icon" alt="" />
           </label>
           <input
