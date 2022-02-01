@@ -24,7 +24,7 @@ public class TestUserInfo implements OauthUserInfo {
     }
 
     public static TestUserInfo create() {
-        return new TestUserInfo("test@test.com", "testImageUrl", "20-29", "MALE");
+        return new TestUserInfo("test@test.com", "profileImageUrl", "20-29", "MALE");
     }
 
     @Override

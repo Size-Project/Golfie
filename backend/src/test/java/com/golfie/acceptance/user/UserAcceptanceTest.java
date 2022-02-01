@@ -21,7 +21,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
         //arrange
         SignUpRequest signUpRequest = new SignUpRequest(
                 "test@test.com",
-                "testImageUrl",
+                "profileImageUrl",
                 "20-29",
                 "MALE",
                 "TEST",
@@ -34,7 +34,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
                 .email("test@test.com")
                 .gender("MALE")
                 .ageRange("20-29")
-                .imageUrl("testImageUrl")
+                .imageUrl("profileImageUrl")
                 .build();
 
         //act
