@@ -15,25 +15,36 @@ export const StyledNavigationBar = styled.div`
 
   .menu-item-wrap {
     &:first-child {
-      padding-left: 33.2px;
+      margin-left: 15px;
     }
 
     &:last-child {
-      padding-right: 33.2px;
+      margin-right: 15px;
     }
 
     width: 20%;
     text-align: center;
-    // TODO: 폰트 추가 필요
-    font-family: AcuminPro;
+    font-family: 'Acumin Pro';
     font-size: 8px;
     font-weight: 500;
+    text-decoration: unset;
     color: var(--color-gray-200);
 
     svg {
       margin-bottom: 6.6px;
       path {
+        transition: all 200ms;
         fill: var(--color-gray-200) !important;
+      }
+    }
+
+    &.true {
+      color: var(--color-black);
+
+      svg {
+        path {
+          fill: var(--color-black) !important;
+        }
       }
     }
   }

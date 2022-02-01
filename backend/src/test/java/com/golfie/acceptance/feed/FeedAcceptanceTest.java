@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public class FeedAcceptanceTest extends AcceptanceTest {
 
@@ -27,6 +28,8 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 "junslee",
                 "hello"
         );
+
+        URL resource = ClassLoader.getSystemResource("testImage.png");
 
         //act and assert
         TokenDto tokenResponse = RestAssured
@@ -47,7 +50,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
                 .auth()
                 .oauth2(tokenResponse.getAccessToken())
-                .multiPart("feedImages", new File("/Users/junslee/projects/Golfie/backend/src/test/resources/testImage.png"))
+                .multiPart("feedImages", new File(resource.getFile()))
                 .multiPart("content", "content")
             .when()
                 .request(Method.POST, "/api/feeds/save")
