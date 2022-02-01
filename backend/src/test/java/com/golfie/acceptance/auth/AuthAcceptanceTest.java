@@ -18,6 +18,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -114,6 +115,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
                 .isEqualTo(target);
     }
 
+    @Transactional
     @DisplayName("회원가입 완료 - 사용자 정보를 저장하고 토큰을 생성하여 반환한다.")
     @Test
     void signup_Oauth_Complete() {

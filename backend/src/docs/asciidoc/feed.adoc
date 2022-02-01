@@ -10,9 +10,16 @@ endif::[]
 :sectlinks:
 :nofooter:
 
-== 피드 생성
+== 피드 등록
 ==== Request
 include::{snippets}/feed-create/http-request.adoc[]
 
 ==== Response
 include::{snippets}/feed-create/http-response.adoc[]
+
+== 모든 피드 조회
+==== Request
+include::{snippets}/feed-read-all/http-request.adoc[]
+
+==== Response
+include::{snippets}/feed-read-all/http-response.adoc[]

@@ -1,16 +1,20 @@
 package com.golfie.feed.domain;
 
+import com.golfie.common.domain.BaseTimeEntity;
+import com.golfie.user.domain.User;
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Feed {
+public class Feed extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ElementCollection
     private List<String> imageUrls;
@@ -20,8 +24,8 @@ public class Feed {
     public Feed() {
     }
 
-    public Feed(Long userId, List<String> imageUrls, String content) {
-        this.userId = userId;
+    public Feed(User user, List<String> imageUrls, String content) {
+        this.user = user;
         this.imageUrls = imageUrls;
         this.content = content;
     }
@@ -30,7 +34,16 @@ public class Feed {
         return id;
     }
 
+    public User getAuthor() {
+        return user;
+    }
+
+    public List<String> getImageUrls() {
+        return imageUrls;
+    }
+
     public String getContent() {
         return content;
     }
+
 }
