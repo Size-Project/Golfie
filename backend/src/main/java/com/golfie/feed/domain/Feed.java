@@ -2,7 +2,6 @@ package com.golfie.feed.domain;
 
 import com.golfie.common.domain.BaseTimeEntity;
 import com.golfie.user.domain.User;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -35,7 +34,16 @@ public class Feed extends BaseTimeEntity {
         return id;
     }
 
+    public User getAuthor() {
+        return user;
+    }
+
+    public List<String> getImageUrls() {
+        return imageUrls;
+    }
+
     public String getContent() {
         return content;
     }
+
 }
