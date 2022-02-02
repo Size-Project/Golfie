@@ -5,6 +5,8 @@ import SignupPage from 'pages/Signup';
 import ErrorPage from 'pages/Error';
 import NavigationBar from './component/NavigationBar/NavigationBar';
 import FeedPage from './pages/Feed';
+import ForYouPage from 'pages/ForYou';
+import ForYouDetailPage from 'pages/ForYou/Detail';
 
 function AppRouter() {
   return (
@@ -14,6 +16,8 @@ function AppRouter() {
         <Route path="/" element={<HomePage />} />
         <Route path="/account/login/*" element={<LoginPage />} />
         <Route path="/account/signup/*" element={<SignupPage />} />
+        <Route path="/foryou" element={<ForYouPage />} />
+        <Route path="/foryou/detail" element={<ForYouDetailPage />} />
         <Route path="/*" element={<ErrorPage />} />
       </Routes>
       <NavigationBar />
