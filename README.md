@@ -6,11 +6,11 @@
 
 ## 기획 및 디자인
 
-- [필드트립 기획1](https://dochub.com/lkgsns32/dPB1mkMKOrY0A7aREOjyzD/%E1%84%80%E1%85%B5%E1%84%92%E1%85%AC%E1%86%A8%E1%84%89%E1%85%A5-v2-pdf)
+- [필드트립 기획1](https://docs.google.com/presentation/d/1i9KRc58FuStr6uAD7YJgQ24IHuMH1lbngcqEvkQ6jLo/edit#slide=id.p1)
 
-- [필드트립 기획2](https://dochub.com/lkgsns32/nO1YzvAwAbxBAraR6L4WP2/%E1%84%80%E1%85%B5%E1%84%92%E1%85%AC%E1%86%A8-pdf?pg=2)
+- [필드트립 기획2](https://docs.google.com/presentation/d/1OgbMRoDkYCpWLc7XML410PfrQ3Qa2EHDbZcYSOFSl90/edit#slide=id.p1)
 
-- [필드트립 페르소나](https://dochub.com/lkgsns32/Xv7zYW5Rnmn5z39w2A9egx/%E1%84%91%E1%85%B5%E1%86%AF%E1%84%83%E1%85%B3%E1%84%90%E1%85%B3%E1%84%85%E1%85%B5%E1%86%B8-%E1%84%91%E1%85%A6%E1%84%85%E1%85%B3%E1%84%89%E1%85%A9%E1%84%82%E1%85%A1-pdf)
+- [필드트립 페르소나](https://docs.google.com/presentation/d/1x9wO-3IiNR48KAyj4sn8V97uJOGfpoAbaMh7HEfpjls/edit#slide=id.p1)
 
 <br>
 
