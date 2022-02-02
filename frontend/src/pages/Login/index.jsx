@@ -24,8 +24,9 @@ const LoginPage = () => {
             url: '/api/login/oauth',
             data: { code, providerName: 'KAKAO' },
           });
+          console.log('response');
         } catch (error) {
-          navigate(`/account/signup/?code=${code}`);
+          // navigate(`/account/signup/?code=${code}`);
         }
       }
       login();

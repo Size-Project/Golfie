@@ -16,7 +16,7 @@ const SignupPage = (a) => {
     window.location.reload();
   };
 
-  const handleChange = async (e) => {
+  const nicknameConfirm = async (e) => {
     const { name, value } = e.target;
     setNickname(value);
     const response = await axios.post('/api/validate/nickname', {
@@ -58,7 +58,7 @@ const SignupPage = (a) => {
           value={nickname}
           className="text"
           placeholder="닉네임"
-          onChange={handleChange}
+          onChange={nicknameConfirm}
         />
         <button type="submit" disabled={buttonOff} onClick={handleClick}>
           회원가입
