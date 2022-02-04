@@ -9,7 +9,6 @@ const Wrapper = styled.div`
     padding-bottom: 57px;
   }
   .intro {
-    margin-left: 20px;
     font-size: 20px;
     .user-name,
     .bold {

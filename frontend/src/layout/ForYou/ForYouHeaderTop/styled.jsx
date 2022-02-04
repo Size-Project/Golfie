@@ -3,7 +3,6 @@ import styled from 'styled-components';
 const Wrapper = styled.div`
   .subtitle {
     font-size: 22px;
-    margin-left: 20px;
     margin-right: 196px;
   }
   .icon {
