@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-  width: 100%;
   height: 100%;
   position: relative;
   .foryou-header-top {
@@ -9,7 +8,6 @@ const Wrapper = styled.div`
     padding-bottom: 57px;
   }
   .intro {
-    margin-left: 20px;
     font-size: 20px;
     .user-name,
     .bold {
