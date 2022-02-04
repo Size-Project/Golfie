@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
   .subtitle {
     font-size: 22px;
     margin-right: 196px;
