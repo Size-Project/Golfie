@@ -124,6 +124,7 @@ jacocoTestCoverageVerification {
                     '**.*Exception*',
                     '**.*Error*',
                     '**.s3.**',
+                    '**.BaseTimeEntity'
             ]
 
         }

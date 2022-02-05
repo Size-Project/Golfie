@@ -46,12 +46,8 @@ public class JwtTokenProvider {
         try {
             Jwts.parser().setSigningKey(base64SecretKey).parseClaimsJws(token);
             return true;
-        } catch (SecurityException | MalformedJwtException e) {
-            log.info("유효하지 않은 토큰입니다.");
-            log.trace(e.getMessage());
-        } catch (ExpiredJwtException e) {
-            log.info("만료된 토큰입니다.");
-            log.trace(e.getMessage());
+        } catch (SecurityException | MalformedJwtException | ExpiredJwtException | SignatureException e) {
+            log.info(e.getMessage());
         }
         return false;
     }
