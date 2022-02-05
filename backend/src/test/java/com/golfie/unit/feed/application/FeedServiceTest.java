@@ -1,6 +1,6 @@
 package com.golfie.unit.feed.application;
 
-import com.golfie.auth.presentation.dto.LoginUser;
+import com.golfie.auth.presentation.dto.CurrentUser;
 import com.golfie.auth.util.Authority;
 import com.golfie.common.fixture.TestUserInfo;
 import com.golfie.common.s3.S3Uploader;
@@ -100,7 +100,7 @@ public class FeedServiceTest {
 
         //act
         List<FeedResponse> feedResponses =
-                feedService.read(new LoginUser(1L, Authority.MEMBER), PageRequest.of(0, 2));
+                feedService.read(CurrentUser.of(1L, Authority.MEMBER), PageRequest.of(0, 2));
 
         List<FeedResponse> target = List.of(
                 FeedResponse.of(feed1, false),

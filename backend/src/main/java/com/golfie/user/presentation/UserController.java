@@ -1,8 +1,7 @@
 package com.golfie.user.presentation;
 
-import com.golfie.auth.presentation.dto.LoginUser;
-import com.golfie.auth.util.LoggedInUser;
-import com.golfie.common.exception.ErrorCode;
+import com.golfie.auth.presentation.dto.CurrentUser;
+import com.golfie.auth.util.Authentication;
 import com.golfie.user.application.UserService;
 import com.golfie.user.exception.NicknameRequestValidationException;
 import com.golfie.user.presentation.dto.NicknameRequest;
@@ -24,8 +23,8 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/users/me")
-    public ResponseEntity<UserProfileResponse> me(@LoggedInUser LoginUser loginUser) {
-        UserProfileResponse userProfileResponse = userService.findUser(loginUser.getId());
+    public ResponseEntity<UserProfileResponse> me(@Authentication CurrentUser currentUser) {
+        UserProfileResponse userProfileResponse = userService.findUser(currentUser.getId());
         return ResponseEntity.ok(userProfileResponse);
     }
 

@@ -33,6 +33,9 @@ public class User {
     private Set<User> followers;
 
     public User() {
+        this.feeds = new ArrayList<>();
+        this.following = new HashSet<>();
+        this.followers = new HashSet<>();
     }
 
     public User(Long id, BasicProfile basicProfile, SocialProfile socialProfile) {

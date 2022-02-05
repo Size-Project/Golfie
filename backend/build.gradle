@@ -87,6 +87,7 @@ jacocoTestReport {
                             '**/*Request*',
                             '**/*Exception*',
                             '**/*Error*',
+                            '**/*s3*',
                     ])
         }))
     }
