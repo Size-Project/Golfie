@@ -3,9 +3,9 @@ package com.golfie.auth.exception;
 import com.golfie.common.exception.ApplicationException;
 import com.golfie.common.exception.ErrorCode;
 
-public class NotAuthenticatedUserException extends ApplicationException {
+public class NotAuthenticatedException extends ApplicationException {
 
-    public NotAuthenticatedUserException(ErrorCode errorCode) {
+    public NotAuthenticatedException(ErrorCode errorCode) {
         super(errorCode);
     }
 }
