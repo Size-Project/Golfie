@@ -19,3 +19,8 @@
     font-family: "Noto Sans Regular";
     src: url("./NotoSansKR-Regular.otf");
 }
+
+@font-face {
+    font-family: "Acumin Pro";
+    src: url("./Acumin-Pro.ttf");
+}

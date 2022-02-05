@@ -29,5 +29,9 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
   }
 
+  ::-webkit-scrollbar{
+    display: none;
+  }
+  
   ${reset};
 `;
