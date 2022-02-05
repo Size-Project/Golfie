@@ -1,4 +1,3 @@
-import IconSearch from 'assets/images/common/icon-search.png';
 import { Wrapper } from './styled';
 import ForYouHeaderTop from '../ForYouHeaderTop';
 import ForYouHeaderSearch from '../ForYouSearch';
