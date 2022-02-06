@@ -11,6 +11,7 @@ import com.golfie.feed.presentation.dto.FeedCreateRequest;
 import com.golfie.feed.presentation.dto.FeedResponse;
 import com.golfie.user.domain.User;
 import com.golfie.user.domain.UserRepository;
+import com.golfie.user.exception.UserNotFoundException;
 import org.apache.http.entity.ContentType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,13 +32,14 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static com.golfie.common.util.FileUtils.fileToMultipart;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class FeedServiceTest {
@@ -88,7 +90,7 @@ public class FeedServiceTest {
     @DisplayName("모든 피드를 조회한다.")
     @Test
     void read_All_Feeds() {
-        User user = new User(TestUserInfo.create().toSocialProfile());
+        User user = new User(1L, TestUserInfo.create().toSocialProfile());
         Feed feed1 = new Feed(user, List.of("url1", "url2"), "content");
         Feed feed2 = new Feed(user, List.of("url1", "url2"), "content");
         List<Feed> feedList = List.of(feed1, feed2);
@@ -116,5 +118,32 @@ public class FeedServiceTest {
                 .findAllFeeds(any());
         verify(userRepository, times(1))
                 .findById(1L);
+    }
+
+    @DisplayName("존재하지 않는 회원의 경우 예외를 반환한다.")
+    @Test
+    void user_Not_Found_Exception() throws IOException {
+        //arrange
+        URL resource = ClassLoader.getSystemResource("testImage.png");
+        List<MultipartFile> mockMultipartFiles = List.of(
+                fileToMultipart(new File(Objects.requireNonNull(resource).getFile()))
+        );
+
+        String content = "This is my feed.";
+        FeedCreateRequest feedCreateRequest = new FeedCreateRequest(mockMultipartFiles, content);
+
+        given(userRepository.findById(any())).willReturn(Optional.empty());
+
+        //act and assert
+        assertThrows(UserNotFoundException.class, () ->
+                feedService.save(1L, feedCreateRequest)
+        );
+
+        verify(userRepository, times(1))
+                .findById(any());
+        verify(feedRepository, never())
+                .save(any());
+        verify(s3Uploader, never())
+                .uploadFeedImages(any(), any());
     }
 }

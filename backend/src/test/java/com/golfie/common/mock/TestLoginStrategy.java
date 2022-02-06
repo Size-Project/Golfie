@@ -1,7 +1,8 @@
-package com.golfie.common.fixture;
+package com.golfie.common.mock;
 
 import com.golfie.auth.infrastructure.OauthUserInfo;
 import com.golfie.auth.infrastructure.SocialLoginStrategy;
+import com.golfie.common.fixture.TestUserInfo;
 import org.springframework.stereotype.Component;
 
 @Component

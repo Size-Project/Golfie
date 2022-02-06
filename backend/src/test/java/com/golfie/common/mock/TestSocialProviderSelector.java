@@ -1,7 +1,8 @@
-package com.golfie.common.fixture;
+package com.golfie.common.mock;
 
 import com.golfie.auth.application.ProviderSelectorFactory;
 import com.golfie.auth.infrastructure.OauthUserInfo;
+import com.golfie.common.fixture.TestUserInfo;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 

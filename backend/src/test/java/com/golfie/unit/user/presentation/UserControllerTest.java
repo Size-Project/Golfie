@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static com.golfie.common.exception.ErrorCode.DUPLICATE_NICKNAME;
+import static com.golfie.common.exception.ErrorCode.NOT_AUTHENTICATED_USER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -25,10 +26,9 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest({
@@ -53,8 +53,9 @@ public class UserControllerTest extends DocumentationBase {
         String token = "Bearer " + jwtTokenProvider.createToken("1");
 
         UserProfileResponse userProfileResponse = UserProfileResponse.builder()
+                .id("1")
                 .nickname("test")
-                .imageUrl("testImageUrl")
+                .imageUrl("profileImageUrl")
                 .email("test@test.com")
                 .ageRange("20~29")
                 .gender("MALE")
@@ -84,6 +85,7 @@ public class UserControllerTest extends DocumentationBase {
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 responseFields(
+                        fieldWithPath("id").type(STRING).description("id"),
                         fieldWithPath("nickname").type(STRING).description("닉네임"),
                         fieldWithPath("email").type(STRING).description("이메일"),
                         fieldWithPath("imageUrl").type(STRING).description("프로필 이미지"),
@@ -91,6 +93,104 @@ public class UserControllerTest extends DocumentationBase {
                         fieldWithPath("gender").type(STRING).description("성별")
                 )
         ));
+    }
+
+    @DisplayName("팔로우를 한다.")
+    @Test
+    void follow() throws Exception {
+        //arrange
+        String token = "Bearer " + jwtTokenProvider.createToken("1");
+        long userId = 2L;
+
+        doNothing().when(userService).follow(any(), any());
+
+        //act
+        ResultActions result = mockMvc.perform(put("/api/follow?userId=" + userId)
+                .header(AUTHORIZATION, token));
+
+        //assert
+        result.andExpect(status().isOk());
+
+        verify(userService, times(1))
+                .follow(any(), any());
+
+        //docs
+        result.andDo(document("user-follow",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint())
+        ));
+    }
+
+    @DisplayName("팔로우를 취소한다.")
+    @Test
+    void unFollow() throws Exception {
+        //arrange
+        String token = "Bearer " + jwtTokenProvider.createToken("1");
+        long userId = 2L;
+
+        doNothing().when(userService).unFollow(any(), any());
+
+        //act
+        ResultActions result = mockMvc.perform(put("/api/unfollow?userId=" + userId)
+                .header(AUTHORIZATION, token));
+
+        //assert
+        result.andExpect(status().isOk());
+
+        verify(userService, times(1))
+                .unFollow(any(), any());
+
+        //docs
+        result.andDo(document("user-unfollow",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint())
+        ));
+    }
+
+    @DisplayName("비로그인 사용자는 팔로우 등록을 할 수 없다.")
+    @Test
+    void guestUser_Follow_Exception() throws Exception {
+        //arrange
+        String token = "Bearer guest";
+        long userId = 2L;
+
+        //act
+        ResultActions result = mockMvc.perform(put("/api/follow?userId=" + userId)
+                .header(AUTHORIZATION, token));
+
+        //assert
+        String body = result.andExpect(status().is4xxClientError())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertThat(body).isEqualTo(objectMapper.writeValueAsString(ApplicationExceptionDto.of(NOT_AUTHENTICATED_USER)));
+
+        verify(userService, never())
+                .follow(any(), any());
+    }
+
+    @DisplayName("비로그인 사용자는 팔로우 취소를 할 수 없다.")
+    @Test
+    void guestUser_Unfollow_Exception() throws Exception {
+        //arrange
+        String token = "Bearer guest";
+        long userId = 2L;
+
+        //act
+        ResultActions result = mockMvc.perform(put("/api/unfollow?userId=" + userId)
+                .header(AUTHORIZATION, token));
+
+        //assert
+        String body = result.andExpect(status().is4xxClientError())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertThat(body).isEqualTo(objectMapper.writeValueAsString(ApplicationExceptionDto.of(NOT_AUTHENTICATED_USER)));
+
+        verify(userService, never())
+                .follow(any(), any());
     }
 
     @DisplayName("닉네임을 검증한 후 문제가 없으면 200 ok를 반환한다.")
@@ -172,8 +272,8 @@ public class UserControllerTest extends DocumentationBase {
                 .getContentAsString();
 
         assertThat(body).isEqualTo(objectMapper.writeValueAsString(
-                        new ApplicationExceptionDto("U002", "중복된 회원의 닉네임입니다."))
-                );
+                new ApplicationExceptionDto("U002", "중복된 회원의 닉네임입니다."))
+        );
 
         verify(userService, times(1))
                 .validateNickname(any());

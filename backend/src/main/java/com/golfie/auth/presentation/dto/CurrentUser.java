@@ -19,10 +19,6 @@ public class CurrentUser {
         return this.id;
     }
 
-    public Authority getAuthority() {
-        return authority;
-    }
-
     public boolean isGuest() {
         return authority == Authority.GUEST;
     }

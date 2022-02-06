@@ -8,29 +8,18 @@ import com.golfie.auth.presentation.dto.SignUpReadyResponse;
 import com.golfie.auth.presentation.dto.SignUpRequest;
 import com.golfie.common.fixture.TestUserInfo;
 import com.golfie.user.domain.User;
-import com.golfie.user.domain.UserRepository;
 import com.golfie.user.domain.profile.*;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.http.Method;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class AuthAcceptanceTest extends AcceptanceTest {
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @BeforeEach
-    void setup() {
-        userRepository.deleteAll();
-    }
 
     @DisplayName("로그인 - 유저는 로그인에 성공하고 토큰을 발급받는다.")
     @Test

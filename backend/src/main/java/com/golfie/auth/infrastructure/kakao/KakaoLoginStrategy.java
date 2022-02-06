@@ -37,6 +37,7 @@ public class KakaoLoginStrategy implements SocialLoginStrategy {
                     KakaoUserInfo.class
                 ).getBody();
         } catch (Exception e) {
+            System.out.println("e.getMessage() = " + e.getMessage());
             throw new KakaoApiAccessException(KAKAO_ACCESS);
         }
     }
@@ -63,6 +64,7 @@ public class KakaoLoginStrategy implements SocialLoginStrategy {
 
             return kakaoAccessTokenResponse.getAccessToken();
         } catch (Exception e) {
+            System.out.println("e.getMessage() = " + e.getMessage());
             throw new KakaoApiAccessException(KAKAO_ACCESS);
         }
     }

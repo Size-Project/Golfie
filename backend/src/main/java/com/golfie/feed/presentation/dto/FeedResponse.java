@@ -8,7 +8,7 @@ import java.util.List;
 
 public class FeedResponse {
     private UserProfileResponse author;
-    private boolean isFollowing;
+    private boolean following;
     private List<String> imageUrls;
     private String content;
 
@@ -16,9 +16,9 @@ public class FeedResponse {
     }
 
     @Builder
-    public FeedResponse(UserProfileResponse author, boolean isFollowing, List<String> imageUrls, String content) {
+    public FeedResponse(UserProfileResponse author, boolean following, List<String> imageUrls, String content) {
         this.author = author;
-        this.isFollowing = isFollowing;
+        this.following = following;
         this.imageUrls = imageUrls;
         this.content = content;
     }
@@ -26,7 +26,7 @@ public class FeedResponse {
     public static FeedResponse of(Feed feed, boolean isFollowing) {
         return FeedResponse.builder()
                 .author(UserProfileResponse.of(feed.getAuthor()))
-                .isFollowing(isFollowing)
+                .following(isFollowing)
                 .imageUrls(feed.getImageUrls())
                 .content(feed.getContent())
                 .build();
@@ -37,7 +37,7 @@ public class FeedResponse {
     }
 
     public boolean isFollowing() {
-        return isFollowing;
+        return following;
     }
 
     public List<String> getImageUrls() {
