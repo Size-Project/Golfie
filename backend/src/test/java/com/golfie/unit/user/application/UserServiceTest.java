@@ -1,13 +1,11 @@
 package com.golfie.unit.user.application;
 
-import com.golfie.auth.exception.AlreadyRegisteredInUserException;
+import com.golfie.auth.presentation.dto.CurrentUser;
+import com.golfie.auth.util.Authority;
+import com.golfie.common.fixture.TestUserInfo;
 import com.golfie.user.application.UserService;
 import com.golfie.user.domain.User;
 import com.golfie.user.domain.UserRepository;
-import com.golfie.user.domain.profile.AgeRange;
-import com.golfie.user.domain.profile.Gender;
-import com.golfie.user.domain.profile.ProviderName;
-import com.golfie.user.domain.profile.SocialProfile;
 import com.golfie.user.exception.DuplicatedNicknameException;
 import com.golfie.user.exception.UserNotFoundException;
 import com.golfie.user.presentation.dto.NicknameRequest;
@@ -35,20 +33,19 @@ public class UserServiceTest {
     @Mock
     private UserRepository userRepository;
 
-    @DisplayName("유저 프로필 정보를 반환한다.")
+    @DisplayName("사용자 프로필 정보를 반환한다.")
     @Test
     void find_User_Profile() {
         //arrange
-        SocialProfile socialProfile = new SocialProfile(ProviderName.KAKAO, "test@test.com", "testImageUrl", Gender.MALE, AgeRange.TWENTY);
-        User user = new User(socialProfile);
-
+        User user = new User(1L, TestUserInfo.create().toSocialProfile());
         given(userRepository.findById(1L)).willReturn(Optional.of(user));
 
         //act
         UserProfileResponse result = userService.findUser(1L);
 
         UserProfileResponse userProfileResponse = UserProfileResponse.builder()
-                .imageUrl("testImageUrl")
+                .id("1")
+                .imageUrl("profileImageUrl")
                 .email("test@test.com")
                 .gender("MALE")
                 .ageRange("20-29")
@@ -61,6 +58,52 @@ public class UserServiceTest {
 
         verify(userRepository, times(1))
                 .findById(1L);
+    }
+
+    @DisplayName("사용자가 다른 사용자를 팔로우한다.")
+    @Test
+    void follow() {
+        //arrange
+        User userA = new User(1L, TestUserInfo.create().toSocialProfile());
+        User userB = new User(2L, TestUserInfo.create().toSocialProfile());
+        given(userRepository.findById(1L)).willReturn(Optional.of(userA));
+        given(userRepository.findById(2L)).willReturn(Optional.of(userB));
+
+        //act
+        userService.follow(CurrentUser.of(1L, Authority.MEMBER), 2L);
+
+        //assert
+        assertThat(userA.getFollowing()).contains(userB);
+        assertThat(userA.isFollowing(userB)).isTrue();
+
+        verify(userRepository, times(1))
+                .findById(1L);
+        verify(userRepository, times(1))
+                .findById(2L);
+    }
+
+    @DisplayName("사용자가 다른 사용자를 팔로우 취소한다.")
+    @Test
+    void unFollow() {
+        //arrange
+        User userA = new User(1L, TestUserInfo.create().toSocialProfile());
+        User userB = new User(2L, TestUserInfo.create().toSocialProfile());
+        userA.addFollowing(userB);
+
+        given(userRepository.findById(1L)).willReturn(Optional.of(userA));
+        given(userRepository.findById(2L)).willReturn(Optional.of(userB));
+
+        //act
+        userService.unFollow(CurrentUser.of(1L, Authority.MEMBER), 2L);
+
+        //assert
+        assertThat(userA.getFollowing()).isEmpty();
+        assertThat(userA.isFollowing(userB)).isFalse();
+
+        verify(userRepository, times(1))
+                .findById(1L);
+        verify(userRepository, times(1))
+                .findById(2L);
     }
 
     @DisplayName("존재하지 않는 회원의 경우 예외를 반환하다.")

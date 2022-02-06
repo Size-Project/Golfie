@@ -44,7 +44,19 @@ public class UserTest {
         assertThat(userB.getFollowers().size()).isEqualTo(0);
     }
 
-    @DisplayName("유저 A가 유저 B를 팔로우있으면 true를 반환한다.")
+    @DisplayName("유저 A와 유저 B는 서로를 팔로우한다.")
+    @Test
+    void add_Following_Each_Other() {
+        userA.addFollowing(userB);
+        userB.addFollowing(userA);
+
+        assertThat(userA.getFollowing().size()).isEqualTo(1);
+        assertThat(userB.getFollowers().size()).isEqualTo(1);
+        assertThat(userA.isFollowing(userB)).isTrue();
+        assertThat(userB.isFollowing(userA)).isTrue();
+    }
+
+    @DisplayName("유저 A가 유저 B를 팔로우하고 있다면 true를 반환한다.")
     @Test
     void is_Following_True() {
         userA.addFollowing(userB);
@@ -52,7 +64,7 @@ public class UserTest {
         assertThat(userA.isFollowing(userB)).isTrue();
     }
 
-    @DisplayName("유저 A가 유저 B를 팔로우하고 있지 않으면 false를 반환한다.")
+    @DisplayName("유저 A가 유저 B를 팔로우하고 있지 않다면 false를 반환한다.")
     @Test
     void is_Following_False() {
         assertThat(userA.isFollowing(userB)).isFalse();

@@ -21,8 +21,7 @@ public class UserRepositoryTest {
     @DisplayName("이메일과 소셜 provider 이름으로 유저를 조회한다.")
     @Test
     void findByEmailAndProviderName() {
-        SocialProfile socialProfile = TestUserInfo.create().toSocialProfile();
-        User saveUser = new User(socialProfile);
+        User saveUser = new User(TestUserInfo.create().toSocialProfile());
         userRepository.save(saveUser);
 
         User findUser = userRepository.findByEmailAndProviderName(saveUser.getEmail(), saveUser.getProviderName()).get();

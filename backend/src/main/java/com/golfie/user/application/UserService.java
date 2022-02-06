@@ -1,5 +1,6 @@
 package com.golfie.user.application;
 
+import com.golfie.auth.presentation.dto.CurrentUser;
 import com.golfie.user.domain.User;
 import com.golfie.user.domain.UserRepository;
 import com.golfie.user.exception.DuplicatedNicknameException;
@@ -31,5 +32,23 @@ public class UserService {
         if (userRepository.existsByNickname(nicknameRequest.getNickname())) {
             throw new DuplicatedNicknameException(DUPLICATE_NICKNAME);
         }
+    }
+
+    @Transactional
+    public void follow(CurrentUser currentUser, Long userId) {
+        User user = userRepository.findById(currentUser.getId())
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+        User other = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+        user.addFollowing(other);
+    }
+
+    @Transactional
+    public void unFollow(CurrentUser currentUser, Long userId) {
+        User user = userRepository.findById(currentUser.getId())
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+        User other = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+        user.stopFollowing(other);
     }
 }
