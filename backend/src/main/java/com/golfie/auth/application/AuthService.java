@@ -40,6 +40,7 @@ public class AuthService {
         return TokenDto.of(jwtTokenProvider.createToken(user.toPayload()));
     }
 
+    @Transactional(readOnly = true)
     public SignUpReadyResponse prepareSignUp(SignUpReadyRequest signUpReadyRequest) {
         OauthUserInfo oauthUserInfo = providerSelectorFactory
                 .getUserInfoFromSocialProvider(signUpReadyRequest.getCode(), signUpReadyRequest.getProviderName());

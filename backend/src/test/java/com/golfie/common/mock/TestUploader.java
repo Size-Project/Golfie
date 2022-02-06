@@ -1,4 +1,4 @@
-package com.golfie.common.fixture;
+package com.golfie.common.mock;
 
 import com.golfie.common.s3.StorageUploader;
 import org.springframework.context.annotation.Profile;

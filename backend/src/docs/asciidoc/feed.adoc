@@ -17,6 +17,13 @@ include::{snippets}/feed-create/http-request.adoc[]
 ==== Response
 include::{snippets}/feed-create/http-response.adoc[]
 
+== 피드 등록 - 비로그인 사용자 예외
+==== Request
+include::{snippets}/feed-create-guest-user-exception/http-request.adoc[]
+
+==== Response
+include::{snippets}/feed-create-guest-user-exception/http-response.adoc[]
+
 == 모든 피드 조회
 ==== Request
 include::{snippets}/feed-read-all/http-request.adoc[]

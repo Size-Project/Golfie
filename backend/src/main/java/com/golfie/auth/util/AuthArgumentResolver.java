@@ -34,7 +34,7 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
         String token = bearerToken.substring(7);
 
         if (!jwtTokenProvider.validateToken(token)) {
-            return com.golfie.auth.presentation.dto.CurrentUser.of(0L, Authority.GUEST);
+            return CurrentUser.of(0L, Authority.GUEST);
         }
 
         Long userId = Long.parseLong(jwtTokenProvider.getPayload(token, CLAIM_KEY));

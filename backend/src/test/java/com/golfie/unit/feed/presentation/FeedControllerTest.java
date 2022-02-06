@@ -3,6 +3,8 @@ package com.golfie.unit.feed.presentation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.golfie.auth.util.JwtTokenProvider;
 import com.golfie.common.docs.DocumentationBase;
+import com.golfie.common.exception.ApplicationExceptionDto;
+import com.golfie.common.exception.ErrorCode;
 import com.golfie.common.fixture.TestUserInfo;
 import com.golfie.feed.application.FeedService;
 import com.golfie.feed.domain.Feed;
@@ -22,6 +24,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
+import static com.golfie.common.exception.ErrorCode.NOT_AUTHENTICATED_USER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
@@ -84,7 +87,7 @@ public class FeedControllerTest extends DocumentationBase {
         //arrange
         String token = "Bearer " + jwtTokenProvider.createToken("1");
 
-        User user = new User(new BasicProfile("authorName", "This is my profile."), TestUserInfo.create().toSocialProfile());
+        User user = new User(1L, new BasicProfile("authorName", "This is my profile."), TestUserInfo.create().toSocialProfile());
         Feed feed1 = new Feed(user, List.of("url1.png", "url2.png"), "feed content");
         Feed feed2 = new Feed(user, List.of("url1.jpeg", "url2.jpeg"), "feed content");
         List<FeedResponse> feedResponses = List.of(
@@ -115,6 +118,7 @@ public class FeedControllerTest extends DocumentationBase {
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 responseFields(
+                        fieldWithPath("[].author.id").type(STRING).description("id"),
                         fieldWithPath("[].author.nickname").type(STRING).description("닉네임"),
                         fieldWithPath("[].author.email").type(STRING).description("이메일"),
                         fieldWithPath("[].author.imageUrl").type(STRING).description("프로필이미지"),
@@ -123,6 +127,43 @@ public class FeedControllerTest extends DocumentationBase {
                         fieldWithPath("[].imageUrls").type(ARRAY).description("피드이미지"),
                         fieldWithPath("[].content").type(STRING).description("피드내용"),
                         fieldWithPath("[].following").type(BOOLEAN).description("팔로우여부")
+                )
+        ));
+    }
+
+    @DisplayName("로그인하지 않은 사용자가 피드를 등록하면 예외를 반환한다.")
+    @Test
+    void guestUser_Create_Feed_Exception() throws Exception {
+        //arrange
+        String token = "Bearer guest";
+
+        //act
+        ResultActions result = mockMvc.perform(multipart("/api/feeds/save")
+                .file("feedImages", "This is my first feed image.".getBytes())
+                .file("feedImages", "This is my second feed image.".getBytes())
+                .param("content", "This is my feed.")
+                .header(HttpHeaders.AUTHORIZATION, token)
+        );
+
+        //assert
+        String body = result.andExpect(status().is4xxClientError())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertThat(body).isEqualTo(objectMapper.writeValueAsString(ApplicationExceptionDto.of(NOT_AUTHENTICATED_USER)));
+
+        verify(feedService, never())
+                .save(any(), any());
+
+        //docs
+        result.andDo(document("feed-create-guest-user-exception",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                requestPartBody("feedImages"),
+                responseFields(
+                        fieldWithPath("code").type(STRING).description("에러코드"),
+                        fieldWithPath("message").type(STRING).description("에러메시지")
                 )
         ));
     }
