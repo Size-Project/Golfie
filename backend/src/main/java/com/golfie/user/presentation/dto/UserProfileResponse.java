@@ -4,8 +4,10 @@ import com.golfie.user.domain.User;
 import lombok.Builder;
 
 public class UserProfileResponse {
+    private String id;
     private String nickname;
     private String email;
+    private String imageUrl;
     private String ageRange;
     private String gender;
 
@@ -13,21 +15,28 @@ public class UserProfileResponse {
     }
 
     @Builder
-    public UserProfileResponse(String nickname, String email, String ageRange, String gender) {
+    public UserProfileResponse(String id, String nickname, String email, String imageUrl, String ageRange, String gender) {
+        this.id = id;
         this.nickname = nickname;
         this.email = email;
+        this.imageUrl = imageUrl;
         this.ageRange = ageRange;
         this.gender = gender;
     }
 
-
     public static UserProfileResponse of(User user) {
         return UserProfileResponse.builder()
+                .id(user.getId().toString())
                 .nickname(user.getNickname())
                 .email(user.getEmail())
-                .ageRange(user.getAgeRange())
-                .gender(user.getGender())
+                .imageUrl(user.getImageUrl())
+                .ageRange(user.getAgeRange().getSymbol())
+                .gender(user.getGender().name())
                 .build();
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getNickname() {
@@ -38,6 +47,10 @@ public class UserProfileResponse {
         return email;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
     public String getAgeRange() {
         return ageRange;
     }
@@ -45,4 +58,5 @@ public class UserProfileResponse {
     public String getGender() {
         return gender;
     }
+
 }

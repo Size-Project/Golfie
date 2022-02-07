@@ -6,6 +6,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import AppRouter from './AppRouter';
 import rootReducer from './services';
 import { GlobalStyle } from './GlobalStyle';
+import './assets/fonts/fonts.css';
 
 const store = createStore(rootReducer, composeWithDevTools());
 

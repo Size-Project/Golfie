@@ -1,11 +1,12 @@
 package com.golfie.user.domain;
 
-import lombok.Builder;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.golfie.feed.domain.Feed;
+import com.golfie.user.domain.profile.*;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -14,88 +15,110 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String providerId;
+    @Embedded
+    private SocialProfile socialProfile;
 
-    private String nickname;
+    @Embedded
+    private BasicProfile basicProfile;
 
-    private String email;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Feed> feeds;
 
-    private String imageUrl;
+    @ManyToMany(mappedBy = "followers")
+    private Set<User> following;
 
-    private String ageRange;
-
-    private String gender;
-
-    private int years;
-
-    private int avgScore;
-
-    private String message;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "USER_RELATIONS")
+    @JoinColumn(name = "FOLLOWED_ID")
+    private Set<User> followers;
 
     public User() {
+        this.feeds = new ArrayList<>();
+        this.following = new HashSet<>();
+        this.followers = new HashSet<>();
     }
 
-    @Builder
-    public User(Long id,
-                String providerId,
-                String nickname,
-                String email,
-                String imageUrl,
-                String ageRange,
-                String gender,
-                int years,
-                int avgScore,
-                String message)
-    {
+    public User(Long id, BasicProfile basicProfile, SocialProfile socialProfile) {
         this.id = id;
-        this.providerId = providerId;
-        this.nickname = nickname;
-        this.email = email;
-        this.imageUrl = imageUrl;
-        this.ageRange = ageRange;
-        this.gender = gender;
-        this.years = years;
-        this.avgScore = avgScore;
-        this.message = message;
+        this.basicProfile = basicProfile;
+        this.socialProfile = socialProfile;
+        this.feeds = new ArrayList<>();
+        this.following = new HashSet<>();
+        this.followers = new HashSet<>();
+    }
+
+    public User(SocialProfile socialProfile) {
+        this(null, new BasicProfile(), socialProfile);
+    }
+
+    public User(BasicProfile basicProfile, SocialProfile socialProfile) {
+        this(null, basicProfile, socialProfile);
+    }
+
+    public User(Long id, SocialProfile socialProfile) {
+        this(id, new BasicProfile(), socialProfile);
+    }
+
+    public void addFollowing(User followed) {
+        followed.addFollower(this);
+    }
+
+    private void addFollower(User follower) {
+        followers.add(follower);
+        follower.following.add(this);
+    }
+
+    public void stopFollowing(User followed) {
+        following.remove(followed);
+        Set<User> followers = followed.followers;
+        followers.remove(this);
+    }
+
+    public boolean isFollowing(User otherUser) {
+        return following.contains(otherUser);
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getProviderId() {
-        return providerId;
-    }
-
-    public String getNickname() {
-        return nickname;
+    public ProviderName getProviderName() {
+        return socialProfile.getProviderName();
     }
 
     public String getEmail() {
-        return email;
+        return socialProfile.getEmail();
     }
 
     public String getImageUrl() {
-        return imageUrl;
+        return socialProfile.getImageUrl();
     }
 
-    public String getAgeRange() {
-        return ageRange;
+    public AgeRange getAgeRange() {
+        return socialProfile.getAgeRange();
     }
 
-    public String getGender() {
-        return gender;
+    public Gender getGender() {
+        return socialProfile.getGender();
     }
 
-    public int getYears() {
-        return years;
+    public String getNickname() {
+        return basicProfile.getNickname();
     }
 
-    public int getAvgScore() {
-        return avgScore;
+    public String getBio() {
+        return basicProfile.getBio();
     }
 
-    public String getMessage() {
-        return message;
+    public Set<User> getFollowing() {
+        return following;
+    }
+
+    public Set<User> getFollowers() {
+        return followers;
+    }
+
+    public String toPayload() {
+        return this.id.toString();
     }
 }
