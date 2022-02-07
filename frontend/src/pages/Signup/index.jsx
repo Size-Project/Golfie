@@ -1,23 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import qs from 'qs';
 import axios from 'axios';
 import { setCookie } from 'utils/cookie';
 import API from 'api';
+import kakaoLoginIcon from 'assets/icons/kakaoLoginIcon.png';
 
 const SignupPage = (a) => {
   const [nickname, setNickname] = useState('');
   const [buttonOff, setButtonOff] = useState(true);
+  const [user, setUser] = useState({});
   const location = useLocation();
   const navigate = useNavigate();
-  const queryData = qs.parse(location.search, { ignoreQueryPrefix: true });
-
-  const refreshPage = () => {
-    window.location.reload();
-  };
+  const kakaoLink = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI_SIGNUP}&response_type=${process.env.REACT_APP_KAKAO_RESPONSE_TYPE}`;
+  const params = new URLSearchParams(location.search);
 
   const nicknameConfirm = async (e) => {
-    const { name, value } = e.target;
+    const { value } = e.target;
     setNickname(value);
     const response = await axios.post('/api/validate/nickname', {
       nickname: value,
@@ -27,31 +25,38 @@ const SignupPage = (a) => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const signupDate = { ...queryData, nickname, bio: 'hello' };
+    const signupDate = { nickname, bio: 'hello', ...user };
     const response = await axios.post('/api/signup/oauth', signupDate);
     setCookie('jwt', response.data.accessToken, { path: '/' });
     navigate('/');
-    refreshPage();
+    window.location.reload();
   };
 
   useEffect(() => {
-    const code = queryData.code;
-    console.log(queryData);
+    const code = params.get('code');
     async function readySignup() {
       try {
         const response = await API.POST({
           url: '/api/signup/oauth/prepare',
           data: { code, providerName: 'KAKAO' },
         });
+        setUser({ ...response.data });
       } catch (error) {
-        alert('카카오 로그인 에러');
+        alert('카카오 회원가입 에러');
       }
     }
-    readySignup();
+    if (code !== null) readySignup();
   }, []);
 
   return (
     <div>
+      <a href={kakaoLink}>
+        <img
+          src={kakaoLoginIcon}
+          alt="카카오 로그인 아이콘"
+          className="login-icon"
+        />
+      </a>
       <form action="">
         <input
           type="text"

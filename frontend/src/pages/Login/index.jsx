@@ -7,6 +7,7 @@ import naverLoginIcon from 'assets/icons/naverLoginIcon.png';
 import kakaoLoginIcon from 'assets/icons/kakaoLoginIcon.png';
 import axios from 'axios';
 import API from 'api';
+import { setCookie } from 'utils/cookie';
 
 axios.defaults.withCredentials = true;
 
@@ -14,7 +15,8 @@ const LoginPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const params = new URLSearchParams(location.search);
-  const kakaoLink = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=${process.env.REACT_APP_KAKAO_RESPONSE_TYPE}`;
+  const kakaoLink = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI_LOGIN}&response_type=${process.env.REACT_APP_KAKAO_RESPONSE_TYPE}`;
+
   useEffect(() => {
     const code = params.get('code');
     if (code !== null) {
@@ -24,16 +26,17 @@ const LoginPage = () => {
             url: '/api/login/oauth',
             data: { code, providerName: 'KAKAO' },
           });
-          console.log('response');
+          setCookie('jwt', response.data.accessToken, { path: '/' });
+          navigate('/');
+          window.location.reload();
         } catch (error) {
-          // navigate(`/account/signup/?code=${code}`);
+          navigate(`/account/signup`);
         }
       }
       login();
     }
   }, []);
 
-  const handleClick = async () => {};
   return (
     <Wrapper>
       <header className="home">
@@ -44,21 +47,18 @@ const LoginPage = () => {
         <div className="icons">
           <img
             src={naverLoginIcon}
-            onClick={handleClick}
             alt="네이버 로그인 아이콘"
             className="login-icon"
           />
           <a href={kakaoLink}>
             <img
               src={kakaoLoginIcon}
-              onClick={handleClick}
               alt="카카오 로그인 아이콘"
               className="login-icon"
             />
           </a>
           <img
             src={googleLoginIcon}
-            onClick={handleClick}
             alt="구글 로그인 아이콘"
             className="login-icon"
           />
