@@ -14,6 +14,9 @@ public enum ErrorCode {
     DUPLICATE_NICKNAME(409, "U002", "중복된 회원의 닉네임입니다."),
     ILLEGAL_NICKNAME_REQUEST(400, "U003", "유효하지 않은 닉네임입니다."),
 
+    // Feed
+    FEED_NOT_FOUND(404, "F001", "존재하지 않는 피드입니다."),
+
     ;
 
     private final int status;
