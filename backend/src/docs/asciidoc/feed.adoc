@@ -30,3 +30,24 @@ include::{snippets}/feed-read-all/http-request.adoc[]
 
 ==== Response
 include::{snippets}/feed-read-all/http-response.adoc[]
+
+== 내 피드 조회
+==== Request
+include::{snippets}/feed-read-all-me/http-request.adoc[]
+
+==== Response
+include::{snippets}/feed-read-all-me/http-response.adoc[]
+
+== 좋아요 등록
+==== Request
+include::{snippets}/feed-like/http-request.adoc[]
+
+==== Response
+include::{snippets}/feed-like/http-response.adoc[]
+
+== 좋아요 취소
+==== Request
+include::{snippets}/feed-unlike/http-request.adoc[]
+
+==== Response
+include::{snippets}/feed-unlike/http-response.adoc[]

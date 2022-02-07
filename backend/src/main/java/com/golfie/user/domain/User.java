@@ -22,15 +22,15 @@ public class User {
     private BasicProfile basicProfile;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Feed> feeds;
+    private final List<Feed> feeds;
 
     @ManyToMany(mappedBy = "followers")
-    private Set<User> following;
+    private final Set<User> following;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "USER_RELATIONS")
     @JoinColumn(name = "FOLLOWED_ID")
-    private Set<User> followers;
+    private final Set<User> followers;
 
     public User() {
         this.feeds = new ArrayList<>();
@@ -57,6 +57,10 @@ public class User {
 
     public User(Long id, SocialProfile socialProfile) {
         this(id, new BasicProfile(), socialProfile);
+    }
+
+    public void addFeed(Feed feed) {
+        feeds.add(feed);
     }
 
     public void addFollowing(User followed) {
@@ -108,6 +112,10 @@ public class User {
 
     public String getBio() {
         return basicProfile.getBio();
+    }
+
+    public List<Feed> getFeeds() {
+        return feeds;
     }
 
     public Set<User> getFollowing() {

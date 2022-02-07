@@ -1,6 +1,4 @@
-package com.golfie.common.domain;
-
-import com.golfie.user.domain.User;
+package com.golfie.user.domain;
 
 public class GuestUser extends User {
 

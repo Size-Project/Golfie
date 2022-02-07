@@ -28,7 +28,4 @@ public enum SocialProvider {
         return providerName;
     }
 
-    public void setSocialLoginStrategy(SocialLoginStrategy socialLoginStrategy) {
-        this.socialLoginStrategy = socialLoginStrategy;
-    }
 }

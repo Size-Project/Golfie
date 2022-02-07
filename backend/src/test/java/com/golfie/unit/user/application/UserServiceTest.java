@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -120,12 +121,27 @@ public class UserServiceTest {
     void duplicate_User_Nickname_Exception() {
         //arrange
         NicknameRequest nicknameRequest = new NicknameRequest("junslee");
-
         given(userRepository.existsByNickname("junslee")).willReturn(true);
 
         //act and assert
         assertThrows(DuplicatedNicknameException.class, () ->
             userService.validateNickname(nicknameRequest)
+        );
+
+        verify(userRepository, times(1))
+                .existsByNickname("junslee");
+    }
+
+    @DisplayName("중복되지 않은 닉네임의 경우 예외를 반환하지 않는다.")
+    @Test
+    void valid_Nickname() {
+        //arrange
+        NicknameRequest nicknameRequest = new NicknameRequest("junslee");
+        given(userRepository.existsByNickname("junslee")).willReturn(false);
+
+        //act and assert
+        assertDoesNotThrow(() ->
+                userService.validateNickname(nicknameRequest)
         );
 
         verify(userRepository, times(1))
