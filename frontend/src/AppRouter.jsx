@@ -7,6 +7,20 @@ import NavigationBar from './component/NavigationBar/NavigationBar';
 import FeedPage from './pages/Feed';
 import JoinPage from './pages/Join';
 import ForYouDetailPage from 'pages/ForYou/Detail';
+import axios from 'axios';
+import { getCookie } from 'utils/cookie';
+
+const getUser = async () => {
+  const jwt = getCookie('jwt');
+  const config = {
+    headers: { Authorization: `Bearer ${jwt}` },
+  };
+
+  const response = await axios.get('/api/users/me', config);
+  console.log(response.data);
+};
+
+getUser();
 
 
 function AppRouter() {
