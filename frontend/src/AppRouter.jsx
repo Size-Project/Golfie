@@ -6,6 +6,7 @@ import ErrorPage from 'pages/Error';
 import NavigationBar from './component/NavigationBar/NavigationBar';
 import FeedPage from './pages/Feed';
 import JoinPage from './pages/Join';
+import ForYouPage from './pages/ForYou';
 import ForYouDetailPage from 'pages/ForYou/Detail';
 import axios from 'axios';
 import { getCookie } from 'utils/cookie';
@@ -21,7 +22,6 @@ const getUser = async () => {
 };
 
 getUser();
-
 
 function AppRouter() {
   return (
