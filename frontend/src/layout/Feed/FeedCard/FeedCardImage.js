@@ -10,7 +10,7 @@ import { ReactComponent as IconBookmark } from '../../../assets/images/svg/ic-bo
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 SwiperCore.use([Navigation, Pagination]);
 
-const FeedCardImage = () => {
+const FeedCardImage = ({ imageUrls }) => {
   const [bookmark, setBookmark] = useState(false);
 
   const handleBookmark = () => {
@@ -48,10 +48,12 @@ const FeedCardImage = () => {
             <IconBookmark />
           </div>
         </div>
-        {[1, 2, 3].map((item, idx) => (
-          <SwiperSlide>
+        {imageUrls.map((image, imageIdx) => (
+          <SwiperSlide key={imageIdx}>
             <div className="content-image-wrap">
-              <div className="content-image"></div>
+              <div className="content-image">
+                <img src={image} />
+              </div>
               <div className="content-etc" />
             </div>
           </SwiperSlide>

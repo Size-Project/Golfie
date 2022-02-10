@@ -8,6 +8,7 @@ import FeedPage from './pages/Feed';
 import JoinPage from './pages/Join';
 import ForYouPage from './pages/ForYou';
 import ForYouDetailPage from 'pages/ForYou/Detail';
+import FeedCreatePage from './pages/Feed/create';
 import axios from 'axios';
 import { getCookie } from 'utils/cookie';
 
@@ -28,6 +29,7 @@ function AppRouter() {
     <BrowserRouter>
       <Routes>
         <Route path="/join" element={<JoinPage />} />
+        <Route path="/feed/create" element={<FeedCreatePage />} />
         <Route path="/feed" element={<FeedPage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/account/login/*" element={<LoginPage />} />

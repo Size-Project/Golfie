@@ -4,13 +4,14 @@ import FeedCardUser from './FeedCardUser';
 import FeedCardImage from './FeedCardImage';
 import FeedCardContent from './FeedCardContent';
 
-const FeedCard = () => {
+const FeedCard = ({ feed }) => {
+  const { author, content, following, imageUrls } = feed;
   return (
     <StyledFeedCard>
-      <FeedCardUser />
+      <FeedCardUser author={author} following={following} />
       <div className="content-wrap">
-        <FeedCardImage />
-        <FeedCardContent />
+        <FeedCardImage imageUrls={imageUrls} />
+        <FeedCardContent content={content} />
       </div>
     </StyledFeedCard>
   );
