@@ -46,7 +46,7 @@ const SignupPage = (a) => {
       }
     }
     if (code !== null) readySignup();
-  }, []);
+  });
 
   return (
     <div>
