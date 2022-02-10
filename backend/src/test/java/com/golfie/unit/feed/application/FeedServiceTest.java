@@ -7,10 +7,13 @@ import com.golfie.common.s3.S3Uploader;
 import com.golfie.feed.application.FeedService;
 import com.golfie.feed.domain.Feed;
 import com.golfie.feed.domain.FeedRepository;
+import com.golfie.feed.domain.like.Likes;
 import com.golfie.feed.presentation.dto.FeedCreateRequest;
 import com.golfie.feed.presentation.dto.FeedResponse;
 import com.golfie.user.domain.User;
 import com.golfie.user.domain.UserRepository;
+import com.golfie.user.domain.profile.BasicProfile;
+import com.golfie.user.domain.profile.SocialProfile;
 import com.golfie.user.exception.UserNotFoundException;
 import org.apache.http.entity.ContentType;
 import org.junit.jupiter.api.DisplayName;
@@ -118,6 +121,55 @@ public class FeedServiceTest {
                 .findAllFeeds(any());
         verify(userRepository, times(1))
                 .findById(1L);
+    }
+
+    @DisplayName("피드 좋아요를 등록한다.")
+    @Test
+    void do_Like_Feed() {
+        //arrange
+        BasicProfile basicProfile = new BasicProfile("junslee", "hello");
+        SocialProfile socialProfile = TestUserInfo.create().toSocialProfile();
+        User user = new User(1L, basicProfile, socialProfile);
+        Feed feed = new Feed();
+
+        given(userRepository.findById(any())).willReturn(Optional.of(user));
+        given(feedRepository.findById(any())).willReturn(Optional.of(feed));
+
+        //act
+        feedService.doLike(CurrentUser.of(1L, Authority.MEMBER), 1L);
+
+        //assert
+        assertThat(feed.getLikeCount()).isEqualTo(1);
+
+        verify(userRepository, times(1))
+                .findById(any());
+        verify(feedRepository, times(1))
+                .findById(any());
+    }
+
+    @DisplayName("피드 좋아요를 취소한다.")
+    @Test
+    void undo_Like_Feed() {
+        //arrange
+        BasicProfile basicProfile = new BasicProfile("junslee", "hello");
+        SocialProfile socialProfile = TestUserInfo.create().toSocialProfile();
+        User user = new User(1L, basicProfile, socialProfile);
+        Feed feed = new Feed();
+        feed.doLike(Likes.of(feed, user));
+
+        given(userRepository.findById(any())).willReturn(Optional.of(user));
+        given(feedRepository.findById(any())).willReturn(Optional.of(feed));
+
+        //act
+        feedService.undoLike(CurrentUser.of(1L, Authority.MEMBER), 1L);
+
+        //assert
+        assertThat(feed.getLikeCount()).isEqualTo(0);
+
+        verify(userRepository, times(1))
+                .findById(any());
+        verify(feedRepository, times(1))
+                .findById(any());
     }
 
     @DisplayName("존재하지 않는 회원의 경우 예외를 반환한다.")

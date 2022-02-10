@@ -22,8 +22,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserProfileResponse findUser(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+        User user = findUserById(userId);
         return UserProfileResponse.of(user);
     }
 
@@ -36,19 +35,20 @@ public class UserService {
 
     @Transactional
     public void follow(CurrentUser currentUser, Long userId) {
-        User user = userRepository.findById(currentUser.getId())
-                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
-        User other = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+        User user = findUserById(currentUser.getId());
+        User other = findUserById(userId);
         user.addFollowing(other);
     }
 
     @Transactional
     public void unFollow(CurrentUser currentUser, Long userId) {
-        User user = userRepository.findById(currentUser.getId())
-                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
-        User other = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+        User user = findUserById(currentUser.getId());
+        User other = findUserById(userId);
         user.stopFollowing(other);
+    }
+
+    private User findUserById(Long id) {
+        return userRepository.findById(id)
+                    .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
     }
 }

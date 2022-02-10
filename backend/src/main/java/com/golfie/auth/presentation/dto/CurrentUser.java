@@ -19,7 +19,4 @@ public class CurrentUser {
         return this.id;
     }
 
-    public boolean isGuest() {
-        return authority == Authority.GUEST;
-    }
 }

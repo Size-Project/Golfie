@@ -105,7 +105,8 @@ public class UserControllerTest extends DocumentationBase {
         doNothing().when(userService).follow(any(), any());
 
         //act
-        ResultActions result = mockMvc.perform(put("/api/follow?userId=" + userId)
+        ResultActions result = mockMvc.perform(post("/api/users/follow")
+                .param("userId", String.valueOf(userId))
                 .header(AUTHORIZATION, token));
 
         //assert
@@ -131,7 +132,8 @@ public class UserControllerTest extends DocumentationBase {
         doNothing().when(userService).unFollow(any(), any());
 
         //act
-        ResultActions result = mockMvc.perform(put("/api/unfollow?userId=" + userId)
+        ResultActions result = mockMvc.perform(delete("/api/users/unfollow")
+                .param("userId", String.valueOf(userId))
                 .header(AUTHORIZATION, token));
 
         //assert
@@ -155,7 +157,8 @@ public class UserControllerTest extends DocumentationBase {
         long userId = 2L;
 
         //act
-        ResultActions result = mockMvc.perform(put("/api/follow?userId=" + userId)
+        ResultActions result = mockMvc.perform(post("/api/users/follow")
+                .param("userId", String.valueOf(userId))
                 .header(AUTHORIZATION, token));
 
         //assert
@@ -178,7 +181,8 @@ public class UserControllerTest extends DocumentationBase {
         long userId = 2L;
 
         //act
-        ResultActions result = mockMvc.perform(put("/api/unfollow?userId=" + userId)
+        ResultActions result = mockMvc.perform(delete("/api/users/unfollow")
+                .param("userId", String.valueOf(userId))
                 .header(AUTHORIZATION, token));
 
         //assert

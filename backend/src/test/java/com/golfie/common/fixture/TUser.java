@@ -103,7 +103,7 @@ public class TUser {
                 .multiPart("feedImages", new File(ClassLoader.getSystemResource("testImage.png").getFile()))
                 .multiPart("content", "testContent")
             .when()
-                .request(Method.POST, "/api/feeds/save")
+                .request(Method.POST, "/api/feeds")
             .then().log().all()
                 .statusCode(200);
         return this;
@@ -125,6 +125,22 @@ public class TUser {
                     .jsonPath().getList(".", FeedResponse.class);
     }
 
+    public List<FeedResponse> readAllMyFeeds() {
+        return RestAssured
+                .given().log().all()
+                    .port(port)
+                    .contentType(ContentType.JSON)
+                    .auth()
+                    .oauth2(accessToken)
+                .when()
+                    .request(Method.GET, "/api/feeds/me?size=2")
+                .then().log().all()
+                    .statusCode(200)
+                    .extract()
+                    .body()
+                    .jsonPath().getList(".", FeedResponse.class);
+    }
+
     public void follow(Long id) {
         RestAssured
             .given().log().all()
@@ -132,7 +148,7 @@ public class TUser {
                 .auth()
                 .oauth2(accessToken)
             .when()
-                .request(Method.PUT, "/api/follow?userId=" + id)
+                .request(Method.POST, "/api/users/follow?userId=" + id)
             .then().log().all()
                 .statusCode(200);
     }
@@ -144,9 +160,33 @@ public class TUser {
                 .auth()
                 .oauth2(accessToken)
             .when()
-                .request(Method.PUT, "/api/unfollow?userId=" + id)
+                .request(Method.DELETE, "/api/users/unfollow?userId=" + id)
             .then().log().all()
                 .statusCode(200);
+    }
+
+    public void likeFeed(Long id) {
+        RestAssured
+                .given().log().all()
+                    .port(port)
+                    .auth()
+                    .oauth2(accessToken)
+                .when()
+                    .request(Method.POST, "/api/feeds/like?feedId=" + id)
+                .then().log().all()
+                    .statusCode(200);
+    }
+
+    public void unLikeFeed(Long id) {
+        RestAssured
+                .given().log().all()
+                    .port(port)
+                    .auth()
+                    .oauth2(accessToken)
+                .when()
+                    .request(Method.DELETE, "/api/feeds/like/undo?feedId=" + id)
+                .then().log().all()
+                    .statusCode(200);
     }
 
     public Long getId() {
@@ -160,4 +200,5 @@ public class TUser {
     public String getAccessToken() {
         return accessToken;
     }
+
 }

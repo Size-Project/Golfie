@@ -50,13 +50,13 @@ public class FeedAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("로그인한 사용자가 피드를 등록한다.")
     @Test
-    void memberUser_Saves_A_New_Feed()  {
+    void memberUser_Saves_A_New_Feed() {
         member.createFeed();
     }
 
     @DisplayName("로그인한 사용자가 다른 사용자들이 등록한 모든 피드를 조회한다.")
     @Test
-    void memberUser_Reads_All_Feeds()  {
+    void memberUser_Reads_All_Feeds() {
         List<FeedResponse> feedResponses = member.readAllFeeds();
 
         assertThat(feedResponses)
@@ -67,7 +67,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("로그인한 사용자가 다른 사용자들이 등록한 모든 피드를 조회한다. - 팔로잉 여부 true")
     @Test
-    void memberUser_Reads_All_Following_User_Feeds()  {
+    void memberUser_Reads_All_Following_User_Feeds() {
         member.follow(other1.getId());
         member.follow(other2.getId());
         List<FeedResponse> feedResponses = member.readAllFeeds();
@@ -80,7 +80,7 @@ public class FeedAcceptanceTest extends AcceptanceTest {
 
     @DisplayName("로그인하지 않은 사용자가 모든 피드를 조회한다.")
     @Test
-    void guestUser_Reads_All_Feeds()  {
+    void guestUser_Reads_All_Feeds() {
         List<FeedResponse> feedResponses = guest.readAllFeeds();
 
         assertThat(feedResponses)
@@ -89,4 +89,30 @@ public class FeedAcceptanceTest extends AcceptanceTest {
                 .containsExactly(false, false);
     }
 
+    @DisplayName("로그인한 사용자가 자신이 등록한 모든 피드를 조회한다.")
+    @Test
+    void memberUser_Reads_All_My_Feeds() {
+        member.createFeed();
+        member.createFeed();
+        List<FeedResponse> feedResponses = member.readAllMyFeeds();
+
+        String authorName = member.getNickname() + member.getId();
+        assertThat(feedResponses)
+                .hasSize(2)
+                .extracting("author.nickname")
+                .containsExactly(authorName, authorName);
+    }
+
+    @DisplayName("로그인한 사용자가 피드 좋아요를 등록한다.")
+    @Test
+    void memberUser_Do_Like_A_Feed() {
+        member.likeFeed(1L);
+    }
+
+    @DisplayName("로그인한 사용자가 피드 좋아요를 취소한다.")
+    @Test
+    void memberUser_Undo_Like_A_Feed() {
+        member.likeFeed(1L);
+        member.unLikeFeed(1L);
+    }
 }
