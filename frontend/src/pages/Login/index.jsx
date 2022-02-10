@@ -35,7 +35,7 @@ const LoginPage = () => {
       }
       login();
     }
-  }, []);
+  });
 
   return (
     <Wrapper>
