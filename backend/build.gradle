@@ -38,14 +38,14 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 
 //    implementation 'org.flywaydb:flyway-core'
-//    runtimeOnly 'mysql:mysql-connector-java'
-//    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+    runtimeOnly 'mysql:mysql-connector-java'
     runtimeOnly 'com.h2database:h2'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'io.rest-assured:rest-assured'
 
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
     implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.3.1'
