@@ -10,7 +10,7 @@ import { ReactComponent as IconBookmark } from '../../../assets/images/svg/ic-bo
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 SwiperCore.use([Navigation, Pagination]);
 
-const FeedCardImage = ({ imageUrls }) => {
+const FeedCardImage = ({ imageUrls, likeCount }) => {
   const [bookmark, setBookmark] = useState(false);
 
   const handleBookmark = () => {
@@ -32,14 +32,14 @@ const FeedCardImage = ({ imageUrls }) => {
               <div className="count-img">
                 <IconHeart />
               </div>
-              <div className="count-num">{(1234).toLocaleString()}</div>
+              <div className="count-num">{likeCount.toLocaleString()}</div>
             </div>
-            <div className="count-wrap">
-              <div className="count-img">
-                <IconMessage />
-              </div>
-              <div className="count-num">{(1234).toLocaleString()}</div>
-            </div>
+            {/*<div className="count-wrap">*/}
+            {/*  <div className="count-img">*/}
+            {/*    <IconMessage />*/}
+            {/*  </div>*/}
+            {/*  <div className="count-num">{(1234).toLocaleString()}</div>*/}
+            {/*</div>*/}
           </div>
           <div
             className={`bookmark-img ${String(bookmark)}`}

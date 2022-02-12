@@ -9,6 +9,7 @@ const FeedCardContent = ({ content }) => {
   const handleLike = () => {
     setLike(!like);
   };
+
   return (
     <StyledFeedCardContent>
       <div className="content-text">{content}</div>

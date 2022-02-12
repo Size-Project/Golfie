@@ -8,7 +8,6 @@ const FeedCardUser = ({ author, following }) => {
     setFollow(!follow);
   };
 
-  console.log(!!author.imageUrl);
   return (
     <StyledFeedCardUser>
       <div className="user-info-wrap">
@@ -20,7 +19,7 @@ const FeedCardUser = ({ author, following }) => {
         <div className="user-info">
           <div className="user-name">{author.nickname}</div>
           <div className="user-detail">
-            {author.ageRange}세 / 대학생 / 120타
+            {author.ageRange}세 / {author.job} / {author.averageHit}타
           </div>
         </div>
       </div>

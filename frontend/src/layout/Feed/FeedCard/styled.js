@@ -169,7 +169,7 @@ export const StyledFeedCardImage = styled.div`
     .content-image {
       position: relative;
       width: 100%;
-      height: fit-content;
+      height: 335px;
       overflow: hidden;
 
       img {
