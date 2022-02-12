@@ -11,29 +11,56 @@ endif::[]
 :nofooter:
 
 == 로그인
-==== Request
+==== Request Fields
+include::{snippets}/social-login/request-fields.adoc[]
+
+==== Request HTTP Example
 include::{snippets}/social-login/http-request.adoc[]
 
-==== Response
+==== Response Data Fields
+include::{snippets}/social-login/response-fields.adoc[]
+
+==== Response HTTP Example
 include::{snippets}/social-login/http-response.adoc[]
 
+
+
 == 회원가입 준비
-==== Request
+==== Request HTTP Example
 include::{snippets}/social-signup-ready/http-request.adoc[]
 
-==== Response
+==== Response Data Fields
+include::{snippets}/social-signup-ready/response-fields.adoc[]
+
+==== Response HTTP Example
 include::{snippets}/social-signup-ready/http-response.adoc[]
 
+
+
 == 회원가입 완료
-==== Request
+==== Request Fields
+include::{snippets}/social-signup-complete/request-fields.adoc[]
+
+==== Request HTTP Example
 include::{snippets}/social-signup-complete/http-request.adoc[]
 
-==== Response
+==== Response Data Fields
+include::{snippets}/social-signup-complete/response-fields.adoc[]
+
+==== Response HTTP Example
 include::{snippets}/social-signup-complete/http-response.adoc[]
 
+
+
 == 회원가입 준비 - 이미 가입된 유저 예외
-==== Request
+==== Request Fields
+include::{snippets}/social-signup-validate/request-fields.adoc[]
+
+==== Request HTTP Example
 include::{snippets}/social-signup-validate/http-request.adoc[]
 
-==== Response
+==== Response Data Fields
+include::{snippets}/social-signup-validate/response-fields.adoc[]
+
+==== Response HTTP Example
 include::{snippets}/social-signup-validate/http-response.adoc[]

@@ -6,12 +6,13 @@ import com.golfie.common.fixture.TestUserInfo;
 import com.golfie.user.application.UserService;
 import com.golfie.user.domain.User;
 import com.golfie.user.domain.UserRepository;
+import com.golfie.user.domain.profile.BasicProfile;
 import com.golfie.user.exception.DuplicatedNicknameException;
 import com.golfie.user.exception.UserNotFoundException;
 import com.golfie.user.presentation.dto.NicknameRequest;
 import com.golfie.user.presentation.dto.UserProfileResponse;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -34,22 +35,35 @@ public class UserServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    private User userA;
+    private User userB;
+
+    @BeforeEach
+    void setup() {
+        userA = new User(1L, new BasicProfile("userA", "jobA", 100),
+                TestUserInfo.create().toSocialProfile());
+        userB = new User(1L, new BasicProfile("userB", "jobB", 100),
+                TestUserInfo.create().toSocialProfile());
+    }
+
     @DisplayName("사용자 프로필 정보를 반환한다.")
     @Test
     void find_User_Profile() {
         //arrange
-        User user = new User(1L, TestUserInfo.create().toSocialProfile());
-        given(userRepository.findById(1L)).willReturn(Optional.of(user));
+        given(userRepository.findById(1L)).willReturn(Optional.of(userA));
 
         //act
         UserProfileResponse result = userService.findUser(1L);
 
         UserProfileResponse userProfileResponse = UserProfileResponse.builder()
                 .id("1")
+                .nickname("userA")
                 .imageUrl("profileImageUrl")
                 .email("test@test.com")
                 .gender("MALE")
                 .ageRange("20-29")
+                .job("jobA")
+                .averageHit(100)
                 .build();
 
         //assert
@@ -65,8 +79,6 @@ public class UserServiceTest {
     @Test
     void follow() {
         //arrange
-        User userA = new User(1L, TestUserInfo.create().toSocialProfile());
-        User userB = new User(2L, TestUserInfo.create().toSocialProfile());
         given(userRepository.findById(1L)).willReturn(Optional.of(userA));
         given(userRepository.findById(2L)).willReturn(Optional.of(userB));
 
@@ -87,8 +99,6 @@ public class UserServiceTest {
     @Test
     void unFollow() {
         //arrange
-        User userA = new User(1L, TestUserInfo.create().toSocialProfile());
-        User userB = new User(2L, TestUserInfo.create().toSocialProfile());
         userA.addFollowing(userB);
 
         given(userRepository.findById(1L)).willReturn(Optional.of(userA));

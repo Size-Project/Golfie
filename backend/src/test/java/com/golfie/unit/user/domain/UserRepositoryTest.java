@@ -35,7 +35,7 @@ public class UserRepositoryTest {
     @Test
     void existsByNickname() {
         SocialProfile socialProfile = TestUserInfo.create().toSocialProfile();
-        BasicProfile basicProfile = new BasicProfile("junslee", "hello");
+        BasicProfile basicProfile = new BasicProfile("junslee");
         User saveUser = new User(basicProfile, socialProfile);
         userRepository.save(saveUser);
 

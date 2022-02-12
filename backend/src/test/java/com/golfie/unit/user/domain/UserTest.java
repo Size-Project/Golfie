@@ -1,6 +1,7 @@
 package com.golfie.unit.user.domain;
 
 import com.golfie.common.fixture.TestUserInfo;
+import com.golfie.feed.domain.Feed;
 import com.golfie.user.domain.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +20,13 @@ public class UserTest {
     void setup() {
         userA = new User(TestUserInfo.create().toSocialProfile());
         userB = new User(TestUserInfo.create().toSocialProfile());
+    }
+
+    @DisplayName("피드를 등록한다.")
+    @Test
+    void addFeed() {
+        userA.addFeed(new Feed());
+        assertThat(userA.getFeedCount()).isEqualTo(1);
     }
 
     @DisplayName("유저 A는 유저 B를 팔로우한다.")

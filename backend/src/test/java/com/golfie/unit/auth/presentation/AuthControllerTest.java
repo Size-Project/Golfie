@@ -29,6 +29,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -36,8 +37,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest({
-    AuthController.class,
-    JwtTokenProvider.class
+        AuthController.class,
+        JwtTokenProvider.class
 })
 class AuthControllerTest extends DocumentationBase {
     public static final String CODE = "CODE";
@@ -83,7 +84,7 @@ class AuthControllerTest extends DocumentationBase {
                 preprocessResponse(prettyPrint()),
                 requestFields(
                         fieldWithPath("code").type(STRING).description("인증코드"),
-                        fieldWithPath("providerName").type(STRING).description("프로바이더이름")
+                        fieldWithPath("providerName").type(STRING).description("소셜 프로바이더 이름(KAKAO 또는 NAVER)")
                 ),
                 responseFields(
                         fieldWithPath("accessToken").type(STRING).description("토큰")
@@ -130,7 +131,7 @@ class AuthControllerTest extends DocumentationBase {
                         fieldWithPath("profileImage").type(STRING).description("프로필이미지"),
                         fieldWithPath("ageRange").type(STRING).description("연령대"),
                         fieldWithPath("gender").type(STRING).description("성별"),
-                        fieldWithPath("providerName").type(STRING).description("소셜 프로바이더")
+                        fieldWithPath("providerName").type(STRING).description("소셜 프로바이더 이름(KAKAO 또는 NAVER)")
                 )
         ));
     }
@@ -146,7 +147,11 @@ class AuthControllerTest extends DocumentationBase {
                 "MALE",
                 "TEST",
                 "junslee",
-                "hello"
+                "job",
+                100,
+                "100-120",
+                "20-29",
+                "분위기"
         );
         TokenDto tokenDto = TokenDto.of(jwtTokenProvider.createToken("payload"));
         given(authService.signUp(any())).willReturn(tokenDto);
@@ -171,6 +176,19 @@ class AuthControllerTest extends DocumentationBase {
         result.andDo(document("social-signup-complete",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
+                requestFields(
+                        fieldWithPath("email").type(STRING).description("이메일"),
+                        fieldWithPath("profileImage").type(STRING).description("소셜 계정 프로필 이미지"),
+                        fieldWithPath("ageRange").type(STRING).description("연령대"),
+                        fieldWithPath("gender").type(STRING).description("성별"),
+                        fieldWithPath("providerName").type(STRING).description("소셜 프로바이더 이름(KAKAO 또는 NAVER)"),
+                        fieldWithPath("nickname").type(STRING).description("닉네임"),
+                        fieldWithPath("job").type(STRING).description("직업"),
+                        fieldWithPath("averageHit").type(NUMBER).description("평균타수"),
+                        fieldWithPath("preferredHit").type(STRING).description("함께하고 싶은 평균 타수"),
+                        fieldWithPath("preferredAge").type(STRING).description("함께하고 싶은 연령대"),
+                        fieldWithPath("preferredMood").type(STRING).description("좋아하는 분위기")
+                ),
                 responseFields(
                         fieldWithPath("accessToken").type(STRING).description("토큰")
                 )
@@ -207,7 +225,7 @@ class AuthControllerTest extends DocumentationBase {
                 preprocessResponse(prettyPrint()),
                 requestFields(
                         fieldWithPath("code").type(STRING).description("인증코드"),
-                        fieldWithPath("providerName").type(STRING).description("프로바이더이름")
+                        fieldWithPath("providerName").type(STRING).description("소셜 프로바이더 이름(KAKAO 또는 NAVER)")
                 ),
                 responseFields(
                         fieldWithPath("code").type(STRING).description("에러코드"),
@@ -216,4 +234,32 @@ class AuthControllerTest extends DocumentationBase {
         ));
     }
 
+    @DisplayName("유효하지 않은 요청은 예외를 반환한다.")
+    @Test
+    void too_Long_Job_Name_SignUpRequest() throws Exception {
+        //arrange
+        SignUpRequest signUpRequest = new SignUpRequest(
+                "test@test.com",
+                "testImageUrl",
+                "20-29",
+                "MALE",
+                "TEST",
+                "junslee",
+                "가나다라마바사아자차카타파하가나다라마바사아자차카타파하",
+                100,
+                "100-120",
+                "20-29",
+                "분위기"
+        );
+        TokenDto tokenDto = TokenDto.of(jwtTokenProvider.createToken("payload"));
+        given(authService.signUp(any())).willReturn(tokenDto);
+
+        //act
+        ResultActions result = mockMvc.perform(post("/api/signup/oauth")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(signUpRequest)));
+
+        //assert
+        result.andExpect(status().is4xxClientError());
+    }
 }

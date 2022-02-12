@@ -6,21 +6,31 @@ import javax.persistence.Embeddable;
 public class BasicProfile {
 
     private String nickname;
-    private String bio;
+    private String job;
+    private Integer averageHit;
 
     public BasicProfile() {
     }
 
-    public BasicProfile(String nickname, String bio) {
+    public BasicProfile(String nickname, String job, Integer averageHit) {
         this.nickname = nickname;
-        this.bio = bio;
+        this.job = job;
+        this.averageHit = averageHit;
+    }
+
+    public BasicProfile(String nickname) {
+        this(nickname, null, null);
     }
 
     public String getNickname() {
         return nickname;
     }
 
-    public String getBio() {
-        return bio;
+    public String getJob() {
+        return job;
+    }
+
+    public Integer getAverageHit() {
+        return averageHit;
     }
 }

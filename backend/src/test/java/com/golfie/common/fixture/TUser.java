@@ -56,7 +56,11 @@ public class TUser {
                 "MALE",
                 "TEST",
                 nickname + id,
-                "hello my name is " + nickname + id
+                "job",
+                100,
+                "100-120",
+                "20-29",
+                "분위기"
         );
     }
 

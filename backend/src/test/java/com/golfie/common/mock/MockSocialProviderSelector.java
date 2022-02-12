@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Profile("test")
 @Component
-public class TestSocialProviderSelector implements ProviderSelectorFactory {
+public class MockSocialProviderSelector implements ProviderSelectorFactory {
 
     @Override
     public OauthUserInfo getUserInfoFromSocialProvider(String code, String providerName) {

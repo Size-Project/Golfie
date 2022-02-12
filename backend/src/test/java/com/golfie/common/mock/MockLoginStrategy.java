@@ -6,7 +6,7 @@ import com.golfie.common.fixture.TestUserInfo;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TestLoginStrategy implements SocialLoginStrategy {
+public class MockLoginStrategy implements SocialLoginStrategy {
 
     @Override
     public OauthUserInfo getUserInfo(String code) {

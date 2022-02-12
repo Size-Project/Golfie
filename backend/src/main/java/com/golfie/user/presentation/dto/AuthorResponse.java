@@ -3,25 +3,20 @@ package com.golfie.user.presentation.dto;
 import com.golfie.user.domain.User;
 import lombok.Builder;
 
-public class UserProfileResponse {
+public class AuthorResponse {
     private String id;
     private String nickname;
-    private String email;
     private String imageUrl;
     private String ageRange;
     private String gender;
     private String job;
     private int averageHit;
-    private int followerCount;
-    private int followingCount;
-    private int joinCount;
-    private int feedCount;
 
-    public UserProfileResponse() {
+    public AuthorResponse() {
     }
 
     @Builder
-    public UserProfileResponse(
+    public AuthorResponse(
             String id,
             String nickname,
             String email,
@@ -29,27 +24,18 @@ public class UserProfileResponse {
             String ageRange,
             String gender,
             String job,
-            int averageHit,
-            int followerCount,
-            int followingCount,
-            int joinCount,
-            int feedCount) {
+            int averageHit) {
         this.id = id;
         this.nickname = nickname;
-        this.email = email;
         this.imageUrl = imageUrl;
         this.ageRange = ageRange;
         this.gender = gender;
         this.job = job;
         this.averageHit = averageHit;
-        this.followerCount = followerCount;
-        this.followingCount = followingCount;
-        this.joinCount = joinCount;
-        this.feedCount = feedCount;
     }
 
-    public static UserProfileResponse of(User user) {
-        return UserProfileResponse.builder()
+    public static AuthorResponse of(User user) {
+        return AuthorResponse.builder()
                 .id(user.getId().toString())
                 .nickname(user.getNickname())
                 .email(user.getEmail())
@@ -58,10 +44,6 @@ public class UserProfileResponse {
                 .gender(user.getGender().name())
                 .job(user.getJob())
                 .averageHit(user.getAverageHit())
-                .followerCount(user.getFollowerCount())
-                .followingCount(user.getFollowingCount())
-                .joinCount(user.getJoiningCount())
-                .feedCount(user.getFeeds().size())
                 .build();
     }
 
@@ -71,10 +53,6 @@ public class UserProfileResponse {
 
     public String getNickname() {
         return nickname;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     public String getImageUrl() {
@@ -97,19 +75,4 @@ public class UserProfileResponse {
         return averageHit;
     }
 
-    public int getFollowerCount() {
-        return followerCount;
-    }
-
-    public int getFollowingCount() {
-        return followingCount;
-    }
-
-    public int getJoinCount() {
-        return joinCount;
-    }
-
-    public int getFeedCount() {
-        return feedCount;
-    }
 }

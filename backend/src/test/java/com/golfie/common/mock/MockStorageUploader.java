@@ -10,7 +10,7 @@ import java.util.List;
 
 @Profile("test")
 @Component
-public class TestUploader implements StorageUploader {
+public class MockStorageUploader implements StorageUploader {
 
     @Override
     public List<String> uploadFeedImages(Long userId, List<MultipartFile> multipartFiles) throws IOException {

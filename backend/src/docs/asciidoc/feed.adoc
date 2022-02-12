@@ -11,43 +11,62 @@ endif::[]
 :nofooter:
 
 == 피드 등록
-==== Request
+==== Request HTTP Example
 include::{snippets}/feed-create/http-request.adoc[]
 
-==== Response
+==== Response HTTP Example
 include::{snippets}/feed-create/http-response.adoc[]
 
+
+
 == 피드 등록 - 비로그인 사용자 예외
-==== Request
+==== Request HTTP Example
 include::{snippets}/feed-create-guest-user-exception/http-request.adoc[]
 
-==== Response
+==== Response Data Fields
+include::{snippets}/feed-create-guest-user-exception/response-fields.adoc[]
+
+==== Response HTTP Example
 include::{snippets}/feed-create-guest-user-exception/http-response.adoc[]
 
+
+
 == 모든 피드 조회
-==== Request
+==== Request HTTP Example
 include::{snippets}/feed-read-all/http-request.adoc[]
 
-==== Response
+==== Response Data Fields
+include::{snippets}/feed-read-all/response-fields.adoc[]
+
+==== Response HTTP Example
 include::{snippets}/feed-read-all/http-response.adoc[]
 
+
+
 == 내 피드 조회
-==== Request
+==== Request HTTP Example
 include::{snippets}/feed-read-all-me/http-request.adoc[]
 
-==== Response
+==== Response Data Fields
+include::{snippets}/feed-read-all-me/response-fields.adoc[]
+
+==== Response HTTP Example
 include::{snippets}/feed-read-all-me/http-response.adoc[]
 
+
+
 == 좋아요 등록
-==== Request
+==== Request HTTP Example
 include::{snippets}/feed-like/http-request.adoc[]
 
-==== Response
+==== Response HTTP Example
 include::{snippets}/feed-like/http-response.adoc[]
 
+
+
 == 좋아요 취소
-==== Request
+==== Request HTTP Example
 include::{snippets}/feed-unlike/http-request.adoc[]
 
-==== Response
+==== Response HTTP Example
 include::{snippets}/feed-unlike/http-response.adoc[]

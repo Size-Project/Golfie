@@ -48,7 +48,7 @@ public class FeedService {
                 .orElseGet(GuestUser::new);
 
         return feeds.stream()
-                .map(feed -> FeedResponse.of(feed, user.isFollowing(feed.getAuthor())))
+                .map(feed -> FeedResponse.of(feed, user.isFollowing(feed.getAuthor()), feed.isLikedBy(user)))
                 .collect(Collectors.toList());
     }
 
@@ -58,7 +58,7 @@ public class FeedService {
         List<Feed> feeds = user.getFeeds();
 
         return feeds.stream()
-                .map(feed -> FeedResponse.of(feed, user.isFollowing(feed.getAuthor())))
+                .map(feed -> FeedResponse.of(feed, user.isFollowing(feed.getAuthor()), feed.isLikedBy(user)))
                 .collect(Collectors.toList());
     }
 
