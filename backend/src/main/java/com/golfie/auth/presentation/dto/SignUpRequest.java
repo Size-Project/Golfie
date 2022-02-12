@@ -17,13 +17,16 @@ public class SignUpRequest {
     @Length(min = 2, max = 20)
     @Pattern(regexp = "^[가-힣a-zA-Z0-9]+$")
     private String nickname;
-    @Length(max = 30)
+    @Length(max = 20)
     private String job;
-    @Max(144) @Min(61)
+    @Max(145) @Min(61)
     private int averageHit;
 
+    @NotNull
     private String preferredHit;
+    @NotNull
     private String preferredAge;
+    @NotNull
     private String preferredMood;
 
     public SignUpRequest() {

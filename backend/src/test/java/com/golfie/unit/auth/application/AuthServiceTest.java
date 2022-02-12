@@ -143,7 +143,6 @@ class AuthServiceTest {
         SocialProfile socialProfile = signUpRequest.toSocialProfile();
         BasicProfile basicProfile = signUpRequest.toBasicProfile();
         Style style = new Style(1L, "100-120", "20-29", "분위기");
-
         User user = new User(1L, basicProfile, socialProfile, style);
 
         given(userRepository.findByEmailAndProviderName(

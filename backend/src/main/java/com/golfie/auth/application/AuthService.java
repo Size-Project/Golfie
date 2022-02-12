@@ -65,6 +65,14 @@ public class AuthService {
     }
 
     private User createUser(SignUpRequest signUpRequest) {
+        Style style = findOrCreateStyle(signUpRequest);
+        SocialProfile socialProfile = signUpRequest.toSocialProfile();
+        BasicProfile basicProfile = signUpRequest.toBasicProfile();
+        User user = new User(basicProfile, socialProfile, style);
+        return userRepository.save(user);
+    }
+
+    private Style findOrCreateStyle(SignUpRequest signUpRequest) {
         Optional<Style> optionalStyle = styleRepository.findByAverageHitAndAgeRangeAndMood(
                         signUpRequest.getPreferredHit(),
                         signUpRequest.getPreferredAge(),
@@ -80,12 +88,7 @@ public class AuthService {
         } else {
             style = optionalStyle.get();
         }
-
-        SocialProfile socialProfile = signUpRequest.toSocialProfile();
-        BasicProfile basicProfile = signUpRequest.toBasicProfile();
-
-        User user = new User(basicProfile, socialProfile, style);
-        return userRepository.save(user);
+        return style;
     }
 
     private void validateRegisterUser(OauthUserInfo userInfo) {
