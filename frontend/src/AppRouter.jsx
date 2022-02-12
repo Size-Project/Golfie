@@ -8,6 +8,7 @@ import FeedPage from './pages/Feed';
 import JoinPage from './pages/Join';
 import ForYouPage from './pages/ForYou';
 import ForYouDetailPage from 'pages/ForYou/Detail';
+import MyPage from 'pages/My';
 import axios from 'axios';
 import { getCookie } from 'utils/cookie';
 
@@ -34,6 +35,7 @@ function AppRouter() {
         <Route path="/account/signup/*" element={<SignupPage />} />
         <Route path="/foryou" element={<ForYouPage />} />
         <Route path="/foryou/detail" element={<ForYouDetailPage />} />
+        <Route path="/my" element={<MyPage />} />
         <Route path="/*" element={<ErrorPage />} />
       </Routes>
       <NavigationBar />
