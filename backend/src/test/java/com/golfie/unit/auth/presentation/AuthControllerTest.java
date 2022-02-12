@@ -1,6 +1,5 @@
 package com.golfie.unit.auth.presentation;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.golfie.auth.application.AuthService;
 import com.golfie.auth.application.dto.TokenDto;
@@ -84,7 +83,7 @@ class AuthControllerTest extends DocumentationBase {
                 preprocessResponse(prettyPrint()),
                 requestFields(
                         fieldWithPath("code").type(STRING).description("인증코드"),
-                        fieldWithPath("providerName").type(STRING).description("프로바이더이름")
+                        fieldWithPath("providerName").type(STRING).description("소셜 프로바이더 이름(KAKAO 또는 NAVER)")
                 ),
                 responseFields(
                         fieldWithPath("accessToken").type(STRING).description("토큰")
@@ -131,7 +130,7 @@ class AuthControllerTest extends DocumentationBase {
                         fieldWithPath("profileImage").type(STRING).description("프로필이미지"),
                         fieldWithPath("ageRange").type(STRING).description("연령대"),
                         fieldWithPath("gender").type(STRING).description("성별"),
-                        fieldWithPath("providerName").type(STRING).description("소셜 프로바이더")
+                        fieldWithPath("providerName").type(STRING).description("소셜 프로바이더 이름(KAKAO 또는 NAVER)")
                 )
         ));
     }
@@ -148,7 +147,10 @@ class AuthControllerTest extends DocumentationBase {
                 "TEST",
                 "junslee",
                 "job",
-                100
+                100,
+                "100-120",
+                "20-29",
+                "분위기"
         );
         TokenDto tokenDto = TokenDto.of(jwtTokenProvider.createToken("payload"));
         given(authService.signUp(any())).willReturn(tokenDto);
@@ -178,10 +180,13 @@ class AuthControllerTest extends DocumentationBase {
                         fieldWithPath("profileImage").type(STRING).description("소셜 계정 프로필 이미지"),
                         fieldWithPath("ageRange").type(STRING).description("연령대"),
                         fieldWithPath("gender").type(STRING).description("성별"),
-                        fieldWithPath("providerName").type(STRING).description("프로바이더 이름"),
+                        fieldWithPath("providerName").type(STRING).description("소셜 프로바이더 이름(KAKAO 또는 NAVER)"),
                         fieldWithPath("nickname").type(STRING).description("닉네임"),
                         fieldWithPath("job").type(STRING).description("직업"),
-                        fieldWithPath("averageHit").type(NUMBER).description("평균타수")
+                        fieldWithPath("averageHit").type(NUMBER).description("평균타수"),
+                        fieldWithPath("preferredHit").type(STRING).description("함께하고 싶은 평균 타수"),
+                        fieldWithPath("preferredAge").type(STRING).description("함께하고 싶은 연령대"),
+                        fieldWithPath("preferredMood").type(STRING).description("좋아하는 분위기")
                 ),
                 responseFields(
                         fieldWithPath("accessToken").type(STRING).description("토큰")
@@ -219,7 +224,7 @@ class AuthControllerTest extends DocumentationBase {
                 preprocessResponse(prettyPrint()),
                 requestFields(
                         fieldWithPath("code").type(STRING).description("인증코드"),
-                        fieldWithPath("providerName").type(STRING).description("프로바이더이름")
+                        fieldWithPath("providerName").type(STRING).description("소셜 프로바이더 이름(KAKAO 또는 NAVER)")
                 ),
                 responseFields(
                         fieldWithPath("code").type(STRING).description("에러코드"),

@@ -36,6 +36,15 @@ public class Feed {
         this.createdAt = LocalDateTime.now();
     }
 
+    public Feed(Long id, User user, List<String> imageUrls, String content) {
+        this.id = id;
+        this.user = user;
+        this.imageUrls = imageUrls;
+        this.content = content;
+        this.likes = new ArrayList<>();
+        this.createdAt = LocalDateTime.now();
+    }
+
     public Feed(User user, List<String> imageUrls, String content) {
         this.user = user;
         this.imageUrls = imageUrls;

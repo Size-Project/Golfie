@@ -7,7 +7,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class FeedResponse {
+
     private AuthorResponse author;
+    private Long id;
     private boolean following;
     private boolean liking;
     private List<String> imageUrls;
@@ -21,6 +23,7 @@ public class FeedResponse {
     @Builder
     public FeedResponse(
             AuthorResponse author,
+            Long id,
             boolean following,
             boolean liking,
             List<String> imageUrls,
@@ -29,6 +32,7 @@ public class FeedResponse {
             LocalDateTime createdAt
     ) {
         this.author = author;
+        this.id = id;
         this.following = following;
         this.liking = liking;
         this.imageUrls = imageUrls;
@@ -39,6 +43,7 @@ public class FeedResponse {
 
     public static FeedResponse of(Feed feed, boolean isFollowing, boolean isLiking) {
         return FeedResponse.builder()
+                .id(feed.getId())
                 .author(AuthorResponse.of(feed.getAuthor()))
                 .following(isFollowing)
                 .liking(isLiking)
@@ -51,6 +56,10 @@ public class FeedResponse {
 
     public AuthorResponse getAuthor() {
         return author;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public boolean isFollowing() {

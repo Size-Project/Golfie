@@ -2,7 +2,7 @@ package com.golfie.user.domain;
 
 import com.golfie.feed.domain.Feed;
 import com.golfie.rounding.domain.Rounding;
-import com.golfie.user.domain.preference.Preference;
+import com.golfie.style.domain.Style;
 import com.golfie.user.domain.profile.*;
 import javax.persistence.*;
 import java.util.*;
@@ -19,6 +19,9 @@ public class User {
 
     @Embedded
     private BasicProfile basicProfile;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Style style;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
     private final List<Feed> feeds;
@@ -45,10 +48,11 @@ public class User {
         this.joiningRounds = new HashSet<>();
     }
 
-    public User(Long id, BasicProfile basicProfile, SocialProfile socialProfile) {
+    public User(Long id, BasicProfile basicProfile, SocialProfile socialProfile, Style style) {
         this.id = id;
         this.basicProfile = basicProfile;
         this.socialProfile = socialProfile;
+        this.style = style;
         this.feeds = new ArrayList<>();
         this.following = new HashSet<>();
         this.followers = new HashSet<>();
@@ -56,16 +60,24 @@ public class User {
         this.joiningRounds = new HashSet<>();
     }
 
-    public User(SocialProfile socialProfile) {
-        this(null, new BasicProfile(), socialProfile);
+    public User(Long id, BasicProfile basicProfile, SocialProfile socialProfile) {
+        this(id, basicProfile, socialProfile, null);
+    }
+
+    public User(BasicProfile basicProfile, SocialProfile socialProfile, Style style) {
+        this(null, basicProfile, socialProfile, style);
     }
 
     public User(BasicProfile basicProfile, SocialProfile socialProfile) {
-        this(null, basicProfile, socialProfile);
+        this(null, basicProfile, socialProfile, null);
     }
 
     public User(Long id, SocialProfile socialProfile) {
-        this(id, new BasicProfile(), socialProfile);
+        this(id, new BasicProfile(), socialProfile, null);
+    }
+
+    public User(SocialProfile socialProfile) {
+        this(null, new BasicProfile(), socialProfile, null);
     }
 
     public void addFeed(Feed feed) {
@@ -153,6 +165,10 @@ public class User {
 
     public int getJoiningCount() {
         return joiningRounds.size();
+    }
+
+    public Style getStyle() {
+        return style;
     }
 
     public String toPayload() {

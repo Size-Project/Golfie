@@ -22,7 +22,7 @@ public class SignUpRequest {
     @Max(144) @Min(61)
     private int averageHit;
 
-    private int preferredHit;
+    private String preferredHit;
     private String preferredAge;
     private String preferredMood;
 
@@ -37,7 +37,10 @@ public class SignUpRequest {
             String providerName,
             String nickname,
             String job,
-            int averageHit)
+            int averageHit,
+            String preferredHit,
+            String preferredAge,
+            String preferredMood)
     {
         this.email = email;
         this.profileImage = profileImage;
@@ -47,6 +50,9 @@ public class SignUpRequest {
         this.nickname = nickname;
         this.job = job;
         this.averageHit = averageHit;
+        this.preferredHit = preferredHit;
+        this.preferredAge = preferredAge;
+        this.preferredMood = preferredMood;
     }
 
     public String getEmail() {
@@ -79,6 +85,18 @@ public class SignUpRequest {
 
     public int getAverageHit() {
         return averageHit;
+    }
+
+    public String getPreferredHit() {
+        return preferredHit;
+    }
+
+    public String getPreferredAge() {
+        return preferredAge;
+    }
+
+    public String getPreferredMood() {
+        return preferredMood;
     }
 
     public SocialProfile toSocialProfile() {

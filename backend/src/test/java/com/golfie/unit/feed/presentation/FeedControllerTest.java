@@ -87,8 +87,8 @@ public class FeedControllerTest extends DocumentationBase {
 
         User user = new User(1L, new BasicProfile("authorName", "authorJob", 100),
                 TestUserInfo.create().toSocialProfile());
-        Feed feed1 = new Feed(user, List.of("url1.png", "url2.png"), "feed content");
-        Feed feed2 = new Feed(user, List.of("url1.jpeg", "url2.jpeg"), "feed content");
+        Feed feed1 = new Feed(1L, user, List.of("url1.png", "url2.png"), "feed content");
+        Feed feed2 = new Feed(2L, user, List.of("url1.jpeg", "url2.jpeg"), "feed content");
         List<FeedResponse> feedResponses = List.of(
                 FeedResponse.of(feed1, false, false),
                 FeedResponse.of(feed2, false, false)
@@ -112,13 +112,14 @@ public class FeedControllerTest extends DocumentationBase {
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 responseFields(
-                        fieldWithPath("[].author.id").type(STRING).description("id"),
+                        fieldWithPath("[].author.id").type(STRING).description("유저 id"),
                         fieldWithPath("[].author.nickname").type(STRING).description("닉네임"),
                         fieldWithPath("[].author.imageUrl").type(STRING).description("프로필 이미지"),
                         fieldWithPath("[].author.ageRange").type(STRING).description("연령대"),
                         fieldWithPath("[].author.gender").type(STRING).description("성별"),
                         fieldWithPath("[].author.job").type(STRING).description("직업"),
                         fieldWithPath("[].author.averageHit").type(NUMBER).description("평균 타수"),
+                        fieldWithPath("[].id").type(NUMBER).description("피드 id"),
                         fieldWithPath("[].imageUrls").type(ARRAY).description("피드 이미지"),
                         fieldWithPath("[].content").type(STRING).description("피드 내용"),
                         fieldWithPath("[].following").type(BOOLEAN).description("팔로우 여부"),
@@ -174,8 +175,8 @@ public class FeedControllerTest extends DocumentationBase {
 
         User user = new User(1L, new BasicProfile("authorName", "authorJob", 100),
                 TestUserInfo.create().toSocialProfile());
-        Feed feed1 = new Feed(user, List.of("url1.png", "url2.png"), "feed content");
-        Feed feed2 = new Feed(user, List.of("url1.jpeg", "url2.jpeg"), "feed content");
+        Feed feed1 = new Feed(1L, user, List.of("url1.png", "url2.png"), "feed content");
+        Feed feed2 = new Feed(2L, user, List.of("url1.jpeg", "url2.jpeg"), "feed content");
         List<FeedResponse> feedResponses = List.of(
                 FeedResponse.of(feed1, false, false),
                 FeedResponse.of(feed2, false, false)
@@ -199,13 +200,14 @@ public class FeedControllerTest extends DocumentationBase {
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
                 responseFields(
-                        fieldWithPath("[].author.id").type(STRING).description("id"),
+                        fieldWithPath("[].author.id").type(STRING).description("유저 id"),
                         fieldWithPath("[].author.nickname").type(STRING).description("닉네임"),
                         fieldWithPath("[].author.imageUrl").type(STRING).description("프로필 이미지"),
                         fieldWithPath("[].author.ageRange").type(STRING).description("연령대"),
                         fieldWithPath("[].author.gender").type(STRING).description("성별"),
                         fieldWithPath("[].author.job").type(STRING).description("직업"),
                         fieldWithPath("[].author.averageHit").type(NUMBER).description("평균 타수"),
+                        fieldWithPath("[].id").type(NUMBER).description("피드 id"),
                         fieldWithPath("[].imageUrls").type(ARRAY).description("피드 이미지"),
                         fieldWithPath("[].content").type(STRING).description("피드 내용"),
                         fieldWithPath("[].following").type(BOOLEAN).description("팔로우 여부"),

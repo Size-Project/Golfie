@@ -7,6 +7,7 @@ import com.golfie.auth.presentation.dto.SignUpReadyRequest;
 import com.golfie.auth.presentation.dto.SignUpReadyResponse;
 import com.golfie.auth.presentation.dto.SignUpRequest;
 import com.golfie.common.fixture.TestUserInfo;
+import com.golfie.style.domain.Style;
 import com.golfie.user.domain.User;
 import com.golfie.user.domain.profile.*;
 import io.restassured.RestAssured;
@@ -47,7 +48,10 @@ public class AuthAcceptanceTest extends AcceptanceTest {
                 signUpReadyResponse.getProviderName(),
                 "junslee",
                 "job",
-                100
+                100,
+                "100-120",
+                "20-29",
+                "분위기"
         );
 
         RestAssured
@@ -118,13 +122,16 @@ public class AuthAcceptanceTest extends AcceptanceTest {
                 "TEST",
                 "junslee",
                 "job",
-                100
+                100,
+                "100-120",
+                "20-29",
+                "분위기"
         );
 
         SocialProfile socialProfile = signUpRequest.toSocialProfile();
         BasicProfile basicProfile = signUpRequest.toBasicProfile();
 
-        User target = new User(1L, basicProfile, socialProfile);
+        User target = new User(1L, basicProfile, socialProfile, new Style(1L, "100-120", "20-29", "분위기"));
 
         //act
         RestAssured
@@ -142,9 +149,9 @@ public class AuthAcceptanceTest extends AcceptanceTest {
         //assert
         User user = userRepository.findByEmailAndProviderName("test@test.com", ProviderName.TEST).get();
 
-        assertThat(user)
-                .usingRecursiveComparison()
-                .isEqualTo(target);
+        assertThat(user.getStyle().getAverageHit()).isEqualTo("100-120");
+        assertThat(user.getStyle().getAgeRange()).isEqualTo("20-29");
+        assertThat(user.getStyle().getMood()).isEqualTo("분위기");
     }
 
 }

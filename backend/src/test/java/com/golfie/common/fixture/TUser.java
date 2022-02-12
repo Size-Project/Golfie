@@ -57,7 +57,10 @@ public class TUser {
                 "TEST",
                 nickname + id,
                 "job",
-                100
+                100,
+                "100-120",
+                "20-29",
+                "분위기"
         );
     }
 
