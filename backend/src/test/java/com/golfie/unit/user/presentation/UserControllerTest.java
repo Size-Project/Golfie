@@ -24,6 +24,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -46,7 +47,7 @@ public class UserControllerTest extends DocumentationBase {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @DisplayName("유저의 프로필 정보를 가져온다.")
+    @DisplayName("유저 자신의 프로필 정보를 가져온다.")
     @Test
     void request_User_Profile() throws Exception {
         //arrange
@@ -59,6 +60,8 @@ public class UserControllerTest extends DocumentationBase {
                 .email("test@test.com")
                 .ageRange("20~29")
                 .gender("MALE")
+                .job("job")
+                .averageHit(100)
                 .build();
 
         given(userService.findUser(any())).willReturn(userProfileResponse);
@@ -90,7 +93,13 @@ public class UserControllerTest extends DocumentationBase {
                         fieldWithPath("email").type(STRING).description("이메일"),
                         fieldWithPath("imageUrl").type(STRING).description("프로필 이미지"),
                         fieldWithPath("ageRange").type(STRING).description("연령대"),
-                        fieldWithPath("gender").type(STRING).description("성별")
+                        fieldWithPath("gender").type(STRING).description("성별"),
+                        fieldWithPath("job").type(STRING).description("직업"),
+                        fieldWithPath("averageHit").type(NUMBER).description("평균타수"),
+                        fieldWithPath("followerCount").type(NUMBER).description("팔로잉 수"),
+                        fieldWithPath("followingCount").type(NUMBER).description("팔로우 수"),
+                        fieldWithPath("joinCount").type(NUMBER).description("조인 수"),
+                        fieldWithPath("feedCount").type(NUMBER).description("피드 수")
                 )
         ));
     }

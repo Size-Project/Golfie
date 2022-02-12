@@ -29,6 +29,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -146,7 +147,8 @@ class AuthControllerTest extends DocumentationBase {
                 "MALE",
                 "TEST",
                 "junslee",
-                "hello"
+                "job",
+                100
         );
         TokenDto tokenDto = TokenDto.of(jwtTokenProvider.createToken("payload"));
         given(authService.signUp(any())).willReturn(tokenDto);
@@ -171,6 +173,16 @@ class AuthControllerTest extends DocumentationBase {
         result.andDo(document("social-signup-complete",
                 preprocessRequest(prettyPrint()),
                 preprocessResponse(prettyPrint()),
+                requestFields(
+                        fieldWithPath("email").type(STRING).description("이메일"),
+                        fieldWithPath("profileImage").type(STRING).description("소셜 계정 프로필 이미지"),
+                        fieldWithPath("ageRange").type(STRING).description("연령대"),
+                        fieldWithPath("gender").type(STRING).description("성별"),
+                        fieldWithPath("providerName").type(STRING).description("프로바이더 이름"),
+                        fieldWithPath("nickname").type(STRING).description("닉네임"),
+                        fieldWithPath("job").type(STRING).description("직업"),
+                        fieldWithPath("averageHit").type(NUMBER).description("평균타수")
+                ),
                 responseFields(
                         fieldWithPath("accessToken").type(STRING).description("토큰")
                 )

@@ -1,12 +1,11 @@
 package com.golfie.user.domain;
 
 import com.golfie.feed.domain.Feed;
+import com.golfie.rounding.domain.Rounding;
+import com.golfie.user.domain.preference.Preference;
 import com.golfie.user.domain.profile.*;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class User {
@@ -24,6 +23,12 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
     private final List<Feed> feeds;
 
+    @OneToMany
+    private final Set<Rounding> hostingRounds;
+
+    @OneToMany
+    private final Set<Rounding> joiningRounds;
+
     @ManyToMany(mappedBy = "followers")
     private final Set<User> following;
 
@@ -36,6 +41,8 @@ public class User {
         this.feeds = new ArrayList<>();
         this.following = new HashSet<>();
         this.followers = new HashSet<>();
+        this.hostingRounds = new HashSet<>();
+        this.joiningRounds = new HashSet<>();
     }
 
     public User(Long id, BasicProfile basicProfile, SocialProfile socialProfile) {
@@ -45,6 +52,8 @@ public class User {
         this.feeds = new ArrayList<>();
         this.following = new HashSet<>();
         this.followers = new HashSet<>();
+        this.hostingRounds = new HashSet<>();
+        this.joiningRounds = new HashSet<>();
     }
 
     public User(SocialProfile socialProfile) {
@@ -110,8 +119,12 @@ public class User {
         return basicProfile.getNickname();
     }
 
-    public String getBio() {
-        return basicProfile.getBio();
+    public String getJob() {
+        return basicProfile.getJob();
+    }
+
+    public int getAverageHit() {
+        return basicProfile.getAverageHit();
     }
 
     public List<Feed> getFeeds() {
@@ -124,6 +137,22 @@ public class User {
 
     public Set<User> getFollowers() {
         return followers;
+    }
+
+    public int getFollowingCount() {
+        return following.size();
+    }
+
+    public int getFollowerCount() {
+        return followers.size();
+    }
+
+    public int getFeedCount() {
+        return feeds.size();
+    }
+
+    public int getJoiningCount() {
+        return joiningRounds.size();
     }
 
     public String toPayload() {

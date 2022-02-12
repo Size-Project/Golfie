@@ -15,7 +15,6 @@ import com.golfie.user.domain.UserRepository;
 import com.golfie.user.domain.profile.BasicProfile;
 import com.golfie.user.domain.profile.SocialProfile;
 import com.golfie.user.exception.UserNotFoundException;
-import org.apache.http.entity.ContentType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,14 +24,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
-import java.io.FileInputStream;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -93,7 +89,8 @@ public class FeedServiceTest {
     @DisplayName("모든 피드를 조회한다.")
     @Test
     void read_All_Feeds() {
-        User user = new User(1L, TestUserInfo.create().toSocialProfile());
+        BasicProfile basicProfile = new BasicProfile("junslee", "job", 100);
+        User user = new User(1L, basicProfile, TestUserInfo.create().toSocialProfile());
         Feed feed1 = new Feed(user, List.of("url1", "url2"), "content");
         Feed feed2 = new Feed(user, List.of("url1", "url2"), "content");
         List<Feed> feedList = List.of(feed1, feed2);
@@ -108,8 +105,8 @@ public class FeedServiceTest {
                 feedService.read(CurrentUser.of(1L, Authority.MEMBER), PageRequest.of(0, 2));
 
         List<FeedResponse> target = List.of(
-                FeedResponse.of(feed1, false),
-                FeedResponse.of(feed2, false)
+                FeedResponse.of(feed1, false, false),
+                FeedResponse.of(feed2, false, false)
         );
 
         //assert
@@ -127,7 +124,7 @@ public class FeedServiceTest {
     @Test
     void do_Like_Feed() {
         //arrange
-        BasicProfile basicProfile = new BasicProfile("junslee", "hello");
+        BasicProfile basicProfile = new BasicProfile("junslee");
         SocialProfile socialProfile = TestUserInfo.create().toSocialProfile();
         User user = new User(1L, basicProfile, socialProfile);
         Feed feed = new Feed();
@@ -151,7 +148,7 @@ public class FeedServiceTest {
     @Test
     void undo_Like_Feed() {
         //arrange
-        BasicProfile basicProfile = new BasicProfile("junslee", "hello");
+        BasicProfile basicProfile = new BasicProfile("junslee");
         SocialProfile socialProfile = TestUserInfo.create().toSocialProfile();
         User user = new User(1L, basicProfile, socialProfile);
         Feed feed = new Feed();

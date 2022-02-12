@@ -6,6 +6,7 @@ import com.golfie.common.fixture.TestUserInfo;
 import com.golfie.user.application.UserService;
 import com.golfie.user.domain.User;
 import com.golfie.user.domain.UserRepository;
+import com.golfie.user.domain.profile.BasicProfile;
 import com.golfie.user.exception.DuplicatedNicknameException;
 import com.golfie.user.exception.UserNotFoundException;
 import com.golfie.user.presentation.dto.NicknameRequest;
@@ -16,6 +17,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import javax.persistence.Basic;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -38,7 +41,8 @@ public class UserServiceTest {
     @Test
     void find_User_Profile() {
         //arrange
-        User user = new User(1L, TestUserInfo.create().toSocialProfile());
+        BasicProfile basicProfile = new BasicProfile("junslee", "job", 100);
+        User user = new User(1L, basicProfile, TestUserInfo.create().toSocialProfile());
         given(userRepository.findById(1L)).willReturn(Optional.of(user));
 
         //act
@@ -46,10 +50,13 @@ public class UserServiceTest {
 
         UserProfileResponse userProfileResponse = UserProfileResponse.builder()
                 .id("1")
+                .nickname("junslee")
                 .imageUrl("profileImageUrl")
                 .email("test@test.com")
                 .gender("MALE")
                 .ageRange("20-29")
+                .job("job")
+                .averageHit(100)
                 .build();
 
         //assert

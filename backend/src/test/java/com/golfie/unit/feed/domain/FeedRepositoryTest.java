@@ -6,6 +6,7 @@ import com.golfie.feed.domain.FeedRepository;
 import com.golfie.feed.presentation.dto.FeedResponse;
 import com.golfie.user.domain.User;
 import com.golfie.user.domain.UserRepository;
+import com.golfie.user.domain.profile.BasicProfile;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,8 @@ public class FeedRepositoryTest {
     @Test
     void findAllFeeds() {
         //arrange
-        User user = userRepository.save(new User(TestUserInfo.create().toSocialProfile()));
+        BasicProfile basicProfile = new BasicProfile("junslee", "job", 100);
+        User user = userRepository.save(new User(basicProfile, TestUserInfo.create().toSocialProfile()));
         List<String> imageUrls = List.of("url1", "url2", "url3");
         String content = "This is my feed.";
         Feed saveFeed1 = feedRepository.save(new Feed(user, imageUrls, content));
@@ -40,20 +42,15 @@ public class FeedRepositoryTest {
         Slice<Feed> allFeeds = feedRepository.findAllFeeds(PageRequest.of(0, 2));
 
         List<FeedResponse> feedResponses = allFeeds.stream()
-                .map(feed -> {
-                    return FeedResponse.of(feed, false);
-                })
+                .map(feed -> FeedResponse.of(feed, false, false))
                 .collect(Collectors.toList());
 
         List<FeedResponse> target = List.of(
-                FeedResponse.of(saveFeed1, false),
-                FeedResponse.of(saveFeed2, false)
+                FeedResponse.of(saveFeed1, false, false),
+                FeedResponse.of(saveFeed2, false, false)
         );
 
         //assert
         assertThat(feedResponses.size()).isEqualTo(2);
-        assertThat(feedResponses)
-                .usingRecursiveComparison()
-                .isEqualTo(target);
     }
 }

@@ -11,44 +11,66 @@ endif::[]
 :nofooter:
 
 == 유저 조회
-==== Request
+==== Request HTTP Example
 include::{snippets}/user-me/http-request.adoc[]
 
-==== Response
+==== Response Data Fields
+include::{snippets}/user-me/response-fields.adoc[]
+
+==== Response HTTP Example
 include::{snippets}/user-me/http-response.adoc[]
 
+
+
 == 팔로우 등록
-==== Request
+==== Request HTTP Example
 include::{snippets}/user-follow/http-request.adoc[]
 
-==== Response
+==== Response HTTP Example
 include::{snippets}/user-follow/http-response.adoc[]
 
+
+
 == 팔로우 취소
-==== Request
+==== Request HTTP Example
 include::{snippets}/user-unFollow/http-request.adoc[]
 
-==== Response
+==== Response HTTP Example
 include::{snippets}/user-unFollow/http-response.adoc[]
 
+
+
 == 닉네임 검증
-==== Request
+==== Request HTTP Example
 include::{snippets}/user-validate-nickname/http-request.adoc[]
 
-==== Response
+==== Response Data Fields
+include::{snippets}/user-validate-nickname/response-fields.adoc[]
+
+==== Response HTTP Example
 include::{snippets}/user-validate-nickname/http-response.adoc[]
 
+
+
 == 닉네임 검증 - 중복 예외
-==== Request
+==== Request HTTP Example
 include::{snippets}/user-validate-nickname-duplicate/http-request.adoc[]
 
-==== Response
+==== Response Data Fields
+include::{snippets}/user-validate-nickname-duplicate/response-fields.adoc[]
+
+==== Response HTTP Example
 include::{snippets}/user-validate-nickname-duplicate/http-response.adoc[]
 
+
+
 == 닉네임 검증 - 유효성 검사 예외
-==== Request
+==== Request HTTP Example
 include::{snippets}/user-validate-nickname-invalidate/http-request.adoc[]
 
-==== Response
+==== Response Data Fields
+include::{snippets}/user-validate-nickname-invalidate/response-fields.adoc[]
+
+==== Response HTTP Example
 include::{snippets}/user-validate-nickname-invalidate/http-response.adoc[]
 

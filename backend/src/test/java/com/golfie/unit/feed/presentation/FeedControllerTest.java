@@ -1,11 +1,10 @@
 package com.golfie.unit.feed.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.golfie.auth.presentation.dto.CurrentUser;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.golfie.auth.util.JwtTokenProvider;
 import com.golfie.common.docs.DocumentationBase;
 import com.golfie.common.exception.ApplicationExceptionDto;
-import com.golfie.common.exception.ErrorCode;
 import com.golfie.common.fixture.TestUserInfo;
 import com.golfie.feed.application.FeedService;
 import com.golfie.feed.domain.Feed;
@@ -20,7 +19,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
@@ -87,12 +85,13 @@ public class FeedControllerTest extends DocumentationBase {
         //arrange
         String token = "Bearer " + jwtTokenProvider.createToken("1");
 
-        User user = new User(1L, new BasicProfile("authorName", "This is my profile."), TestUserInfo.create().toSocialProfile());
+        User user = new User(1L, new BasicProfile("authorName", "authorJob", 100),
+                TestUserInfo.create().toSocialProfile());
         Feed feed1 = new Feed(user, List.of("url1.png", "url2.png"), "feed content");
         Feed feed2 = new Feed(user, List.of("url1.jpeg", "url2.jpeg"), "feed content");
         List<FeedResponse> feedResponses = List.of(
-                FeedResponse.of(feed1, false),
-                FeedResponse.of(feed2, false)
+                FeedResponse.of(feed1, false, false),
+                FeedResponse.of(feed2, false, false)
         );
 
         given(feedService.read(any(), any())).willReturn(feedResponses);
@@ -103,12 +102,7 @@ public class FeedControllerTest extends DocumentationBase {
                 .contentType(MediaType.APPLICATION_JSON));
 
         //assert
-        String body = result.andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-
-        assertThat(body).isEqualTo(objectMapper.writeValueAsString(feedResponses));
+        result.andExpect(status().isOk());
 
         verify(feedService, times(1))
                 .read(any(), any());
@@ -120,13 +114,17 @@ public class FeedControllerTest extends DocumentationBase {
                 responseFields(
                         fieldWithPath("[].author.id").type(STRING).description("id"),
                         fieldWithPath("[].author.nickname").type(STRING).description("닉네임"),
-                        fieldWithPath("[].author.email").type(STRING).description("이메일"),
-                        fieldWithPath("[].author.imageUrl").type(STRING).description("프로필이미지"),
+                        fieldWithPath("[].author.imageUrl").type(STRING).description("프로필 이미지"),
                         fieldWithPath("[].author.ageRange").type(STRING).description("연령대"),
                         fieldWithPath("[].author.gender").type(STRING).description("성별"),
-                        fieldWithPath("[].imageUrls").type(ARRAY).description("피드이미지"),
-                        fieldWithPath("[].content").type(STRING).description("피드내용"),
-                        fieldWithPath("[].following").type(BOOLEAN).description("팔로우여부")
+                        fieldWithPath("[].author.job").type(STRING).description("직업"),
+                        fieldWithPath("[].author.averageHit").type(NUMBER).description("평균 타수"),
+                        fieldWithPath("[].imageUrls").type(ARRAY).description("피드 이미지"),
+                        fieldWithPath("[].content").type(STRING).description("피드 내용"),
+                        fieldWithPath("[].following").type(BOOLEAN).description("팔로우 여부"),
+                        fieldWithPath("[].liking").type(BOOLEAN).description("좋아요 여부"),
+                        fieldWithPath("[].likeCount").type(NUMBER).description("좋아요 수"),
+                        fieldWithPath("[].createdAt").type(STRING).description("생성 날짜")
                 )
         ));
     }
@@ -174,12 +172,13 @@ public class FeedControllerTest extends DocumentationBase {
         //arrange
         String token = "Bearer " + jwtTokenProvider.createToken("1");
 
-        User user = new User(1L, new BasicProfile("authorName", "This is my profile."), TestUserInfo.create().toSocialProfile());
+        User user = new User(1L, new BasicProfile("authorName", "authorJob", 100),
+                TestUserInfo.create().toSocialProfile());
         Feed feed1 = new Feed(user, List.of("url1.png", "url2.png"), "feed content");
         Feed feed2 = new Feed(user, List.of("url1.jpeg", "url2.jpeg"), "feed content");
         List<FeedResponse> feedResponses = List.of(
-                FeedResponse.of(feed1, false),
-                FeedResponse.of(feed2, false)
+                FeedResponse.of(feed1, false, false),
+                FeedResponse.of(feed2, false, false)
         );
 
         given(feedService.readMy(any(), any())).willReturn(feedResponses);
@@ -190,12 +189,7 @@ public class FeedControllerTest extends DocumentationBase {
                 .contentType(MediaType.APPLICATION_JSON));
 
         //assert
-        String body = result.andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-
-        assertThat(body).isEqualTo(objectMapper.writeValueAsString(feedResponses));
+        result.andExpect(status().isOk());
 
         verify(feedService, times(1))
                 .readMy(any(), any());
@@ -207,13 +201,17 @@ public class FeedControllerTest extends DocumentationBase {
                 responseFields(
                         fieldWithPath("[].author.id").type(STRING).description("id"),
                         fieldWithPath("[].author.nickname").type(STRING).description("닉네임"),
-                        fieldWithPath("[].author.email").type(STRING).description("이메일"),
-                        fieldWithPath("[].author.imageUrl").type(STRING).description("프로필이미지"),
+                        fieldWithPath("[].author.imageUrl").type(STRING).description("프로필 이미지"),
                         fieldWithPath("[].author.ageRange").type(STRING).description("연령대"),
                         fieldWithPath("[].author.gender").type(STRING).description("성별"),
-                        fieldWithPath("[].imageUrls").type(ARRAY).description("피드이미지"),
-                        fieldWithPath("[].content").type(STRING).description("피드내용"),
-                        fieldWithPath("[].following").type(BOOLEAN).description("팔로우여부")
+                        fieldWithPath("[].author.job").type(STRING).description("직업"),
+                        fieldWithPath("[].author.averageHit").type(NUMBER).description("평균 타수"),
+                        fieldWithPath("[].imageUrls").type(ARRAY).description("피드 이미지"),
+                        fieldWithPath("[].content").type(STRING).description("피드 내용"),
+                        fieldWithPath("[].following").type(BOOLEAN).description("팔로우 여부"),
+                        fieldWithPath("[].liking").type(BOOLEAN).description("좋아요 여부"),
+                        fieldWithPath("[].likeCount").type(NUMBER).description("좋아요 수"),
+                        fieldWithPath("[].createdAt").type(STRING).description("생성 날짜")
                 )
         ));
     }

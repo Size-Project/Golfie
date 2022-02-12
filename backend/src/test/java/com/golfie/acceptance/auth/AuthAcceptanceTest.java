@@ -46,7 +46,8 @@ public class AuthAcceptanceTest extends AcceptanceTest {
                 signUpReadyResponse.getGender(),
                 signUpReadyResponse.getProviderName(),
                 "junslee",
-                "hello"
+                "job",
+                100
         );
 
         RestAssured
@@ -116,7 +117,8 @@ public class AuthAcceptanceTest extends AcceptanceTest {
                 "MALE",
                 "TEST",
                 "junslee",
-                "hello"
+                "job",
+                100
         );
 
         SocialProfile socialProfile = signUpRequest.toSocialProfile();
@@ -125,7 +127,7 @@ public class AuthAcceptanceTest extends AcceptanceTest {
         User target = new User(1L, basicProfile, socialProfile);
 
         //act
-        TokenDto tokenResponse = RestAssured
+        RestAssured
                 .given()
                     .port(port)
                     .accept(MediaType.APPLICATION_JSON_VALUE)

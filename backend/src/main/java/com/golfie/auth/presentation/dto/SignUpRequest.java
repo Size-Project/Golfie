@@ -3,9 +3,7 @@ package com.golfie.auth.presentation.dto;
 import com.golfie.user.domain.profile.*;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 
 public class SignUpRequest {
     @Email
@@ -14,12 +12,19 @@ public class SignUpRequest {
     private String ageRange;
     private String gender;
     private String providerName;
+
     @NotBlank
     @Length(min = 2, max = 20)
     @Pattern(regexp = "^[가-힣a-zA-Z0-9]+$")
     private String nickname;
     @Length(max = 30)
-    private String bio;
+    private String job;
+    @Max(144) @Min(61)
+    private int averageHit;
+
+    private int preferredHit;
+    private String preferredAge;
+    private String preferredMood;
 
     public SignUpRequest() {
     }
@@ -31,7 +36,8 @@ public class SignUpRequest {
             String gender,
             String providerName,
             String nickname,
-            String bio)
+            String job,
+            int averageHit)
     {
         this.email = email;
         this.profileImage = profileImage;
@@ -39,7 +45,8 @@ public class SignUpRequest {
         this.gender = gender;
         this.providerName = providerName;
         this.nickname = nickname;
-        this.bio = bio;
+        this.job = job;
+        this.averageHit = averageHit;
     }
 
     public String getEmail() {
@@ -66,8 +73,12 @@ public class SignUpRequest {
         return nickname;
     }
 
-    public String getBio() {
-        return bio;
+    public String getJob() {
+        return job;
+    }
+
+    public int getAverageHit() {
+        return averageHit;
     }
 
     public SocialProfile toSocialProfile() {
@@ -81,6 +92,6 @@ public class SignUpRequest {
     }
 
     public BasicProfile toBasicProfile() {
-        return new BasicProfile(nickname, bio);
+        return new BasicProfile(nickname, job, averageHit);
     }
 }

@@ -128,7 +128,8 @@ class AuthServiceTest {
                 "MALE",
                 "TEST",
                 "junslee",
-                "hello"
+                "job",
+                100
         );
 
         SocialProfile socialProfile = signUpRequest.toSocialProfile();
