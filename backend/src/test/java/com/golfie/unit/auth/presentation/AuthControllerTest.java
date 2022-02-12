@@ -1,5 +1,6 @@
 package com.golfie.unit.auth.presentation;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.golfie.auth.application.AuthService;
 import com.golfie.auth.application.dto.TokenDto;
@@ -36,8 +37,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest({
-    AuthController.class,
-    JwtTokenProvider.class
+        AuthController.class,
+        JwtTokenProvider.class
 })
 class AuthControllerTest extends DocumentationBase {
     public static final String CODE = "CODE";
@@ -233,4 +234,32 @@ class AuthControllerTest extends DocumentationBase {
         ));
     }
 
+    @DisplayName("유효하지 않은 요청은 예외를 반환한다.")
+    @Test
+    void too_Long_Job_Name_SignUpRequest() throws Exception {
+        //arrange
+        SignUpRequest signUpRequest = new SignUpRequest(
+                "test@test.com",
+                "testImageUrl",
+                "20-29",
+                "MALE",
+                "TEST",
+                "junslee",
+                "가나다라마바사아자차카타파하가나다라마바사아자차카타파하",
+                100,
+                "100-120",
+                "20-29",
+                "분위기"
+        );
+        TokenDto tokenDto = TokenDto.of(jwtTokenProvider.createToken("payload"));
+        given(authService.signUp(any())).willReturn(tokenDto);
+
+        //act
+        ResultActions result = mockMvc.perform(post("/api/signup/oauth")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(signUpRequest)));
+
+        //assert
+        result.andExpect(status().is4xxClientError());
+    }
 }
