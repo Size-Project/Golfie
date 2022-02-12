@@ -4,6 +4,8 @@ import axios from 'axios';
 import { setCookie } from 'utils/cookie';
 import API from 'api';
 import kakaoLoginIcon from 'assets/icons/kakaoLoginIcon.png';
+import { Wrapper } from './styled';
+import SignUpHeader from 'layout/SignUpHeader';
 
 const SignupPage = (a) => {
   const [nickname, setNickname] = useState('');
@@ -49,7 +51,8 @@ const SignupPage = (a) => {
   });
 
   return (
-    <div>
+    <Wrapper>
+      <SignUpHeader />
       <a href={kakaoLink}>
         <img
           src={kakaoLoginIcon}
@@ -66,10 +69,10 @@ const SignupPage = (a) => {
           onChange={nicknameConfirm}
         />
         <button type="submit" disabled={buttonOff} onClick={handleClick}>
-          회원가입
+          Join
         </button>
       </form>
-    </div>
+    </Wrapper>
   );
 };
 
