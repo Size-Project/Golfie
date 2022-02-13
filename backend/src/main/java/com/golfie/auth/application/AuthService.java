@@ -8,6 +8,7 @@ import com.golfie.auth.presentation.dto.SignUpReadyResponse;
 import com.golfie.auth.presentation.dto.SignUpRequest;
 import com.golfie.auth.presentation.dto.SignUpReadyRequest;
 import com.golfie.auth.util.*;
+import com.golfie.style.common.StyleFinder;
 import com.golfie.style.domain.Style;
 import com.golfie.style.domain.StyleRepository;
 import com.golfie.user.domain.User;
@@ -29,7 +30,7 @@ import static com.golfie.common.exception.ErrorCode.USER_NOT_FOUND;
 public class AuthService {
 
     private final UserRepository userRepository;
-    private final StyleRepository styleRepository;
+    private final StyleFinder styleFinder;
     private final JwtTokenProvider jwtTokenProvider;
     private final ProviderSelectorFactory providerSelectorFactory;
 
@@ -65,30 +66,15 @@ public class AuthService {
     }
 
     private User createUser(SignUpRequest signUpRequest) {
-        Style style = findOrCreateStyle(signUpRequest);
+        Style style = styleFinder.findOrCreate(
+                signUpRequest.getPreferredHit(),
+                signUpRequest.getPreferredAge(),
+                signUpRequest.getPreferredMood());
+
         SocialProfile socialProfile = signUpRequest.toSocialProfile();
         BasicProfile basicProfile = signUpRequest.toBasicProfile();
         User user = new User(basicProfile, socialProfile, style);
         return userRepository.save(user);
-    }
-
-    private Style findOrCreateStyle(SignUpRequest signUpRequest) {
-        Optional<Style> optionalStyle = styleRepository.findByAverageHitAndAgeRangeAndMood(
-                        signUpRequest.getPreferredHit(),
-                        signUpRequest.getPreferredAge(),
-                        signUpRequest.getPreferredMood());
-
-        Style style;
-        if (optionalStyle.isEmpty()) {
-            style = styleRepository.save(Style.builder()
-                    .averageHit(signUpRequest.getPreferredHit())
-                    .ageRange(signUpRequest.getAgeRange())
-                    .mood(signUpRequest.getPreferredMood())
-                    .build());
-        } else {
-            style = optionalStyle.get();
-        }
-        return style;
     }
 
     private void validateRegisterUser(OauthUserInfo userInfo) {

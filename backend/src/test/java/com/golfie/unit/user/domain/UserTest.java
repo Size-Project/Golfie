@@ -2,6 +2,7 @@ package com.golfie.unit.user.domain;
 
 import com.golfie.common.fixture.TestUserInfo;
 import com.golfie.feed.domain.Feed;
+import com.golfie.rounding.domain.Rounding;
 import com.golfie.user.domain.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -27,6 +28,29 @@ public class UserTest {
     void addFeed() {
         userA.addFeed(new Feed());
         assertThat(userA.getFeedCount()).isEqualTo(1);
+    }
+
+    @DisplayName("라운딩에 참가한다.")
+    @Test
+    void attendRounding() {
+        userA.addAttendingRound(new Rounding());
+        assertThat(userA.getAttendingCount()).isEqualTo(1);
+    }
+
+    @DisplayName("라운딩에 개최한다.")
+    @Test
+    void hostRounding() {
+        userA.addHostingRound(new Rounding());
+        assertThat(userA.getJoiningCount()).isEqualTo(1);
+    }
+
+    @DisplayName("참여하고있는 모든 라운딩을 개수를 반환한다.")
+    @Test
+    void countJoiningRounding() {
+        userA.addHostingRound(new Rounding());
+        userA.addAttendingRound(new Rounding());
+        userA.addAttendingRound(new Rounding());
+        assertThat(userA.getJoiningCount()).isEqualTo(3);
     }
 
     @DisplayName("유저 A는 유저 B를 팔로우한다.")

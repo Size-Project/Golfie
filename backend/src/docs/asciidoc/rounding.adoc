@@ -1,0 +1,32 @@
+= 라운딩 API
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:nofooter:
+
+== 모든 골프장 조회
+==== Request HTTP Example
+include::{snippets}/course-find-all/http-request.adoc[]
+
+==== Response Data Fields
+include::{snippets}/course-find-all/response-fields.adoc[]
+
+==== Response HTTP Example
+include::{snippets}/course-find-all/http-response.adoc[]
+
+
+== 라운딩 등록
+==== Request Fields
+include::{snippets}/rounding-save/request-fields.adoc[]
+
+==== Request HTTP Example
+include::{snippets}/rounding-save/http-request.adoc[]
+
+==== Response HTTP Example
+include::{snippets}/rounding-save/http-response.adoc[]
