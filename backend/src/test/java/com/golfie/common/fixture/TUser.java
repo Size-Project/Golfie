@@ -4,6 +4,7 @@ import com.golfie.auth.application.dto.TokenDto;
 import com.golfie.auth.presentation.dto.LoginRequest;
 import com.golfie.auth.presentation.dto.SignUpRequest;
 import com.golfie.feed.presentation.dto.FeedResponse;
+import com.golfie.rounding.presentation.dto.RoundingSaveRequest;
 import com.golfie.user.presentation.dto.UserProfileResponse;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -13,6 +14,7 @@ import org.springframework.http.MediaType;
 
 import java.io.File;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class TUser {
@@ -189,6 +191,32 @@ public class TUser {
                     .oauth2(accessToken)
                 .when()
                     .request(Method.DELETE, "/api/feeds/like/undo?feedId=" + id)
+                .then().log().all()
+                    .statusCode(200);
+    }
+
+    public void createRounding() {
+        RoundingSaveRequest roundingSaveRequest = new RoundingSaveRequest(
+            "courseName",
+                "title",
+                "content",
+                10000,
+                10,
+                LocalDateTime.of(2022, 1, 1, 1, 1),
+                "100-120",
+                "20-29",
+                "mood"
+        );
+
+        RestAssured
+                .given().log().all()
+                    .port(port)
+                    .contentType(ContentType.JSON)
+                    .auth()
+                    .oauth2(accessToken)
+                    .body(roundingSaveRequest)
+                .when()
+                    .request(Method.POST, "/api/roundings")
                 .then().log().all()
                     .statusCode(200);
     }

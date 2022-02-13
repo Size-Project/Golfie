@@ -26,11 +26,11 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
     private final List<Feed> feeds;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<Rounding> hostingRounds;
 
-    @OneToMany
-    private final Set<Rounding> joiningRounds;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private final Set<Rounding> attendingRounds;
 
     @ManyToMany(mappedBy = "followers")
     private final Set<User> following;
@@ -45,7 +45,7 @@ public class User {
         this.following = new HashSet<>();
         this.followers = new HashSet<>();
         this.hostingRounds = new HashSet<>();
-        this.joiningRounds = new HashSet<>();
+        this.attendingRounds = new HashSet<>();
     }
 
     public User(Long id, BasicProfile basicProfile, SocialProfile socialProfile, Style style) {
@@ -57,7 +57,7 @@ public class User {
         this.following = new HashSet<>();
         this.followers = new HashSet<>();
         this.hostingRounds = new HashSet<>();
-        this.joiningRounds = new HashSet<>();
+        this.attendingRounds = new HashSet<>();
     }
 
     public User(Long id, BasicProfile basicProfile, SocialProfile socialProfile) {
@@ -101,6 +101,34 @@ public class User {
 
     public boolean isFollowing(User otherUser) {
         return following.contains(otherUser);
+    }
+
+    public int getFollowingCount() {
+        return following.size();
+    }
+
+    public int getFollowerCount() {
+        return followers.size();
+    }
+
+    public int getFeedCount() {
+        return feeds.size();
+    }
+
+    public int getJoiningCount() {
+        return attendingRounds.size() + hostingRounds.size();
+    }
+
+    public int getAttendingCount() {
+        return attendingRounds.size();
+    }
+
+    public void addHostingRound(Rounding rounding) {
+        hostingRounds.add(rounding);
+    }
+
+    public void addAttendingRound(Rounding rounding) {
+        attendingRounds.add(rounding);
     }
 
     public Long getId() {
@@ -149,22 +177,6 @@ public class User {
 
     public Set<User> getFollowers() {
         return followers;
-    }
-
-    public int getFollowingCount() {
-        return following.size();
-    }
-
-    public int getFollowerCount() {
-        return followers.size();
-    }
-
-    public int getFeedCount() {
-        return feeds.size();
-    }
-
-    public int getJoiningCount() {
-        return joiningRounds.size();
     }
 
     public Style getStyle() {
