@@ -4,7 +4,7 @@ import { ReactComponent as IconHeart } from '../../../assets/images/svg/ic-heart
 import { ReactComponent as IconMessage } from '../../../assets/images/svg/ic-message.svg';
 import API from 'api';
 
-const FeedCardContent = ({ id, content, liking }) => {
+const FeedCardContent = ({ id, content, liking, setCount }) => {
   const [like, setLike] = useState(liking);
 
   const handleLike = async () => {
@@ -21,10 +21,12 @@ const FeedCardContent = ({ id, content, liking }) => {
             type: 'formData',
           },
         });
+        setCount((count) => count + 1);
       } else {
         await API.DELETE({
           url: `/api/feeds/like/undo?feedId=${id}`,
         });
+        setCount((count) => count - 1);
       }
 
       setLike(!like);
