@@ -2,12 +2,13 @@ import React from 'react';
 import { StyledFeedMyGrid } from './styled';
 
 const FeedMyGrid = ({ feedMy }) => {
-  console.log(feedMy);
   return (
     <StyledFeedMyGrid>
       {feedMy.map((feed, feedIdx) => (
         <div key={feedIdx} className="feed-grid-item">
-          d
+          <div className="feed-image">
+            <img src={feed.imageUrls[0]} />
+          </div>
         </div>
       ))}
     </StyledFeedMyGrid>

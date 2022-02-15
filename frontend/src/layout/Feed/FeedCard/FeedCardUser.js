@@ -1,11 +1,34 @@
 import React, { useState } from 'react';
 import { StyledFeedCardUser } from './styled';
+import API from 'api';
 
 const FeedCardUser = ({ author, following }) => {
   const [follow, setFollow] = useState(following);
 
-  const handleFollow = () => {
-    setFollow(!follow);
+  const handleFollow = async () => {
+    try {
+      if (!follow) {
+        const formData = new FormData();
+        formData.append('userId', author.id);
+
+        await API.POST({
+          url: '/api/users/follow',
+          data: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            type: 'formData',
+          },
+        });
+      } else {
+        await API.DELETE({
+          url: `/api/users/unfollow?userId=${author.id}`,
+        });
+      }
+
+      setFollow(!follow);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
