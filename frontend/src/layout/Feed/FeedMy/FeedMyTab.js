@@ -19,13 +19,13 @@ const FeedMyTab = ({ feedMy }) => {
           className={`tab ${String(active === 'grid')}`}
           onClick={() => handleActiveTab('grid')}
         >
-          <img src={FeedGrid} />
+          <img src={FeedGrid} alt="grid" />
         </div>
         <div
           className={`tab ${String(active === 'list')}`}
           onClick={() => handleActiveTab('list')}
         >
-          <img src={FeedList} />
+          <img src={FeedList} alt="list" />
         </div>
       </div>
       {active === 'grid' && <FeedMyGrid feedMy={feedMy} />}

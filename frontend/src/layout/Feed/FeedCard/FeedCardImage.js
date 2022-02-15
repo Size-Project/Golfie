@@ -4,7 +4,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { ReactComponent as IconHeart } from '../../../assets/images/svg/ic-heart.svg';
-import { ReactComponent as IconMessage } from '../../../assets/images/svg/ic-message.svg';
 import { ReactComponent as IconBookmark } from '../../../assets/images/svg/ic-bookmark.svg';
 
 import SwiperCore, { Navigation, Pagination } from 'swiper';
@@ -52,7 +51,7 @@ const FeedCardImage = ({ imageUrls, likeCount }) => {
           <SwiperSlide key={imageIdx}>
             <div className="content-image-wrap">
               <div className="content-image">
-                <img src={image} />
+                <img src={image} alt="content" />
               </div>
               <div className="content-etc" />
             </div>

@@ -7,7 +7,9 @@ const FeedMyInfo = ({ userInfo }) => {
       <div className="user-info-top">
         <div className="top-left">
           <div className="user-image">
-            {!!userInfo?.imageUrl && <img src={userInfo?.imageUrl} />}
+            {!!userInfo?.imageUrl && (
+              <img src={userInfo?.imageUrl} alt="user" />
+            )}
           </div>
           <div className="info">
             <div className="nickname">{userInfo?.nickname}</div>
