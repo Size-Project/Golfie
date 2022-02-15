@@ -4,6 +4,8 @@ import com.golfie.rounding.domain.course.Course;
 import com.golfie.style.domain.Style;
 import com.golfie.user.domain.User;
 import lombok.Builder;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -26,6 +28,7 @@ public class Rounding {
     private User host;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "ROUNDING_ATTENDEE")
     private Set<User> attendee;
 
     private String title;
@@ -36,6 +39,7 @@ public class Rounding {
 
     private int joinNum;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime dateTime;
 
     public Rounding() {
