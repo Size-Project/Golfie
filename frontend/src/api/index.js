@@ -4,7 +4,7 @@ import { getCookie } from 'utils/cookie';
 export let axiosClient = axios.create({
   // baseURL: 'http://sample',
   headers: {
-    Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjoiMiIsImlhdCI6MTY0NDUwMDMxMiwiZXhwIjoxNjQ0NTg2NzEyfQ.jA7-uos06JGlPilHuxqdgFwGyWcU4eIJPh3FpasxeD6pasWSdSwVCQK9d5ae3W_3ggZlYhBIPV13oYRLiBoCOw`,
+    Authorization: `Bearer ${getCookie('jwt')}`,
   },
 });
 
