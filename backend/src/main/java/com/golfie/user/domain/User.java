@@ -27,9 +27,11 @@ public class User {
     private final List<Feed> feeds;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinTable(name = "USER_HOSTING_ROUNDS")
     private final Set<Rounding> hostingRounds;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "USER_ATTENDING_ROUNDS")
     private final Set<Rounding> attendingRounds;
 
     @ManyToMany(mappedBy = "followers")
