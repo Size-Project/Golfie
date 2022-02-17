@@ -48,7 +48,7 @@ const FeedCardUser = ({ author, following }) => {
           </div>
         </div>
       </div>
-      {getUser.info.id !== author.id && (
+      {getUser.login && getUser.info.id !== author.id && (
         <div className={`user-follow ${String(follow)}`} onClick={handleFollow}>
           {follow ? 'Following' : 'Follow'}
         </div>

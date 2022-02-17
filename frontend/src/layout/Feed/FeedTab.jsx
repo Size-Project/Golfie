@@ -7,7 +7,7 @@ const FeedTab = ({ tabKey, setTabKey, getUser }) => {
   };
 
   return (
-    <StyledFeedTab stage={tabKey}>
+    <StyledFeedTab stage={tabKey} login={getUser.login}>
       <div className="tabs-title-wrap">
         <div
           className={`tabs-title ${String(tabKey === 0)}`}

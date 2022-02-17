@@ -10,17 +10,16 @@ const useStoreIntoAPP = create((set, get) => ({
   },
 
   requestUserInfo: async () => {
-    const jwt = getCookie('jwt');
-    const config = {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
-    };
+    try {
+      const jwt = getCookie('jwt');
+      const config = {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      };
 
-    const response = await axios.get('/api/users/me', config);
-    console.log(response.data);
+      const response = await axios.get('/api/users/me', config);
 
-    if (response.data)
       set((state) => ({
         getUser: {
           ...state.getUser,
@@ -29,6 +28,15 @@ const useStoreIntoAPP = create((set, get) => ({
           info: response.data,
         },
       }));
+    } catch (err) {
+      set((state) => ({
+        getUser: {
+          login: false,
+          isLoading: false,
+          info: null,
+        },
+      }));
+    }
   },
 }));
 
