@@ -3,7 +3,9 @@ import { getCookie } from 'utils/cookie';
 
 export let axiosClient = axios.create({
   // baseURL: 'http://sample',
-  headers: { Authorization: `Bearer ${getCookie('jwt')}` },
+  headers: {
+    Authorization: `Bearer ${getCookie('jwt')}`,
+  },
 });
 
 axiosClient.defaults.withCredentials = true;

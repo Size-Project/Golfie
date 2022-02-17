@@ -8,14 +8,10 @@ const FeedTabPane = ({ tabKey }) => {
     <StyledFeedTabPane stage={tabKey}>
       <div className="stage-view">
         <div className={`stage stage-${tabKey}`}>
-          <div className="stage-child">
-            <FeedAll />
-          </div>
+          <div className="stage-child">{tabKey === 0 && <FeedAll />}</div>
         </div>
         <div className={`stage stage-${tabKey}`}>
-          <div className="stage-child">
-            <FeedMy />
-          </div>
+          <div className="stage-child">{tabKey === 1 && <FeedMy />}</div>
         </div>
       </div>
     </StyledFeedTabPane>

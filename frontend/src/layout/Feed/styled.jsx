@@ -99,3 +99,5 @@ export const StyledFeedTabPane = styled.div`
     }
   `}
 `;
+
+export const StyledFeedCreate = styled.div``;
