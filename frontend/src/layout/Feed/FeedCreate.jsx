@@ -9,8 +9,10 @@ const FeedCreate = () => {
   const handleOnSubmit = async (values) => {
     try {
       const formData = new FormData();
-      formData.append('feedImages', values.feedImages[0]);
       formData.append('content', values.content);
+      for (let i = 0; i < values.feedImages.length; i++) {
+        formData.append('feedImages', values.feedImages[i]);
+      }
 
       await API.POST({
         url: '/api/feeds',

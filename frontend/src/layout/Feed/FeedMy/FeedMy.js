@@ -3,19 +3,11 @@ import { StyledFeedMy } from './styled';
 import API from 'api';
 import FeedMyInfo from './FeedMyInfo';
 import FeedMyTab from './FeedMyTab';
+import { useGetUser } from '../../../services/store.intoAPP';
 
 const FeedMy = () => {
+  const getUser = useGetUser();
   const [feedMy, setFeedMy] = useState([]);
-  const [userInfo, setUserInfo] = useState(null);
-
-  const requestUserInfo = async () => {
-    try {
-      const res = await API.GET('/api/users/me');
-      setUserInfo(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   const requestFeedMy = async () => {
     try {
@@ -27,13 +19,12 @@ const FeedMy = () => {
   };
 
   useEffect(() => {
-    requestUserInfo();
     requestFeedMy();
   }, []);
 
   return (
     <StyledFeedMy>
-      <FeedMyInfo userInfo={userInfo} />
+      <FeedMyInfo userInfo={getUser.info} />
       <FeedMyTab feedMy={feedMy} />
     </StyledFeedMy>
   );
