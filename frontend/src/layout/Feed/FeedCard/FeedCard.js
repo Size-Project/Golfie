@@ -3,7 +3,6 @@ import { StyledFeedCard } from './styled';
 import FeedCardUser from './FeedCardUser';
 import FeedCardImage from './FeedCardImage';
 import FeedCardContent from './FeedCardContent';
-import { useGetUser } from '../../../services/store.intoAPP';
 
 const FeedCard = ({ feed }) => {
   const { author, content, id, likeCount, liking, following, imageUrls } = feed;

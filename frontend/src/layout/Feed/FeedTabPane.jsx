@@ -2,7 +2,6 @@ import React from 'react';
 import { StyledFeedTabPane } from './styled';
 import FeedAll from './FeedAll/FeedAll';
 import FeedMy from './FeedMy/FeedMy';
-import { useGetUser } from '../../services/store.intoAPP';
 
 const FeedTabPane = ({ tabKey, getUser }) => {
   return (

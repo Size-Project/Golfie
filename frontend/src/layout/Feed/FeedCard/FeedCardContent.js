@@ -3,12 +3,9 @@ import { StyledFeedCardContent } from './styled';
 import { ReactComponent as IconHeart } from '../../../assets/images/svg/ic-heart.svg';
 import { ReactComponent as IconMessage } from '../../../assets/images/svg/ic-message.svg';
 import API from 'api';
-import { useGetUser } from '../../../services/store.intoAPP';
 
 const FeedCardContent = ({ id, content, liking, setCount }) => {
   const [like, setLike] = useState(liking);
-
-  const getUser = useGetUser();
 
   const handleLike = async () => {
     try {

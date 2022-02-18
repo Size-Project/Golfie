@@ -17,7 +17,7 @@ function AppRouter() {
 
   useEffect(() => {
     requestUserInfo();
-  }, []);
+  });
 
   return (
     <BrowserRouter>
