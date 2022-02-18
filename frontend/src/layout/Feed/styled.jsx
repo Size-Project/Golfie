@@ -31,7 +31,7 @@ export const StyledFeedHeader = styled.div`
 `;
 
 export const StyledFeedTab = styled.div`
-  ${({ stage }) => css`
+  ${({ stage, login }) => css`
     padding: 20px 20px 30px;
     //TO Do fontFamily
     .tabs-title-wrap {
@@ -40,7 +40,7 @@ export const StyledFeedTab = styled.div`
 
       .tabs-title {
         cursor: pointer;
-        width: 50%;
+        width: ${login ? '50%' : '100%'};
         text-align: center;
         padding-bottom: 5px;
 
@@ -54,7 +54,7 @@ export const StyledFeedTab = styled.div`
     &:after {
       content: '';
       display: block;
-      width: 50%;
+      width: ${login ? '50%' : '100%'};
       height: 1px;
       background-color: var(--color-main);
       transform: translateX(${stage}00%);

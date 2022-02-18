@@ -1,13 +1,13 @@
 import React from 'react';
 import { StyledFeedTab } from './styled';
 
-const FeedTab = ({ tabKey, setTabKey }) => {
+const FeedTab = ({ tabKey, setTabKey, getUser }) => {
   const handleTabKey = (key) => {
     setTabKey(key);
   };
 
   return (
-    <StyledFeedTab stage={tabKey}>
+    <StyledFeedTab stage={tabKey} login={getUser.login}>
       <div className="tabs-title-wrap">
         <div
           className={`tabs-title ${String(tabKey === 0)}`}
@@ -15,12 +15,14 @@ const FeedTab = ({ tabKey, setTabKey }) => {
         >
           둘러보기
         </div>
-        <div
-          className={`tabs-title ${String(tabKey === 1)}`}
-          onClick={() => handleTabKey(1)}
-        >
-          내 피드
-        </div>
+        {getUser.login && (
+          <div
+            className={`tabs-title ${String(tabKey === 1)}`}
+            onClick={() => handleTabKey(1)}
+          >
+            내 피드
+          </div>
+        )}
       </div>
     </StyledFeedTab>
   );

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { StyledFeedCardUser } from './styled';
 import API from 'api';
+import { useGetUser } from '../../../services/store.intoAPP';
 
 const FeedCardUser = ({ author, following }) => {
   const [follow, setFollow] = useState(following);
+  const getUser = useGetUser();
 
   const handleFollow = async () => {
     try {
@@ -46,9 +48,11 @@ const FeedCardUser = ({ author, following }) => {
           </div>
         </div>
       </div>
-      <div className={`user-follow ${String(follow)}`} onClick={handleFollow}>
-        {follow ? 'Following' : 'Follow'}
-      </div>
+      {getUser.login && getUser.info.id !== author.id && (
+        <div className={`user-follow ${String(follow)}`} onClick={handleFollow}>
+          {follow ? 'Following' : 'Follow'}
+        </div>
+      )}
     </StyledFeedCardUser>
   );
 };
