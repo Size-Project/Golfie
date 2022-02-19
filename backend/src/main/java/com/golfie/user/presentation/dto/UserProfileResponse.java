@@ -60,7 +60,7 @@ public class UserProfileResponse {
                 .averageHit(user.getAverageHit())
                 .followerCount(user.getFollowerCount())
                 .followingCount(user.getFollowingCount())
-                .joinCount(user.getJoiningCount())
+                .joinCount(user.getAttendingCount())
                 .feedCount(user.getFeeds().size())
                 .build();
     }

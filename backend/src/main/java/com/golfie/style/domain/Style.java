@@ -40,10 +40,6 @@ public class Style {
         this.users = new HashSet<>();
     }
 
-    public boolean isAlreadyExist() {
-        return false;
-    }
-
     public Long getId() {
         return id;
     }

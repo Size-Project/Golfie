@@ -4,13 +4,12 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { ReactComponent as IconHeart } from '../../../assets/images/svg/ic-heart.svg';
-import { ReactComponent as IconMessage } from '../../../assets/images/svg/ic-message.svg';
 import { ReactComponent as IconBookmark } from '../../../assets/images/svg/ic-bookmark.svg';
 
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 SwiperCore.use([Navigation, Pagination]);
 
-const FeedCardImage = () => {
+const FeedCardImage = ({ imageUrls, likeCount }) => {
   const [bookmark, setBookmark] = useState(false);
 
   const handleBookmark = () => {
@@ -32,14 +31,14 @@ const FeedCardImage = () => {
               <div className="count-img">
                 <IconHeart />
               </div>
-              <div className="count-num">{(1234).toLocaleString()}</div>
+              <div className="count-num">{likeCount.toLocaleString()}</div>
             </div>
-            <div className="count-wrap">
-              <div className="count-img">
-                <IconMessage />
-              </div>
-              <div className="count-num">{(1234).toLocaleString()}</div>
-            </div>
+            {/*<div className="count-wrap">*/}
+            {/*  <div className="count-img">*/}
+            {/*    <IconMessage />*/}
+            {/*  </div>*/}
+            {/*  <div className="count-num">{(1234).toLocaleString()}</div>*/}
+            {/*</div>*/}
           </div>
           <div
             className={`bookmark-img ${String(bookmark)}`}
@@ -48,10 +47,12 @@ const FeedCardImage = () => {
             <IconBookmark />
           </div>
         </div>
-        {[1, 2, 3].map((item, idx) => (
-          <SwiperSlide>
+        {imageUrls.map((image, imageIdx) => (
+          <SwiperSlide key={imageIdx}>
             <div className="content-image-wrap">
-              <div className="content-image"></div>
+              <div className="content-image">
+                <img src={image} alt="content" />
+              </div>
               <div className="content-etc" />
             </div>
           </SwiperSlide>

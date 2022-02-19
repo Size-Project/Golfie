@@ -28,7 +28,16 @@ const SignupPage = (a) => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const signupDate = { nickname, bio: 'hello', ...user };
+    const signupDate = {
+      nickname,
+      bio: 'hello',
+      ...user,
+      job: 'job',
+      averageHit: 100,
+      preferredHit: '100-120',
+      preferredAge: '20-29',
+      preferredMood: '분위기',
+    };
     const response = await axios.post('/api/signup/oauth', signupDate);
     setCookie('jwt', response.data.accessToken, { path: '/' });
     navigate('/');

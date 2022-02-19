@@ -33,8 +33,15 @@ export const StyledFeedCardUser = styled.div`
       width: 45px;
       height: 45px;
       border-radius: 50%;
-      box-shadow: inset 0 3px 6px 0 rgba(0, 0, 0, 0.16);
       margin-right: 10px;
+      overflow: hidden;
+      box-shadow: inset 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+
+      img {
+        object-fit: contain;
+        width: 100%;
+        height: 100%;
+      }
     }
 
     .user-info {
@@ -162,8 +169,14 @@ export const StyledFeedCardImage = styled.div`
     .content-image {
       position: relative;
       width: 100%;
-      padding: 50%;
-      background-color: green;
+      height: 335px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
 
     .content-etc {
@@ -210,7 +223,6 @@ export const StyledFeedCardImage = styled.div`
 
 export const StyledFeedCardContent = styled.div`
   border-radius: 15px;
-  box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.1);
 
   .content-text {
     padding: 0 15px;

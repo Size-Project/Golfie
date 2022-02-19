@@ -9,26 +9,22 @@ import JoinPage from './pages/Join';
 import ForYouPage from './pages/ForYou';
 import ForYouDetailPage from 'pages/ForYou/Detail';
 import MyPage from 'pages/My';
-import axios from 'axios';
-import { getCookie } from 'utils/cookie';
-
-const getUser = async () => {
-  const jwt = getCookie('jwt');
-  const config = {
-    headers: { Authorization: `Bearer ${jwt}` },
-  };
-
-  const response = await axios.get('/api/users/me', config);
-  console.log(response.data);
-};
-
-getUser();
+import FeedCreatePage from './pages/Feed/create';
+import useStoreIntoAPP from './services/store.intoAPP';
+import { useEffect } from 'react';
 
 function AppRouter() {
+  const requestUserInfo = useStoreIntoAPP((state) => state.requestUserInfo);
+
+  useEffect(() => {
+    requestUserInfo();
+  });
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/join" element={<JoinPage />} />
+        <Route path="/feed/create" element={<FeedCreatePage />} />
         <Route path="/feed" element={<FeedPage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/account/login/*" element={<LoginPage />} />

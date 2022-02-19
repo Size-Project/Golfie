@@ -1,6 +1,7 @@
 package com.golfie.acceptance;
 
 import com.golfie.common.util.DatabaseCleanup;
+import com.golfie.rounding.domain.course.CourseRepository;
 import com.golfie.user.domain.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public abstract class AcceptanceTest {
 
     @Autowired
     protected UserRepository userRepository;
+
+    @Autowired
+    protected CourseRepository courseRepository;
 
     @Autowired
     private DatabaseCleanup databaseCleanup;

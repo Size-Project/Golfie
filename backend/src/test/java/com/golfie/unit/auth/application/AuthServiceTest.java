@@ -10,6 +10,7 @@ import com.golfie.auth.presentation.dto.SignUpReadyResponse;
 import com.golfie.auth.presentation.dto.SignUpRequest;
 import com.golfie.auth.util.JwtTokenProvider;
 import com.golfie.common.fixture.TestUserInfo;
+import com.golfie.style.common.StyleFinder;
 import com.golfie.style.domain.Style;
 import com.golfie.style.domain.StyleRepository;
 import com.golfie.user.domain.User;
@@ -44,7 +45,7 @@ class AuthServiceTest {
     private UserRepository userRepository;
 
     @Mock
-    private StyleRepository styleRepository;
+    private StyleFinder styleFinder;
 
     @Mock
     private JwtTokenProvider jwtTokenProvider;
@@ -149,7 +150,8 @@ class AuthServiceTest {
                 signUpRequest.getEmail(),
                 ProviderName.valueOf(signUpRequest.getProviderName()))
         ).willReturn(Optional.empty());
-        given(styleRepository.findByAverageHitAndAgeRangeAndMood(any(), any(), any())).willReturn(Optional.of(style));
+//        given(styleRepository.findByAverageHitAndAgeRangeAndMood(any(), any(), any())).willReturn(Optional.of(style));
+        given(styleFinder.findOrCreate(any(), any(), any())).willReturn(style);
         given(userRepository.save(any())).willReturn(user);
         given(jwtTokenProvider.createToken(user.getId().toString())).willReturn(JWT_TOKEN);
 
