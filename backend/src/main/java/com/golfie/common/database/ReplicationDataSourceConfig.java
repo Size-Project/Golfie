@@ -1,7 +1,9 @@
 package com.golfie.common.database;
 
+import com.golfie.common.database.ReplicationDataSourceProperties.Master;
 import com.golfie.common.database.ReplicationDataSourceProperties.Slave;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -18,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Profile("dev")
+@RequiredArgsConstructor
 @EnableConfigurationProperties(ReplicationDataSourceProperties.class)
 @Configuration
 public class ReplicationDataSourceConfig {
@@ -25,49 +28,21 @@ public class ReplicationDataSourceConfig {
     private final ReplicationDataSourceProperties dataSourceProperties;
     private final JpaProperties jpaProperties;
 
-    public ReplicationDataSourceConfig(ReplicationDataSourceProperties dataSourceProperties, JpaProperties jpaProperties) {
-        this.dataSourceProperties = dataSourceProperties;
-        this.jpaProperties = jpaProperties;
-    }
-
     @Bean
     public DataSource routingDataSource() {
-        DataSource masterDataSource = createDataSource(
-                dataSourceProperties.getDriverClassName(),
-                dataSourceProperties.getUrl(),
-                dataSourceProperties.getUsername(),
-                dataSourceProperties.getPassword()
-        );
-
         Map<Object, Object> dataSources = new LinkedHashMap<>();
-        dataSources.put("master", masterDataSource);
+        DataSource masterDateSource = createMasterDateSource();
+        dataSources.put("master", masterDateSource);
 
         for (Slave slave : dataSourceProperties.getSlaves().values()) {
-            DataSource slaveDatSource = createDataSource(
-                    slave.getDriverClassName(),
-                    slave.getUrl(),
-                    slave.getUsername(),
-                    slave.getPassword()
-            );
-
-            dataSources.put(slave.getName(), slaveDatSource);
+            DataSource slaveDataSource = createSlaveDataSource(slave);
+            dataSources.put(slave.getName(), slaveDataSource);
         }
 
         ReplicationDataSourceRouter replicationRoutingDataSource = new ReplicationDataSourceRouter();
-        replicationRoutingDataSource.setDefaultTargetDataSource(masterDataSource);
+        replicationRoutingDataSource.setDefaultTargetDataSource(masterDateSource);
         replicationRoutingDataSource.setTargetDataSources(dataSources);
-
         return replicationRoutingDataSource;
-    }
-
-    private DataSource createDataSource(String driverClassName, String url, String username, String password) {
-        return DataSourceBuilder.create()
-                .type(HikariDataSource.class)
-                .url(url)
-                .driverClassName(driverClassName)
-                .username(username)
-                .password(password)
-                .build();
     }
 
     @Bean
@@ -90,5 +65,34 @@ public class ReplicationDataSourceConfig {
         JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
         jpaTransactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
         return jpaTransactionManager;
+    }
+
+    private DataSource createMasterDateSource() {
+        Master master = dataSourceProperties.getMaster();
+        return createDataSource(
+                master.getDriverClassName(),
+                master.getUrl(),
+                master.getUsername(),
+                master.getPassword()
+        );
+    }
+
+    private DataSource createSlaveDataSource(Slave slave) {
+        return createDataSource(
+                slave.getDriverClassName(),
+                slave.getUrl(),
+                slave.getUsername(),
+                slave.getPassword()
+        );
+    }
+
+    private DataSource createDataSource(String driverClassName, String url, String username, String password) {
+        return DataSourceBuilder.create()
+                .type(HikariDataSource.class)
+                .url(url)
+                .driverClassName(driverClassName)
+                .username(username)
+                .password(password)
+                .build();
     }
 }
