@@ -1,38 +1,46 @@
 import React from 'react';
 import { Wrapper } from './styled';
 import Header from 'layout/Header';
+import { useGetUser } from 'services/store.intoAPP';
 
 const MyPage = () => {
+  const user = useGetUser();
+
   return (
     <Wrapper>
       <header>
         <Header theme="My" />
       </header>
-      <section className="user-info">
-        <div className="user-top">
-          <div className="user-face"></div>
-          <div className="user-top-right">
-            <div className="user-name">김민영</div>
-            <div className="user-tags">
-              <div className="user-tags-content"></div>
+      {user.login ? (
+        <section className="user-info">
+          <div className="user-top">
+            <div className="user-face"></div>
+            <div className="user-top-right">
+              <div className="user-name">{user.info.nickname}</div>
+              <div className="user-tags">
+                <div className="user-tags-content"></div>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="user-bottom">
-          <div className="user-join">
-            <div>Join</div>
-            <div>3</div>
+          <div className="user-bottom">
+            <div className="user-join">
+              <div>Join</div>
+              <div>{user.info.joinCount}</div>
+            </div>
+            <div className="user-follower">
+              <div>Follower</div>
+              <div>{user.info.followerCount}</div>
+            </div>
+            <div className="user-feed">
+              <div>Feed</div>
+              <div>{user.info.feedCount}</div>
+            </div>
           </div>
-          <div className="user-follower">
-            <div>Follower</div>
-            <div>146</div>
-          </div>
-          <div className="user-feed">
-            <div>Feed</div>
-            <div>6</div>
-          </div>
-        </div>
-      </section>
+        </section>
+      ) : (
+        <div>로그인되지 않았습니다</div>
+      )}
+
       {/* <section className="user-info-list">
         <div>찜 목록</div>
         <div>조인 기록</div>
