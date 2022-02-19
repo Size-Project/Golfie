@@ -1,5 +1,6 @@
 package com.golfie.common.database;
 
+import com.golfie.common.database.ReplicationDataSourceProperties.Master;
 import com.golfie.common.database.ReplicationDataSourceProperties.Slave;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.RequiredArgsConstructor;
@@ -66,8 +67,8 @@ public class ReplicationDataSourceConfig {
         return jpaTransactionManager;
     }
 
-    public DataSource createMasterDateSource() {
-        ReplicationDataSourceProperties.Master master = dataSourceProperties.getMaster();
+    private DataSource createMasterDateSource() {
+        Master master = dataSourceProperties.getMaster();
         return createDataSource(
                 master.getDriverClassName(),
                 master.getUrl(),
@@ -76,7 +77,7 @@ public class ReplicationDataSourceConfig {
         );
     }
 
-    public DataSource createSlaveDataSource(Slave slave) {
+    private DataSource createSlaveDataSource(Slave slave) {
         return createDataSource(
                 slave.getDriverClassName(),
                 slave.getUrl(),
