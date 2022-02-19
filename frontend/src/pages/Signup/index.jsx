@@ -92,26 +92,14 @@ const SignupPage = (a) => {
             <img src={checkIcon} alt="" />
             <div className="input-title">직업</div>
           </div>
-          <input
-            type="text"
-            value={nickname}
-            className="text"
-            placeholder="입력해주세요"
-            onChange={nicknameConfirm}
-          />
+          <input type="text" className="text" placeholder="입력해주세요" />
         </section>
         <section className="input-text">
           <div className="input-header">
             <img src={checkIcon} alt="" />
             <div className="input-title">타수</div>
           </div>
-          <input
-            type="text"
-            value={nickname}
-            className="text"
-            placeholder="입력해주세요"
-            onChange={nicknameConfirm}
-          />
+          <input type="text" className="text" placeholder="입력해주세요" />
         </section>
 
         <section className="input-select">
