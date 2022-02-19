@@ -4,25 +4,22 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.stream.Collectors.toList;
 
 public class ReplicationDataSourceRouter extends AbstractRoutingDataSource {
     public static final String DATASOURCE_KEY_MASTER = "master";
-    public static final String DATASOURCE_KEY_SLAVE = "slave";
 
-    private DataSourceNames<String> slaveNames;
+    private DataSourceNames<String> dataSourceNames;
 
     @Override
     public void setTargetDataSources(Map<Object, Object> targetDataSources) {
         super.setTargetDataSources(targetDataSources);
 
-        this.slaveNames = new DataSourceNames<>(
+        this.dataSourceNames = new DataSourceNames<>(
                 targetDataSources.keySet()
                         .stream()
                         .map(Object::toString)
-                        .filter(name -> name.contains(DATASOURCE_KEY_SLAVE))
                         .collect(toList())
         );
     }
@@ -32,9 +29,9 @@ public class ReplicationDataSourceRouter extends AbstractRoutingDataSource {
         boolean isReadOnly = TransactionSynchronizationManager.isCurrentTransactionReadOnly();
 
         if (isReadOnly) {
-            String slaveName = slaveNames.getNext();
-            logger.info("Connection " + slaveName);
-            return slaveName;
+            String dataSourceName = dataSourceNames.getNext();
+            logger.info("Connection " + dataSourceName);
+            return dataSourceName;
         }
 
         logger.info("Connection Master");
@@ -42,19 +39,18 @@ public class ReplicationDataSourceRouter extends AbstractRoutingDataSource {
     }
 
     public static class DataSourceNames<T> {
-        private final List<T> slaveNames;
-        private final AtomicInteger sequence;
+        private final List<T> dataSourceNames;
+        private int sequence = 0;
 
-        public DataSourceNames(List<T> slaveNames) {
-            this.slaveNames = slaveNames;
-            sequence = new AtomicInteger(0);
+        public DataSourceNames(List<T> dataSourceNames) {
+            this.dataSourceNames = dataSourceNames;
         }
 
         public T getNext() {
-            if (sequence.get() >= slaveNames.size()) {
-                sequence.set(0);
+            if (sequence >= dataSourceNames.size()) {
+                sequence = 0;
             }
-            return slaveNames.get(sequence.getAndAdd(1));
+            return dataSourceNames.get(sequence++);
         }
     }
 
