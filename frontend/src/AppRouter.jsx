@@ -8,6 +8,7 @@ import FeedPage from './pages/Feed';
 import JoinPage from './pages/Join';
 import ForYouPage from './pages/ForYou';
 import ForYouDetailPage from 'pages/ForYou/Detail';
+import MyPage from 'pages/My';
 import FeedCreatePage from './pages/Feed/create';
 import useStoreIntoAPP from './services/store.intoAPP';
 import { useEffect } from 'react';
@@ -30,6 +31,7 @@ function AppRouter() {
         <Route path="/account/signup/*" element={<SignupPage />} />
         <Route path="/foryou" element={<ForYouPage />} />
         <Route path="/foryou/detail" element={<ForYouDetailPage />} />
+        <Route path="/my" element={<MyPage />} />
         <Route path="/*" element={<ErrorPage />} />
       </Routes>
       <NavigationBar />
