@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
-@Profile("dev")
+@Profile({"local", "dev"})
 @Component
 public class SocialProviderSelector implements ProviderSelectorFactory {
 
