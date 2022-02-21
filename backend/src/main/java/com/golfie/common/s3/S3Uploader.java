@@ -15,7 +15,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
-@Profile("dev")
+@Profile({"local", "dev"})
 @Component
 public class S3Uploader implements StorageUploader {
 
