@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface FeedRepository extends JpaRepository<Feed, Long> {
 
-    @Query("select f from Feed f join User u on u.id = f.user.id order by f.createdAt desc")
+    @Query("select f from Feed f " +
+            "join fetch f.imageUrls " +
+            "join fetch f.user " +
+            "order by f.createdAt desc")
     Slice<Feed> findAllFeeds(Pageable pageable);
 }
