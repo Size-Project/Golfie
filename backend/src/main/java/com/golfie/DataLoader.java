@@ -4,18 +4,18 @@ import com.golfie.feed.domain.Feed;
 import com.golfie.feed.domain.FeedRepository;
 import com.golfie.feed.domain.like.Likes;
 import com.golfie.rounding.domain.RoundingRepository;
-import com.golfie.style.domain.Style;
 import com.golfie.style.domain.StyleRepository;
 import com.golfie.user.domain.User;
 import com.golfie.user.domain.UserRepository;
 import com.golfie.user.domain.profile.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.relational.core.sql.Like;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Profile("local")
 @RequiredArgsConstructor
 @Component
 public class DataLoader {

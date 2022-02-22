@@ -25,10 +25,10 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     private Style style;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
     private final List<Feed> feeds;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name = "USER_HOSTING_ROUNDS")
     private final Set<Rounding> hostingRounds;
 

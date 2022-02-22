@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Profile("test")
