@@ -7,7 +7,7 @@ const JoinHeader = () => {
       <div className="logo">Join</div>
       <div className="header-button">
         <img src="/images/common/icon-alarm.png" alt="알림" />
-        <img src="/common/icon-message.png" alt="메신저" />
+        <img src="/images/common/icon-message.png" alt="메신저" />
       </div>
     </StyledWrapper>
   );
