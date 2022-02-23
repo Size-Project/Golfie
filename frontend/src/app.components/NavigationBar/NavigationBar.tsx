@@ -1,40 +1,57 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link, useLocation } from 'react-router-dom';
 import SVGMenuHome from '../../../public/images/svg/menu-home.svg';
 import SVGMenuJoin from '../../../public/images/svg/menu-join.svg';
 import SVGMenuFeed from '../../../public/images/svg/menu-feed.svg';
 import SVGMenuForYou from '../../../public/images/svg/menu-for-you.svg';
 import SVGMenuMy from '../../../public/images/svg/menu-my.svg';
+import { useRouter } from 'next/router';
 
 const NavigationBar = () => {
-  const { pathname: page } = useLocation();
+  const router = useRouter();
+  const page = router.pathname;
+
+  const handleLink = (link) => {
+    router.push(link);
+  };
 
   return (
     <StyledWrapper>
-      <Link to="/" className={`menu-item-wrap ${String(page === '/')}`}>
+      <div
+        onClick={() => handleLink('/')}
+        className={`menu-item-wrap ${String(page === '/')}`}
+      >
         <SVGMenuHome />
         <div className="menu-text">HOME</div>
-      </Link>
-      <Link to="/join" className={`menu-item-wrap ${String(page === '/join')}`}>
+      </div>
+      <div
+        onClick={() => handleLink('/join')}
+        className={`menu-item-wrap ${String(page === '/join')}`}
+      >
         <SVGMenuJoin />
         <div className="menu-text">JOIN</div>
-      </Link>
-      <Link to="/feed" className={`menu-item-wrap ${String(page === '/feed')}`}>
+      </div>
+      <div
+        onClick={() => handleLink('/feed')}
+        className={`menu-item-wrap ${String(page === '/feed')}`}
+      >
         <SVGMenuFeed />
         <div className="menu-text">FEED</div>
-      </Link>
-      <Link
-        to="/forYou"
-        className={`menu-item-wrap ${String(page === '/forYou')}`}
+      </div>
+      <div
+        onClick={() => handleLink('/foryou')}
+        className={`menu-item-wrap ${String(page === '/foryou')}`}
       >
         <SVGMenuForYou />
         <div className="menu-text">FOR YOU</div>
-      </Link>
-      <Link to="/my" className={`menu-item-wrap ${String(page === '/my')}`}>
+      </div>
+      <div
+        onClick={() => handleLink('/my')}
+        className={`menu-item-wrap ${String(page === '/my')}`}
+      >
         <SVGMenuMy />
         <div className="menu-text">MY</div>
-      </Link>
+      </div>
     </StyledWrapper>
   );
 };

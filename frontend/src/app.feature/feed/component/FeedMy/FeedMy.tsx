@@ -1,28 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import API from 'app.modules/api';
+import React from 'react';
 import FeedMyInfo from './FeedMyInfo';
 import FeedMyTab from './FeedMyTab';
 import useGetUser from 'app.hooks/useGetUser';
 import styled from 'styled-components';
+import useQueryFn from 'app.hooks/useQueryFn';
+import { API_FEEDS_ME } from 'app.modules/api/fieldtrip.feed';
 
 const FeedMy = () => {
   const getUser = useGetUser();
-  const [feedMy, setFeedMy] = useState([]);
+  const { isLoading, data: feedMy } = useQueryFn(API_FEEDS_ME);
 
-  const requestFeedMy = async () => {
-    try {
-      const res = await API.GET({ url: '/api/feeds/me', data: {} });
-      setFeedMy(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    requestFeedMy();
-  }, []);
-
-  if (!getUser?.info) return null;
+  if (isLoading || !getUser?.info) return null;
   return (
     <StyledWrapper>
       <FeedMyInfo userInfo={getUser.info} />

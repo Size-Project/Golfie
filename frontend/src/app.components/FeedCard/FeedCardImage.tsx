@@ -1,88 +1,71 @@
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import IconHeart from '../../../public/images/svg/ic-heart.svg';
+import IconBookmark from '../../../public/images/svg/ic-bookmark.svg';
 
-export const StyledFeedCard = styled.div`
-  margin-bottom: 50px;
+import 'swiper/css';
+import 'swiper/css/pagination';
 
-  .content-wrap {
-    border-radius: 15px;
-    box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.1);
+import SwiperCore, { Navigation, Pagination } from 'swiper';
+SwiperCore.use([Navigation, Pagination]);
 
-    .content-text-wrap {
-      .content-text {
-        padding: 0 15px;
-      }
+const FeedCardImage = ({ imageUrls, likeCount }) => {
+  const [bookmark, setBookmark] = useState(false);
 
-      .content-detail-wrap {
-        padding: 15px;
-      }
-    }
-  }
-`;
+  const handleBookmark = () => {
+    setBookmark(!bookmark);
+  };
 
-export const StyledFeedCardUser = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
+  return (
+    <StyledWrapper>
+      <Swiper
+        spaceBetween={10}
+        slidesPerView={1}
+        modules={[Navigation, Pagination]}
+        navigation
+        pagination={{ clickable: true }}
+      >
+        <div className="img-bottom">
+          <div className="img-bottom-left">
+            <div className="count-wrap">
+              <div className="count-img">
+                <IconHeart />
+              </div>
+              <div className="count-num">{likeCount.toLocaleString()}</div>
+            </div>
+            {/*<div className="count-wrap">*/}
+            {/*  <div className="count-img">*/}
+            {/*    <IconMessage />*/}
+            {/*  </div>*/}
+            {/*  <div className="count-num">{(1234).toLocaleString()}</div>*/}
+            {/*</div>*/}
+          </div>
+          <div
+            className={`bookmark-img ${String(bookmark)}`}
+            onClick={handleBookmark}
+          >
+            <IconBookmark />
+          </div>
+        </div>
+        {imageUrls.map((image, imageIdx) => (
+          <SwiperSlide key={imageIdx}>
+            <div className="content-image-wrap">
+              <div className="content-image">
+                <img src={image} alt="content" />
+              </div>
+              <div className="content-etc" />
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </StyledWrapper>
+  );
+};
 
-  .user-info-wrap {
-    display: flex;
-    align-items: center;
+export default FeedCardImage;
 
-    .user-image {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      margin-right: 10px;
-      overflow: hidden;
-      box-shadow: inset 0 3px 6px 0 rgba(0, 0, 0, 0.16);
-
-      img {
-        object-fit: contain;
-        width: 100%;
-        height: 100%;
-      }
-    }
-
-    .user-info {
-      font-weight: 500;
-
-      .user-name {
-        font-size: 16px;
-        color: var(--color-black);
-        line-height: 20px;
-      }
-
-      .user-detail {
-        font-size: 12px;
-        color: var(--color-gray-300);
-        line-height: 20px;
-      }
-    }
-  }
-
-  .user-follow {
-    border-radius: 14px;
-    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.15);
-    width: 80px;
-    height: 28px;
-    text-align: center;
-    font-size: 12px;
-    line-height: 28px;
-
-    &.true {
-      color: var(--color-sub);
-      background-color: var(--color-white);
-    }
-
-    &.false {
-      color: var(--color-white);
-      background-color: var(--color-main);
-    }
-  }
-`;
-
-export const StyledFeedCardImage = styled.div`
+const StyledWrapper = styled.div`
   width: 100%;
   position: relative;
 
@@ -215,50 +198,6 @@ export const StyledFeedCardImage = styled.div`
 
         .location-desc {
           font-size: 12px;
-        }
-      }
-    }
-  }
-`;
-
-export const StyledFeedCardContent = styled.div`
-  border-radius: 15px;
-
-  .content-text {
-    padding: 0 15px;
-    font-size: 14px;
-    line-height: 20px;
-    color: var(--color-black);
-  }
-
-  .content-detail-wrap {
-    padding: 15px;
-
-    .content-detail-left {
-      display: flex;
-
-      .content-like {
-        margin-right: 15px;
-        svg {
-          path {
-            fill: var(--color-gray-200);
-          }
-        }
-
-        &.true {
-          svg {
-            path {
-              fill: var(--color-main);
-            }
-          }
-        }
-      }
-
-      .content-comment {
-        svg {
-          path {
-            fill: var(--color-gray-200) !important;
-          }
         }
       }
     }

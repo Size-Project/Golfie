@@ -9,6 +9,7 @@ import {
   StoreProvider,
   useCreateStore,
 } from 'app.store/rootStore';
+import AppLayout from '../app.layout/AppLayout';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -39,7 +40,7 @@ const AppContainer = ({ Component, pageProps }) => {
         <QueryClientProvider client={queryClient}>
           {isTestEnvironment && <ReactQueryDevtools initialIsOpen={false} />}
           <Hydrate state={pageProps.dehydratedState}>
-            <Component {...pageProps} />
+            <AppLayout Component={Component} pageProps={pageProps} />
           </Hydrate>
         </QueryClientProvider>
       </StoreProvider>

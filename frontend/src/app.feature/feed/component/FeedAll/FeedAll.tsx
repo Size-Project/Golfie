@@ -1,24 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import FeedCard from '../FeedCard/FeedCard';
-import API from 'app.modules/api';
+import FeedCard from '../../../../app.components/FeedCard/FeedCard';
+import useQueryFn from 'app.hooks/useQueryFn';
+import { API_FEEDS_ALL } from 'app.modules/api/fieldtrip.feed';
 
 const FeedAll = () => {
-  const [feedAll, setFeedAll] = useState([]);
+  const { isLoading, data: feedAll }: any = useQueryFn(API_FEEDS_ALL);
 
-  const requestFeedAll = async () => {
-    try {
-      const res = await API.GET({ url: '/api/feeds', data: {} });
-      setFeedAll(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    requestFeedAll();
-  }, []);
-
+  if (isLoading) return null;
   return (
     <StyledFeedAll>
       {feedAll.map((feed, idx) => (

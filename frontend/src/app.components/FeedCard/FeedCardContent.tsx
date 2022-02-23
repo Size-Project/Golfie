@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { StyledFeedCardContent } from './styled';
-import { ReactComponent as IconHeart } from '../../../assets/images/svg/ic-heart.svg';
-import { ReactComponent as IconMessage } from '../../../assets/images/svg/ic-message.svg';
-import API from 'api';
+import styled from 'styled-components';
+import IconHeart from '../../../public/images/svg/ic-heart.svg';
+import IconMessage from '../../../public/images/svg/ic-message.svg';
+import API from 'app.modules/api';
 
 const FeedCardContent = ({ id, content, liking, setCount }) => {
   const [like, setLike] = useState(liking);
@@ -36,7 +36,7 @@ const FeedCardContent = ({ id, content, liking, setCount }) => {
   };
 
   return (
-    <StyledFeedCardContent>
+    <StyledWrapper>
       <div className="content-text">{content}</div>
       <div className="content-detail-wrap">
         <div className="content-detail-left">
@@ -49,8 +49,52 @@ const FeedCardContent = ({ id, content, liking, setCount }) => {
         </div>
         <div className="content-detail-more"></div>
       </div>
-    </StyledFeedCardContent>
+    </StyledWrapper>
   );
 };
 
 export default FeedCardContent;
+
+const StyledWrapper = styled.div`
+  border-radius: 15px;
+
+  .content-text {
+    padding: 0 15px;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--color-black);
+  }
+
+  .content-detail-wrap {
+    padding: 15px;
+
+    .content-detail-left {
+      display: flex;
+
+      .content-like {
+        margin-right: 15px;
+        svg {
+          path {
+            fill: var(--color-gray-200);
+          }
+        }
+
+        &.true {
+          svg {
+            path {
+              fill: var(--color-main);
+            }
+          }
+        }
+      }
+
+      .content-comment {
+        svg {
+          path {
+            fill: var(--color-gray-200) !important;
+          }
+        }
+      }
+    }
+  }
+`;
