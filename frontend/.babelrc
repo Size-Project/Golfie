@@ -1,0 +1,35 @@
+{
+  "plugins": [
+    [
+      "babel-plugin-styled-components",
+      {
+        "ssr": true,
+        "pure": true,
+        "fileName": true,
+        "preprocess": false,
+        "displayName": true
+      }
+    ],
+    [
+      "inline-react-svg",
+      {
+        "svgo": {
+          "plugins": [
+            {
+              "name": "removeAttrs",
+              "params": {
+                "attrs": "(data-name)"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  ],
+  "presets": ["next/babel"],
+  "env": {
+    "production": {
+      "plugins": ["transform-remove-console"]
+    }
+  }
+}
