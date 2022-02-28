@@ -11,7 +11,7 @@
     "dev": "env-cmd -f ./env/.dev next dev -p 3000",
     "dev:proxy": "env-cmd -f ./env/.dev node proxy.server.js",
     "build:dev": "env-cmd -f ./env/.dev next build",
-    "build:production": "env-cmd -f ./env/.prod next build"
+    "build:production": "env-cmd -f ./env/.prod next build && next export"
   },
   "dependencies": {
     "@alfonmga/react-lottie-light-ts": "0.0.1",
