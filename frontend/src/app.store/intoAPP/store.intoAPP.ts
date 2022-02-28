@@ -1,5 +1,5 @@
-import API from 'app.modules/api';
 import { parseCookies } from 'nookies';
+import axios from 'axios';
 
 export const useStoreIntoAPP = (set) => {
   return {
@@ -12,11 +12,12 @@ export const useStoreIntoAPP = (set) => {
           },
         };
 
-        const response = await API.GET({
-          url: '/api/users/me',
-          data: { ...config },
-        });
+        const response = await axios.get(
+          `${process.env.FIELD_TRIP_API_URI}/api/users/me`,
+          config
+        );
 
+        console.log(response);
         set((state) => ({
           getUser: {
             ...state.getUser,
@@ -26,6 +27,7 @@ export const useStoreIntoAPP = (set) => {
           },
         }));
       } catch (err) {
+        console.log(err);
         set((state) => ({
           getUser: {
             login: false,

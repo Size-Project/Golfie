@@ -1,6 +1,6 @@
 import create from 'zustand';
-import { getCookie } from '../utils/cookie';
 import axios from 'axios';
+import { parseCookies } from 'nookies';
 
 const useStoreIntoAPP = create((set, get) => ({
   getUser: {
@@ -11,7 +11,7 @@ const useStoreIntoAPP = create((set, get) => ({
 
   requestUserInfo: async () => {
     try {
-      const jwt = getCookie('jwt');
+      const jwt = parseCookies(null).jwt;
       const config = {
         headers: {
           Authorization: `Bearer ${jwt}`,
