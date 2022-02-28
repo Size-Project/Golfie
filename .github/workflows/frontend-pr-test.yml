@@ -25,4 +25,4 @@ jobs:
         run: yarn install
 
       - name: Test and Build
-        run: yarn build
+        run: yarn build:production

@@ -21,7 +21,7 @@ jobs:                                # Job 설정
         run: yarn install
 
       - name: Build                   # React Build
-        run: yarn build
+        run: yarn build:production && next export
 
       - name: Deploy
         env:
