@@ -12,8 +12,6 @@ export const useStoreUserInfo = create<any>((set, get) => ({
 
   requestAuthUser: async () => {
     try {
-      const jwt = parseCookies(null)?.jwt ?? 'guest';
-
       const response = await API.GET({
         url: `/api/users/me`,
         data: {},
