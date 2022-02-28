@@ -7,7 +7,7 @@ import { Navigation, Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-const ForyouDetailPlace = ({ userInfo }) => {
+const ForyouDetailPlace = () => {
   return (
     <StyledWrapper>
       <div className="place-title">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 import { isTestEnvironment } from 'app.modules/constant/environment';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -10,6 +10,7 @@ import {
   useCreateStore,
 } from 'app.store/rootStore';
 import AppLayout from '../app.layout/AppLayout';
+import { useStoreUserInfo } from 'app.store/intoAPP/store.intoAPP';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,6 +28,12 @@ const queryClient = new QueryClient({
 const AppContainer = ({ Component, pageProps }) => {
   isTestEnvironment;
   const createStore = useCreateStore(pageProps.initialZustandState);
+  const requestAuthUser = useStoreUserInfo((state) => state.requestAuthUser);
+
+  useEffect(() => {
+    requestAuthUser();
+  }, []);
+
   return (
     <>
       <Head>
@@ -52,9 +59,9 @@ AppContainer.getInitialProps = async ({ Component, ctx }) => {
   /* server side rendering */
   const zustandStore = initializeStore();
 
-  if (!!ctx.req) {
-    await zustandStore.getState().intoAPPPrefetch(ctx);
-  }
+  // if (!!ctx.req) {
+  //   await zustandStore.getState().intoAPPPrefetch(ctx);
+  // }
 
   return {
     pageProps: {

@@ -8,6 +8,7 @@ import MySettings from 'app.feature/my/component/MySettings';
 const ScreenMy = () => {
   const getUser = useGetUser();
 
+  console.log(getUser);
   return (
     <StyledWrapper>
       <MyHeader />
