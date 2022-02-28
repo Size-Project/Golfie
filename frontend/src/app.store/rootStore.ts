@@ -1,7 +1,7 @@
 import create from 'zustand';
 import createContext from 'zustand/context';
 import { useLayoutEffect } from 'react';
-import { useStoreIntoAPP } from './intoAPP/store.intoAPP';
+import { useStoreIntoAPP } from './intoAPP/store.intoAPPPrefetch';
 import { devtools } from 'zustand/middleware';
 import { isTestEnvironment } from 'app.modules/constant/environment';
 

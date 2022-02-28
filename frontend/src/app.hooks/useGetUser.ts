@@ -1,7 +1,8 @@
 import { useStoreSSR } from 'app.store/rootStore';
+import { useStoreUserInfo } from 'app.store/intoAPP/store.intoAPP';
 
 export const useGetUser = () => {
-  return useStoreSSR((state: any) => state.getUser);
+  return useStoreUserInfo((state: any) => state.getUser);
 };
 
 export default useGetUser;

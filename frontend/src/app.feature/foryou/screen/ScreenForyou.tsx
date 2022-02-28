@@ -11,7 +11,7 @@ const ScreenForyou = () => {
   return (
     <StyledWrapper>
       <ForyouHeader />
-      <ForyouSearch userInfo={getUser.info} />
+      {getUser?.login && <ForyouSearch userInfo={getUser.info} />}
       <ForyouTag />
     </StyledWrapper>
   );

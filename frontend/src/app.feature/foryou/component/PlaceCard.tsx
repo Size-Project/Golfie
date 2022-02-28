@@ -3,18 +3,13 @@ import styled from 'styled-components';
 import useGetUser from 'app.hooks/useGetUser';
 
 const PlaceCard = () => {
-  const getUser = useGetUser();
-  const { info: userInfo } = getUser;
-
   return (
     <StyledWrapper>
       <div className="place-img-wrap">
         <div className="place-img" />
         <div className="join-info-wrap">
           <div className="join-info">
-            <div className="user-img">
-              <img src={userInfo.imageUrl} />
-            </div>
+            <div className="user-img"></div>
             <div className="join-main">
               <div className="author">임현주님 주최</div>
               <div className="title">골린이를 위한 조인</div>

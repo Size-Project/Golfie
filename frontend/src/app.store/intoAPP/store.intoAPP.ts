@@ -1,23 +1,26 @@
 import { parseCookies } from 'nookies';
 import axios from 'axios';
+import create from 'zustand';
+import API from 'app.modules/api';
 
-export const useStoreIntoAPP = (set) => {
-  return {
-    intoAPPPrefetch: async (ctx) => {
-      try {
-        const jwt = parseCookies(ctx)?.jwt ?? 'guest';
-        const config = {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        };
+export const useStoreUserInfo = create<any>((set, get) => ({
+  getUser: {
+    login: false,
+    isLoading: true,
+    info: null,
+  },
 
-        const response = await axios.get(
-          `${process.env.FIELD_TRIP_API_URI}/api/users/me`,
-          config
-        );
+  requestAuthUser: async () => {
+    try {
+      const jwt = parseCookies(null)?.jwt ?? 'guest';
 
-        console.log(response);
+      const response = await API.GET({
+        url: `/api/users/me`,
+        data: {},
+      });
+
+      if (!response.data) throw response;
+      response.data &&
         set((state) => ({
           getUser: {
             ...state.getUser,
@@ -26,16 +29,15 @@ export const useStoreIntoAPP = (set) => {
             info: response.data,
           },
         }));
-      } catch (err) {
-        console.log(err);
-        set((state) => ({
-          getUser: {
-            login: false,
-            isLoading: false,
-            info: null,
-          },
-        }));
-      }
-    },
-  };
-};
+    } catch (err) {
+      console.log(err);
+      set((state) => ({
+        getUser: {
+          login: false,
+          isLoading: false,
+          info: null,
+        },
+      }));
+    }
+  },
+}));
