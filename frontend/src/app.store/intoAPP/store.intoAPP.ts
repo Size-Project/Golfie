@@ -12,7 +12,10 @@ export const useStoreIntoAPP = (set) => {
           },
         };
 
-        const response = await API.GET({url: '/api/users/me', data: {}});
+        const response = await API.GET({
+          url: '/api/users/me',
+          data: { ...config },
+        });
 
         set((state) => ({
           getUser: {

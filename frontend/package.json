@@ -7,8 +7,8 @@
     "huskyinstall": "husky install && rm -rf .git/hooks && ln -s ../.husky .git/hooks",
     "format:all": "prettier --write \"src/**/*.{js,jsx,json,ts,tsx}\"",
     "start": "next start -p $PORT",
-    "local": "env-cmd -f ./env/.local next dev -p 4001",
-    "dev": "env-cmd -f ./env/.dev next dev -p 4001",
+    "local": "env-cmd -f ./env/.local next dev -p 3000",
+    "dev": "env-cmd -f ./env/.dev next dev -p 3000",
     "dev:proxy": "env-cmd -f ./env/.dev node proxy.server.js",
     "build:dev": "env-cmd -f ./env/.dev next build",
     "build:production": "env-cmd -f ./env/.prod next build"
@@ -48,5 +48,5 @@
     "prettier": "2.5.1",
     "simple-zustand-devtools": "1.0.1"
   },
-  "proxy": "http://field-trip.duckdns.org:8080"
+  "proxy": "http://localhost:8080"
 }

@@ -9,7 +9,7 @@ export const GlobalStyle = createGlobalStyle`
 
     --color-purple: #bca1ff;
     --color-blue: #7eb8f2;
-    --color-yello: #f7c844;
+    --color-yellow: #f7c844;
     --color-lemon: #fffc88;
 
     --color-black: #1c1c1c;

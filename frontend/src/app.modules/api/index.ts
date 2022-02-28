@@ -5,7 +5,6 @@ import { parseCookies } from 'nookies';
 const jwt = parseCookies()?.jwt ?? 'guest';
 
 let axiosClient = axios.create({
-  baseURL: process.env.FIELD_TRIP_API_URI,
   headers: {
     Authorization: `Bearer ${jwt}`,
   },

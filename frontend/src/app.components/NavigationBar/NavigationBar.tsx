@@ -15,6 +15,7 @@ const NavigationBar = () => {
     router.push(link);
   };
 
+  if (router.pathname.includes('account')) return null;
   return (
     <StyledWrapper>
       <div
