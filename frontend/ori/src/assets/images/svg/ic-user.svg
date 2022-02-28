@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10">
-    <g data-name="그룹 1503">
-        <g transform="translate(-2.386 -2.098)">
-            <path data-name="패스 137" d="M10.773 17.54v-.847A1.693 1.693 0 0 0 9.08 15H5.693A1.693 1.693 0 0 0 4 16.693v.847" transform="translate(0 -6.844)" style="stroke:#797979;stroke-linecap:round;stroke-linejoin:round;fill:none"/>
-            <circle data-name="타원 16" cx="1.693" cy="1.693" r="1.693" transform="translate(5.693 3.5)" style="stroke:#797979;stroke-linecap:round;stroke-linejoin:round;fill:none"/>
-        </g>
-        <path data-name="사각형 760" style="fill:none" d="M0 0h10v10H0z"/>
-    </g>
-</svg>

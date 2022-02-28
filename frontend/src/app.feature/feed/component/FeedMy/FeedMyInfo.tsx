@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const FeedMyInfo = ({ userInfo }) => {
+  console.log(userInfo);
   return (
     <StyledWrapper>
       <div className="user-info-top">
@@ -23,15 +24,15 @@ const FeedMyInfo = ({ userInfo }) => {
       <div className="user-info-bottom">
         <div className="info-count">
           <div className="title">Join</div>
-          <div className="count">10</div>
+          <div className="count">{userInfo.joinCount}</div>
         </div>
         <div className="info-count">
           <div className="title">Friend</div>
-          <div className="count">100</div>
+          <div className="count">{userInfo.followerCount}</div>
         </div>
         <div className="info-count">
           <div className="title">Feed</div>
-          <div className="count">15</div>
+          <div className="count">{userInfo.feedCount}</div>
         </div>
       </div>
     </StyledWrapper>
@@ -113,6 +114,7 @@ const StyledWrapper = styled.div`
       .title {
         line-height: 21px;
         margin-bottom: 2px;
+        font-family: 'Co Text';
       }
 
       .count {

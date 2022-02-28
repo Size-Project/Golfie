@@ -126,7 +126,7 @@ const StyledWrapper = styled.div`
   }
 
   .swiper-pagination {
-    width: 30%;
+    width: 30% !important;
     margin: 0 calc(35%);
     align-self: center;
     justify-self: center;
