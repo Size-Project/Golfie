@@ -1,15 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import SignupInput from 'app.feature/account/signup/component/SignupInput';
+import API from 'app.modules/api';
 
 const SignupProfile = ({ handleChangeStage }) => {
   const [activeNext, setActiveNext] = useState(false);
-
+  const [error, setError] = useState(null);
   const [profileInfo, setProfileInfo] = useState({
     nickname: '',
     job: '',
     averageHit: '',
   });
+
+  const requestValidate = async (nickname) => {
+    try {
+      const res = await API.POST({
+        url: '/api/validate/nickname',
+        data: { nickname },
+      });
+      if (res.status !== 200) throw res;
+      setError(null);
+    } catch (err) {
+      setError(err.response.data.message);
+    }
+  };
 
   useEffect(() => {
     setActiveNext(
@@ -25,12 +39,13 @@ const SignupProfile = ({ handleChangeStage }) => {
           name="nickname"
           label="닉네임"
           onChange={(e) => {
+            requestValidate(e.target.value);
             setProfileInfo((prev) => ({
               ...prev,
               nickname: e.target.value,
             }));
           }}
-          error="이써!"
+          error={error}
         />
         <SignupInput
           name="job"
