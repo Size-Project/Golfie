@@ -5,7 +5,8 @@ import resetCSS from './resetCSS';
 export const GlobalStyle = createGlobalStyle`
   :root {
     --color-main: #29ae6f;
-    --color-sub: #6dd195;
+    --color-sub: #3bd48e;
+    --color-pri: #00b169;
 
     --color-purple: #bca1ff;
     --color-blue: #7eb8f2;
