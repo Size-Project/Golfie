@@ -89,8 +89,31 @@ public class Rounding {
         return style;
     }
 
+    public User getHost() {
+        return host;
+    }
+
+    public Set<User> getAttendee() {
+        return attendee;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
     public String getContent() {
         return content;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public int getJoinNum() {
+        return joinNum;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
 }
