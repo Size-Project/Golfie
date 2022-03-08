@@ -2,6 +2,7 @@ package com.golfie.feed.domain;
 
 import com.golfie.feed.domain.like.Likes;
 import com.golfie.user.domain.User;
+import org.hibernate.annotations.BatchSize;
 import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,11 +20,13 @@ public class Feed {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @BatchSize(size = 100)
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> imageUrls;
 
     private String content;
 
+    @BatchSize(size = 100)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "feed_id")
     private List<Likes> likes;

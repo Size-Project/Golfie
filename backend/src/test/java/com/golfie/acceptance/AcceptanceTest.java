@@ -27,7 +27,6 @@ public abstract class AcceptanceTest {
 
     @BeforeEach
     void databaseSetup() {
-        databaseCleanup.afterPropertiesSet();
         databaseCleanup.execute();
     }
 }
