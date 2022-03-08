@@ -1,7 +1,5 @@
 package com.golfie;
 
-import com.golfie.acceptance.AcceptanceTest;
-import com.golfie.common.util.DatabaseCleanup;
 import com.golfie.feed.domain.FeedRepository;
 import com.golfie.user.domain.UserRepository;
 import org.junit.jupiter.api.BeforeEach;

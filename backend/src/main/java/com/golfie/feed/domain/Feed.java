@@ -20,6 +20,7 @@ public class Feed {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @BatchSize(size = 100)
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> imageUrls;
 
