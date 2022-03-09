@@ -77,4 +77,16 @@ public class RoundingAcceptanceTest extends AcceptanceTest {
                 .extracting("course.name")
                 .containsExactly("courseName");
     }
+
+    @DisplayName("게스트 사용자가 단일 라운딩을 조회한다.")
+    @Test
+    void read_One_Rounding() {
+        other.createRounding();
+
+        RoundingResponse roundingResponse = guest.readRounding();
+
+        assertThat(roundingResponse)
+                .extracting("title")
+                .isEqualTo("title");
+    }
 }

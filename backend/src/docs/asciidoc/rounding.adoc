@@ -57,3 +57,11 @@ include::{snippets}/rounding-read-all-my/response-fields.adoc[]
 
 ==== Response HTTP Example
 include::{snippets}/rounding-read-all-my/http-response.adoc[]
+
+
+== 단일 라운딩 조회
+==== Response Data Fields
+include::{snippets}/rounding-read-one/response-fields.adoc[]
+
+==== Response HTTP Example
+include::{snippets}/rounding-read-one/http-response.adoc[]

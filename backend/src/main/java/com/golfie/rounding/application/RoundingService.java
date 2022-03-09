@@ -71,7 +71,7 @@ public class RoundingService {
         return rounding;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<RoundingResponse> findMyRoundings(CurrentUser currentUser) {
         User user = findUserById(currentUser.getId());
 
@@ -79,6 +79,11 @@ public class RoundingService {
                 .stream()
                 .map(RoundingResponse::of)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public RoundingResponse findOne(Long roundingId) {
+        return RoundingResponse.of(findRoundingById(roundingId));
     }
 
     private User findUserById(Long id) {
