@@ -3,7 +3,10 @@ package com.golfie;
 import com.golfie.feed.domain.Feed;
 import com.golfie.feed.domain.FeedRepository;
 import com.golfie.feed.domain.like.Likes;
+import com.golfie.rounding.domain.Rounding;
 import com.golfie.rounding.domain.RoundingRepository;
+import com.golfie.rounding.domain.course.Course;
+import com.golfie.rounding.domain.course.CourseRepository;
 import com.golfie.style.domain.StyleRepository;
 import com.golfie.user.domain.User;
 import com.golfie.user.domain.UserRepository;
@@ -13,6 +16,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Profile("local")
@@ -24,6 +28,7 @@ public class DataLoader {
     private final FeedRepository feedRepository;
     private final StyleRepository styleRepository;
     private final RoundingRepository roundingRepository;
+    private final CourseRepository courseRepository;
 
     @Transactional
     public void loadData() {
@@ -108,5 +113,24 @@ public class DataLoader {
         john.addFollowing(anna);
         anna.addFollowing(mary);
         mary.addFollowing(anna);
+
+
+        Course suwon = new Course("수원 C.C", "경기도 수원시");
+        Course seoul = new Course("서울 C.C", "서울특별시");
+        courseRepository.save(suwon);
+        courseRepository.save(seoul);
+
+        Rounding johnRounding = roundingRepository.save(Rounding.builder()
+                .course(suwon)
+                .host(john)
+                .title("놀러오세요.")
+                .content("내용입니다.")
+                .joinNum(4)
+                .price(100000)
+                .dateTime(LocalDateTime.now())
+                .build());
+
+        john.addHostingRound(johnRounding);
+        john.addAttendingRound(johnRounding);
     }
 }

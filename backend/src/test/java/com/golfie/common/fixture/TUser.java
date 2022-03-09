@@ -249,6 +249,22 @@ public class TUser {
                     .statusCode(200);
     }
 
+    public List<RoundingResponse> readAllMyRoundings() {
+        return RestAssured
+                .given().log().all()
+                    .port(port)
+                    .contentType(ContentType.JSON)
+                    .auth()
+                    .oauth2(accessToken)
+                .when()
+                    .request(Method.GET, "/api/roundings/me")
+                .then().log().all()
+                    .statusCode(200)
+                    .extract()
+                    .body()
+                    .jsonPath().getList(".", RoundingResponse.class);
+    }
+
     public Long getId() {
         return id;
     }
