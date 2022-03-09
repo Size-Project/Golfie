@@ -161,7 +161,6 @@ public class RoundingControllerTest extends DocumentationBase {
                 .getResponse()
                 .getContentAsString();
 
-        System.out.println("body = " + body);
 //        assertThat(body).isEqualTo(objectMapper.writeValueAsString(roundingResponses));
 
         //docs
