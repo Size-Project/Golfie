@@ -31,4 +31,11 @@ public class RoundingController {
         return ResponseEntity.ok(roundingResponses);
     }
 
+    @PutMapping("/roundings/{id}")
+    public ResponseEntity<Void> joinRounding(@Authentication CurrentUser currentUser,
+                                             @PathVariable(value = "id") Long roundingId) {
+        roundingService.join(currentUser, roundingId);
+        return ResponseEntity.ok().build();
+    }
+
 }

@@ -26,16 +26,15 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.mockito.BDDMockito.given;
 
@@ -116,7 +115,7 @@ public class RoundingControllerTest extends DocumentationBase {
 
     @DisplayName("모든 라운딩을 조회한다.")
     @Test
-    void Find_All_Roundings() throws Exception {
+    void read_All_Roundings() throws Exception {
         //arrange
         User host = new User(1L, new BasicProfile("hostName", "hostJob", 100),
                 TestUserInfo.create().toSocialProfile());
@@ -194,6 +193,31 @@ public class RoundingControllerTest extends DocumentationBase {
                         fieldWithPath("[].joinNum").type(NUMBER).description("인원"),
                         fieldWithPath("[].dateTime").type(STRING).description("일시 (yyyy-MM-dd'T'HH:mm:ss)")
                 )
+        ));
+    }
+
+    @DisplayName("라운딩에 조인한다.")
+    @Test
+    void join_Rounding() throws Exception {
+        //arrange
+        String token = "Bearer " + jwtTokenProvider.createToken("1");
+        doNothing().when(roundingService).join(any(), any());
+
+        //act
+        ResultActions result = mockMvc.perform(put("/api/roundings/{id}", 1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(AUTHORIZATION, token));
+
+        //assert
+        String body = result.andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        //docs
+        result.andDo(document("rounding-join",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint())
         ));
     }
 }

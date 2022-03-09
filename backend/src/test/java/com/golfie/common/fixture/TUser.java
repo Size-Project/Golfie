@@ -236,6 +236,19 @@ public class TUser {
                     .jsonPath().getList(".", RoundingResponse.class);
     }
 
+    public void joinRounding() {
+        RestAssured
+                .given().log().all()
+                    .port(port)
+                    .contentType(ContentType.JSON)
+                    .auth()
+                    .oauth2(accessToken)
+                .when()
+                    .request(Method.PUT, "/api/roundings/{id}", 1)
+                .then().log().all()
+                    .statusCode(200);
+    }
+
     public Long getId() {
         return id;
     }
@@ -247,5 +260,4 @@ public class TUser {
     public String getAccessToken() {
         return accessToken;
     }
-
 }

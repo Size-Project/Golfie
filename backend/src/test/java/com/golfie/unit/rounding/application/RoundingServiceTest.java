@@ -139,4 +139,39 @@ public class RoundingServiceTest {
         verify(roundingRepository, times(1))
                 .findAll();
     }
+
+    @DisplayName("라운딩에 조인한다.")
+    @Test
+    void join_Rounding() {
+        //arrange
+        User user = new User(1L, new BasicProfile("hostName", "hostJob", 100),
+                TestUserInfo.create().toSocialProfile());
+        Course course = new Course(1L,"courseName", "address");
+        Style style = Style.builder()
+                .averageHit("100-120")
+                .ageRange("20-29")
+                .mood("mood")
+                .build();
+        Rounding rounding = Rounding.builder()
+                .course(course)
+                .style(style)
+                .title("roundingTitle")
+                .content("roundingContent")
+                .price(10000)
+                .joinNum(4)
+                .dateTime(LocalDateTime.now())
+                .build();
+
+        given(userRepository.findById(any())).willReturn(Optional.of(user));
+        given(roundingRepository.findById(any())).willReturn(Optional.of(rounding));
+
+        //act
+        roundingService.join(CurrentUser.of(1L, Authority.MEMBER), 1L);
+
+        //assert
+        verify(userRepository, times(1))
+                .findById(any());
+        verify(roundingRepository, times(1))
+                .findById(any());
+    }
 }

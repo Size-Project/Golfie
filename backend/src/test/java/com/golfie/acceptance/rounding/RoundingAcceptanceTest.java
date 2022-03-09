@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class RoundingAcceptanceTest extends AcceptanceTest {
 
     private TUser member;
+    private TUser other;
     private TUser guest;
 
     @BeforeEach
@@ -23,6 +24,7 @@ public class RoundingAcceptanceTest extends AcceptanceTest {
         TUserFactory userFactory = new TUserFactory(port);
 
         member = userFactory.createMember().signup();
+        other = userFactory.createOtherUser().signup();
         guest = userFactory.createGuest();
 
         courseRepository.save(new Course("courseName", "courseAddress"));
@@ -37,7 +39,7 @@ public class RoundingAcceptanceTest extends AcceptanceTest {
     @DisplayName("게스트 사용자가 모든 라운딩을 조회한다.")
     @Test
     void read_All_Roundings() {
-        member.createRounding();
+        other.createRounding();
 
         List<RoundingResponse> roundingResponses = guest.readAllRoundings();
 
@@ -49,5 +51,12 @@ public class RoundingAcceptanceTest extends AcceptanceTest {
         assertThat(roundingResponses)
                 .extracting("course.name")
                 .containsExactly("courseName");
+    }
+
+    @DisplayName("로그인된 사용자가 모든 라운딩을 조회한다.")
+    @Test
+    void join_Rounding() {
+        other.createRounding();
+        member.joinRounding();
     }
 }
