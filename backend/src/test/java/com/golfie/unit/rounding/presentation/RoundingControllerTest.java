@@ -201,7 +201,7 @@ public class RoundingControllerTest extends DocumentationBase {
     void join_Rounding() throws Exception {
         //arrange
         String token = "Bearer " + jwtTokenProvider.createToken("1");
-        doNothing().when(roundingService).join(any(), any());
+        given(roundingService.join(any(), any())).willReturn(null);
 
         //act
         ResultActions result = mockMvc.perform(put("/api/roundings/{id}", 1)

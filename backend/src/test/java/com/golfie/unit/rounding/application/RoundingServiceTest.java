@@ -25,6 +25,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -166,9 +167,12 @@ public class RoundingServiceTest {
         given(roundingRepository.findById(any())).willReturn(Optional.of(rounding));
 
         //act
-        roundingService.join(CurrentUser.of(1L, Authority.MEMBER), 1L);
+        Rounding joinRounding = roundingService.join(CurrentUser.of(1L, Authority.MEMBER), 1L);
 
         //assert
+        Set<User> attendee = joinRounding.getAttendee();
+        assertThat(attendee.contains(user)).isTrue();
+
         verify(userRepository, times(1))
                 .findById(any());
         verify(roundingRepository, times(1))

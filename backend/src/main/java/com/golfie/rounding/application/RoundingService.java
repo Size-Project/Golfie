@@ -60,11 +60,12 @@ public class RoundingService {
     }
 
     @Transactional
-    public void join(CurrentUser currentUser, Long roundingId) {
+    public Rounding join(CurrentUser currentUser, Long roundingId) {
         User user = findUserById(currentUser.getId());
         Rounding rounding = findRoundingById(roundingId);
 
         rounding.addAttendee(user);
+        return rounding;
     }
 
     private User findUserById(Long id) {
