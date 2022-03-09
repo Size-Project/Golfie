@@ -30,3 +30,19 @@ include::{snippets}/rounding-save/http-request.adoc[]
 
 ==== Response HTTP Example
 include::{snippets}/rounding-save/http-response.adoc[]
+
+
+== 모든 라운딩 조회
+==== Response Data Fields
+include::{snippets}/rounding-read-all/response-fields.adoc[]
+
+==== Response HTTP Example
+include::{snippets}/rounding-read-all/http-response.adoc[]
+
+
+== 라운딩에 조인
+==== Request HTTP Example
+include::{snippets}/rounding-join/http-request.adoc[]
+
+==== Response HTTP Example
+include::{snippets}/rounding-join/http-response.adoc[]
