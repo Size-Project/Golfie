@@ -27,8 +27,7 @@ public class Feed {
     private String content;
 
     @BatchSize(size = 100)
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "feed_id")
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Likes> likes;
 
     @CreatedDate

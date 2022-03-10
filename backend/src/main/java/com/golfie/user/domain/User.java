@@ -28,10 +28,10 @@ public class User {
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     private final List<Feed> feeds;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "host", cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<Rounding> hostingRounds;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "attendee", cascade = CascadeType.ALL)
     private final Set<Rounding> attendingRounds;
 
     @ManyToMany(mappedBy = "followers")
