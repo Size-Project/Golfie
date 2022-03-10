@@ -33,8 +33,6 @@ public class DatabaseCleanup implements InitializingBean {
 
         relationTableNames.add("user_relations");
         relationTableNames.add("feed_image_urls");
-        relationTableNames.add("user_hosting_rounds");
-        relationTableNames.add("user_attending_rounds");
         relationTableNames.add("rounding_attendee");
     }
 
