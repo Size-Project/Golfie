@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import SVGLeft from '../../../../public/images/svg/arrow-left.svg';
+import SVGLeft from '../../../../../public/images/svg/arrow-left.svg';
 
 const JoinDetailHeader = () => {
   return (

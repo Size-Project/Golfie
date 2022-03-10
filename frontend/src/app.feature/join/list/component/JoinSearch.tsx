@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import SVGSearch from '../../../../public/images/svg/ic-search.svg';
+import SVGSearch from '../../../../../public/images/svg/ic-search.svg';
 
 const JoinSearch = () => {
   return (

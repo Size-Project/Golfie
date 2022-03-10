@@ -19,7 +19,8 @@ const NavigationBar = () => {
   const getUser = useGetUser();
 
   if (getUser?.isLoading) return null;
-  if (router.pathname.includes('account')) return null;
+  if (router.pathname.includes('account') || router.pathname.includes('create'))
+    return null;
   return (
     <StyledWrapper>
       <div

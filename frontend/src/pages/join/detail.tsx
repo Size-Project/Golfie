@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import ScreenJoinDetail from 'app.feature/join/screen/ScreenJoinDetail';
+import ScreenJoinDetail from 'app.feature/join/detail/screen/ScreenJoinDetail';
 
 const Page_JoinDetail = () => {
   const router = useRouter();

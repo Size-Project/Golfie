@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import JoinHeader from 'app.feature/join/component/JoinHeader';
-import JoinSearch from 'app.feature/join/component/JoinSearch';
-import JoinRecommend from 'app.feature/join/component/JoinRecommend';
-import JoinNewRecommend from 'app.feature/join/component/JoinNewRecommend';
+import JoinHeader from 'app.feature/join/list/component/JoinHeader';
+import JoinSearch from 'app.feature/join/list/component/JoinSearch';
+import JoinRecommend from 'app.feature/join/list/component/JoinRecommend';
+import JoinNewRecommend from 'app.feature/join/list/component/JoinNewRecommend';
 
 const ScreeJoin = () => {
   return (

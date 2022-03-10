@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import SVGLocation from '../../../../public/images/svg/tag-location.svg';
-import SVGSchedule from '../../../../public/images/svg/tag-schedule.svg';
-import SVGCash from '../../../../public/images/svg/tag-cash.svg';
-import SVGUser from '../../../../public/images/svg/tag-user.svg';
+import SVGLocation from '../../../../../public/images/svg/tag-location.svg';
+import SVGSchedule from '../../../../../public/images/svg/tag-schedule.svg';
+import SVGCash from '../../../../../public/images/svg/tag-cash.svg';
+import SVGUser from '../../../../../public/images/svg/tag-user.svg';
 
 const JoinDetailInfo = () => {
   return (

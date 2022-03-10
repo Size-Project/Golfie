@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import SVGHeart from '../../../../public/images/svg/menu-join.svg';
-import SVGLocation from '../../../../public/images/svg/tag-location.svg';
+import SVGHeart from '../../../../../public/images/svg/menu-join.svg';
+import SVGLocation from '../../../../../public/images/svg/tag-location.svg';
 
 const JoinDetailRecommend = () => {
   return (
