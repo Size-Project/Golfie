@@ -53,10 +53,40 @@ public class RoundingAcceptanceTest extends AcceptanceTest {
                 .containsExactly("courseName");
     }
 
-    @DisplayName("로그인된 사용자가 모든 라운딩을 조회한다.")
+    @DisplayName("로그인된 사용자가 라운딩에 조인한다.")
     @Test
     void join_Rounding() {
         other.createRounding();
         member.joinRounding();
+    }
+
+    @DisplayName("로그인된 사용자가 자신이 조인한 모든 라운딩을 조회한다.")
+    @Test
+    void join_All_My_Roundings() {
+        other.createRounding();
+        member.joinRounding();
+
+        List<RoundingResponse> roundingResponses = member.readAllMyRoundings();
+
+        assertThat(roundingResponses)
+                .hasSize(1)
+                .extracting("title")
+                .containsExactly("title");
+
+        assertThat(roundingResponses)
+                .extracting("course.name")
+                .containsExactly("courseName");
+    }
+
+    @DisplayName("게스트 사용자가 단일 라운딩을 조회한다.")
+    @Test
+    void read_One_Rounding() {
+        other.createRounding();
+
+        RoundingResponse roundingResponse = guest.readRounding();
+
+        assertThat(roundingResponse)
+                .extracting("title")
+                .isEqualTo("title");
     }
 }

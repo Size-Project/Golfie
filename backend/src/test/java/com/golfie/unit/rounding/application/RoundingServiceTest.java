@@ -178,4 +178,47 @@ public class RoundingServiceTest {
         verify(roundingRepository, times(1))
                 .findById(any());
     }
+
+    @DisplayName("나의 조인한 모든 라운딩을 조회한다.")
+    @Test
+    void read_All_My_Joining_Roundings() {
+        //arrange
+        User host = new User(1L, new BasicProfile("hostName", "hostJob", 100),
+                TestUserInfo.create().toSocialProfile());
+        User attendee = new User(2L, new BasicProfile("attendeeName", "attendeeJob", 100),
+                TestUserInfo.create().toSocialProfile());
+        Course course = new Course(1L,"courseName", "address");
+        Style style = Style.builder()
+                .averageHit("100-120")
+                .ageRange("20-29")
+                .mood("mood")
+                .build();
+        Rounding rounding = Rounding.builder()
+                .course(course)
+                .host(host)
+                .style(style)
+                .title("roundingTitle")
+                .content("roundingContent")
+                .price(10000)
+                .joinNum(4)
+                .dateTime(LocalDateTime.now())
+                .build();
+
+        List<RoundingResponse> roundingResponses = List.of(RoundingResponse.of(rounding));
+
+        attendee.addAttendingRound(rounding);
+
+        given(userRepository.findById(any())).willReturn(Optional.of(attendee));
+
+        //act
+        List<RoundingResponse> target = roundingService.findMyRoundings(CurrentUser.of(2L, Authority.MEMBER));
+
+        //assert
+        assertThat(target)
+                .usingRecursiveComparison()
+                .isEqualTo(roundingResponses);
+
+        verify(userRepository, times(1))
+                .findById(any());
+    }
 }

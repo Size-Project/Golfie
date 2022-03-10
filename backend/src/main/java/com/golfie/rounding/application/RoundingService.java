@@ -18,7 +18,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.golfie.common.exception.ErrorCode.*;
@@ -65,7 +67,23 @@ public class RoundingService {
         Rounding rounding = findRoundingById(roundingId);
 
         rounding.addAttendee(user);
+        user.addAttendingRound(rounding);
         return rounding;
+    }
+
+    @Transactional(readOnly = true)
+    public List<RoundingResponse> findMyRoundings(CurrentUser currentUser) {
+        User user = findUserById(currentUser.getId());
+
+        return user.getAttendingRounds()
+                .stream()
+                .map(RoundingResponse::of)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public RoundingResponse findOne(Long roundingId) {
+        return RoundingResponse.of(findRoundingById(roundingId));
     }
 
     private User findUserById(Long id) {

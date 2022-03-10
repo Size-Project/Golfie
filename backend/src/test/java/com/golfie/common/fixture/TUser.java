@@ -203,7 +203,7 @@ public class TUser {
                 "content",
                 10000,
                 10,
-                LocalDateTime.of(2022, 1, 1, 1, 1),
+                LocalDateTime.now(),
                 "100-120",
                 "20-29",
                 "mood"
@@ -247,6 +247,37 @@ public class TUser {
                     .request(Method.PUT, "/api/roundings/{id}", 1)
                 .then().log().all()
                     .statusCode(200);
+    }
+
+    public List<RoundingResponse> readAllMyRoundings() {
+        return RestAssured
+                .given().log().all()
+                    .port(port)
+                    .contentType(ContentType.JSON)
+                    .auth()
+                    .oauth2(accessToken)
+                .when()
+                    .request(Method.GET, "/api/roundings/me")
+                .then().log().all()
+                    .statusCode(200)
+                    .extract()
+                    .body()
+                    .jsonPath().getList(".", RoundingResponse.class);
+    }
+
+    public RoundingResponse readRounding() {
+        return RestAssured
+                .given().log().all()
+                    .port(port)
+                    .contentType(ContentType.JSON)
+                    .auth()
+                    .oauth2(accessToken)
+                .when()
+                    .request(Method.GET, "/api/roundings/{id}", 1)
+                .then().log().all()
+                    .statusCode(200)
+                    .extract()
+                    .as(RoundingResponse.class);
     }
 
     public Long getId() {

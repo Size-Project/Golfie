@@ -28,12 +28,10 @@ public class User {
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     private final List<Feed> feeds;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinTable(name = "USER_HOSTING_ROUNDS")
+    @OneToMany(mappedBy = "host", cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<Rounding> hostingRounds;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "USER_ATTENDING_ROUNDS")
+    @ManyToMany(mappedBy = "attendee", cascade = CascadeType.ALL)
     private final Set<Rounding> attendingRounds;
 
     @ManyToMany(mappedBy = "followers")
@@ -133,6 +131,14 @@ public class User {
 
     public void addAttendingRound(Rounding rounding) {
         attendingRounds.add(rounding);
+    }
+
+    public Set<Rounding> getAttendingRounds() {
+        return attendingRounds;
+    }
+
+    public Set<Rounding> getHostingRounds() {
+        return hostingRounds;
     }
 
     public Long getId() {

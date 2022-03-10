@@ -21,10 +21,10 @@ public class Style {
 
     private String mood;
 
-    @OneToMany(mappedBy = "style")
+    @OneToMany(mappedBy = "style", orphanRemoval = true)
     private Set<Rounding> roundings;
 
-    @OneToMany(mappedBy = "style")
+    @OneToMany(mappedBy = "style", orphanRemoval = true)
     private Set<User> users;
 
     public Style() {

@@ -220,4 +220,155 @@ public class RoundingControllerTest extends DocumentationBase {
                 preprocessResponse(prettyPrint())
         ));
     }
+
+    @DisplayName("자신이 조인한 모든 라운딩을 조회한다.")
+    @Test
+    void read_All_My_Roundings() throws Exception {
+        //arrange
+        String token = "Bearer " + jwtTokenProvider.createToken("2");
+
+        User host = new User(1L, new BasicProfile("hostName", "hostJob", 100),
+                TestUserInfo.create().toSocialProfile());
+        Course course = new Course(1L,"courseName", "address");
+        Style style = Style.builder()
+                .averageHit("100-120")
+                .ageRange("20-29")
+                .mood("mood")
+                .build();
+        Rounding rounding = Rounding.builder()
+                .course(course)
+                .style(style)
+                .host(host)
+                .title("roundingTitle")
+                .content("roundingContent")
+                .price(10000)
+                .joinNum(4)
+                .dateTime(LocalDateTime.now())
+                .build();
+
+        User attendee1 = new User(2L, new BasicProfile("attendee1Name", "attendee1Job", 100),
+                TestUserInfo.create().toSocialProfile());
+
+        rounding.addAttendee(attendee1);
+
+        List<RoundingResponse> roundingResponses = List.of(
+                RoundingResponse.of(rounding)
+        );
+
+        given(roundingService.findMyRoundings(any())).willReturn(roundingResponses);
+
+        //act
+        ResultActions result = mockMvc.perform(get("/api/roundings/me")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(AUTHORIZATION, token));
+
+        //assert
+        result.andExpect(status().isOk());
+
+        //docs
+        result.andDo(document("rounding-read-all-my",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                        fieldWithPath("[].course.id").type(NUMBER).description("골프장 id"),
+                        fieldWithPath("[].course.name").type(STRING).description("골프장 이름"),
+                        fieldWithPath("[].course.address").type(STRING).description("골프장 위치"),
+                        fieldWithPath("[].style.averageHit").type(STRING).description("함께하고 싶은 평균 타수"),
+                        fieldWithPath("[].style.ageRange").type(STRING).description("함께하고 싶은 연령대"),
+                        fieldWithPath("[].style.mood").type(STRING).description("좋아하는 분위기"),
+                        fieldWithPath("[].host.id").type(STRING).description("호스트 id"),
+                        fieldWithPath("[].host.nickname").type(STRING).description("호스트 닉네임"),
+                        fieldWithPath("[].host.imageUrl").type(STRING).description("호스트 프로필 이미지"),
+                        fieldWithPath("[].host.ageRange").type(STRING).description("호스트 연령대"),
+                        fieldWithPath("[].host.gender").type(STRING).description("호스트 성별"),
+                        fieldWithPath("[].host.job").type(STRING).description("호스트 직업"),
+                        fieldWithPath("[].host.averageHit").type(NUMBER).description("호스트 평균 타수"),
+                        fieldWithPath("[].attendees.[].id").type(STRING).description("참가자 id"),
+                        fieldWithPath("[].attendees.[].nickname").type(STRING).description("참가자 닉네임"),
+                        fieldWithPath("[].attendees.[].imageUrl").type(STRING).description("참가자 프로필 이미지"),
+                        fieldWithPath("[].attendees.[].ageRange").type(STRING).description("참가자 연령대"),
+                        fieldWithPath("[].attendees.[].gender").type(STRING).description("참가자 성별"),
+                        fieldWithPath("[].attendees.[].job").type(STRING).description("참가자 직업"),
+                        fieldWithPath("[].attendees.[].averageHit").type(NUMBER).description("참가자 평균 타수"),
+                        fieldWithPath("[].title").type(STRING).description("제목"),
+                        fieldWithPath("[].content").type(STRING).description("내용"),
+                        fieldWithPath("[].price").type(NUMBER).description("가격"),
+                        fieldWithPath("[].joinNum").type(NUMBER).description("인원"),
+                        fieldWithPath("[].dateTime").type(STRING).description("일시 (yyyy-MM-dd'T'HH:mm:ss)")
+                )
+        ));
+    }
+
+    @DisplayName("단일 라운딩을 조회한다.")
+    @Test
+    void read_Rounding() throws Exception {
+        //arrange
+        User host = new User(1L, new BasicProfile("hostName", "hostJob", 100),
+                TestUserInfo.create().toSocialProfile());
+        Course course = new Course(1L,"courseName", "address");
+        Style style = Style.builder()
+                .averageHit("100-120")
+                .ageRange("20-29")
+                .mood("mood")
+                .build();
+        Rounding rounding = Rounding.builder()
+                .course(course)
+                .style(style)
+                .host(host)
+                .title("roundingTitle")
+                .content("roundingContent")
+                .price(10000)
+                .joinNum(4)
+                .dateTime(LocalDateTime.now())
+                .build();
+
+        User attendee1 = new User(2L, new BasicProfile("attendee1Name", "attendee1Job", 100),
+                TestUserInfo.create().toSocialProfile());
+
+        rounding.addAttendee(attendee1);
+
+        RoundingResponse roundingResponse = RoundingResponse.of(rounding);
+
+        given(roundingService.findOne(any())).willReturn(roundingResponse);
+
+        //act
+        ResultActions result = mockMvc.perform(get("/api/roundings/{id}", 1)
+                .contentType(MediaType.APPLICATION_JSON));
+
+        //assert
+        result.andExpect(status().isOk());
+
+        //docs
+        result.andDo(document("rounding-read-one",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint()),
+                responseFields(
+                        fieldWithPath("course.id").type(NUMBER).description("골프장 id"),
+                        fieldWithPath("course.name").type(STRING).description("골프장 이름"),
+                        fieldWithPath("course.address").type(STRING).description("골프장 위치"),
+                        fieldWithPath("style.averageHit").type(STRING).description("함께하고 싶은 평균 타수"),
+                        fieldWithPath("style.ageRange").type(STRING).description("함께하고 싶은 연령대"),
+                        fieldWithPath("style.mood").type(STRING).description("좋아하는 분위기"),
+                        fieldWithPath("host.id").type(STRING).description("호스트 id"),
+                        fieldWithPath("host.nickname").type(STRING).description("호스트 닉네임"),
+                        fieldWithPath("host.imageUrl").type(STRING).description("호스트 프로필 이미지"),
+                        fieldWithPath("host.ageRange").type(STRING).description("호스트 연령대"),
+                        fieldWithPath("host.gender").type(STRING).description("호스트 성별"),
+                        fieldWithPath("host.job").type(STRING).description("호스트 직업"),
+                        fieldWithPath("host.averageHit").type(NUMBER).description("호스트 평균 타수"),
+                        fieldWithPath("attendees.[].id").type(STRING).description("참가자 id"),
+                        fieldWithPath("attendees.[].nickname").type(STRING).description("참가자 닉네임"),
+                        fieldWithPath("attendees.[].imageUrl").type(STRING).description("참가자 프로필 이미지"),
+                        fieldWithPath("attendees.[].ageRange").type(STRING).description("참가자 연령대"),
+                        fieldWithPath("attendees.[].gender").type(STRING).description("참가자 성별"),
+                        fieldWithPath("attendees.[].job").type(STRING).description("참가자 직업"),
+                        fieldWithPath("attendees.[].averageHit").type(NUMBER).description("참가자 평균 타수"),
+                        fieldWithPath("title").type(STRING).description("제목"),
+                        fieldWithPath("content").type(STRING).description("내용"),
+                        fieldWithPath("price").type(NUMBER).description("가격"),
+                        fieldWithPath("joinNum").type(NUMBER).description("인원"),
+                        fieldWithPath("dateTime").type(STRING).description("일시 (yyyy-MM-dd'T'HH:mm:ss)")
+                )
+        ));
+    }
 }
