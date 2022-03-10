@@ -7,7 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Profile("test")
@@ -19,6 +21,8 @@ public class DatabaseCleanup implements InitializingBean {
 
     private List<String> tableNames;
 
+    private List<String> relationTableNames = new ArrayList<>();
+
     @Override
     public void afterPropertiesSet() {
         tableNames = entityManager.getMetamodel().getEntities()
@@ -26,6 +30,10 @@ public class DatabaseCleanup implements InitializingBean {
                 .filter(e -> e.getJavaType().getAnnotation(Entity.class) != null)
                 .map(e -> e.getName().toLowerCase())
                 .collect(Collectors.toList());
+
+        relationTableNames.add("user_relations");
+        relationTableNames.add("feed_image_urls");
+        relationTableNames.add("rounding_attendee");
     }
 
     @Transactional
@@ -37,6 +45,10 @@ public class DatabaseCleanup implements InitializingBean {
             entityManager.createNativeQuery("TRUNCATE TABLE " + tableName).executeUpdate();
             entityManager.createNativeQuery("ALTER TABLE " + tableName + " ALTER COLUMN " +
                     "ID RESTART WITH 1").executeUpdate();
+        }
+
+        for (String relationTableName : relationTableNames) {
+            entityManager.createNativeQuery("TRUNCATE TABLE " + relationTableName).executeUpdate();
         }
 
         entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();

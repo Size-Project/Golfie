@@ -22,13 +22,14 @@ public class Rounding {
     private Course course;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "style_id")
     private Style style;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "host_id")
     private User host;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "ROUNDING_ATTENDEE")
     private Set<User> attendee;
 
     private String title;
@@ -89,8 +90,31 @@ public class Rounding {
         return style;
     }
 
+    public User getHost() {
+        return host;
+    }
+
+    public Set<User> getAttendee() {
+        return attendee;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
     public String getContent() {
         return content;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public int getJoinNum() {
+        return joinNum;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
 }

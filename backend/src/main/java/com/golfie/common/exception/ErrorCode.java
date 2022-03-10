@@ -21,6 +21,9 @@ public enum ErrorCode {
     // Course
     COURSE_NOT_FOUND(404, "C001", "존재하지 않는 골프장입니다."),
 
+    // Rounding
+    ROUNDING_NOT_FOUND(404, "R001", "존재하지 않는 라운딩입니다."),
+
     ;
 
     private final int status;

@@ -4,6 +4,8 @@ import com.golfie.feed.domain.Feed;
 import com.golfie.rounding.domain.Rounding;
 import com.golfie.style.domain.Style;
 import com.golfie.user.domain.profile.*;
+import org.hibernate.annotations.BatchSize;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -23,15 +25,13 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     private Style style;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
     private final List<Feed> feeds;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinTable(name = "USER_HOSTING_ROUNDS")
+    @OneToMany(mappedBy = "host", cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<Rounding> hostingRounds;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "USER_ATTENDING_ROUNDS")
+    @ManyToMany(mappedBy = "attendee", cascade = CascadeType.ALL)
     private final Set<Rounding> attendingRounds;
 
     @ManyToMany(mappedBy = "followers")
@@ -131,6 +131,14 @@ public class User {
 
     public void addAttendingRound(Rounding rounding) {
         attendingRounds.add(rounding);
+    }
+
+    public Set<Rounding> getAttendingRounds() {
+        return attendingRounds;
+    }
+
+    public Set<Rounding> getHostingRounds() {
+        return hostingRounds;
     }
 
     public Long getId() {

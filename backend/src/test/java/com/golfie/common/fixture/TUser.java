@@ -4,6 +4,7 @@ import com.golfie.auth.application.dto.TokenDto;
 import com.golfie.auth.presentation.dto.LoginRequest;
 import com.golfie.auth.presentation.dto.SignUpRequest;
 import com.golfie.feed.presentation.dto.FeedResponse;
+import com.golfie.rounding.presentation.dto.RoundingResponse;
 import com.golfie.rounding.presentation.dto.RoundingSaveRequest;
 import com.golfie.user.presentation.dto.UserProfileResponse;
 import io.restassured.RestAssured;
@@ -202,7 +203,7 @@ public class TUser {
                 "content",
                 10000,
                 10,
-                LocalDateTime.of(2022, 1, 1, 1, 1),
+                LocalDateTime.now(),
                 "100-120",
                 "20-29",
                 "mood"
@@ -221,6 +222,64 @@ public class TUser {
                     .statusCode(200);
     }
 
+    public List<RoundingResponse> readAllRoundings() {
+        return RestAssured
+                .given().log().all()
+                    .port(port)
+                    .contentType(ContentType.JSON)
+                .when()
+                    .request(Method.GET, "/api/roundings")
+                .then().log().all()
+                    .statusCode(200)
+                    .extract()
+                    .body()
+                    .jsonPath().getList(".", RoundingResponse.class);
+    }
+
+    public void joinRounding() {
+        RestAssured
+                .given().log().all()
+                    .port(port)
+                    .contentType(ContentType.JSON)
+                    .auth()
+                    .oauth2(accessToken)
+                .when()
+                    .request(Method.PUT, "/api/roundings/{id}", 1)
+                .then().log().all()
+                    .statusCode(200);
+    }
+
+    public List<RoundingResponse> readAllMyRoundings() {
+        return RestAssured
+                .given().log().all()
+                    .port(port)
+                    .contentType(ContentType.JSON)
+                    .auth()
+                    .oauth2(accessToken)
+                .when()
+                    .request(Method.GET, "/api/roundings/me")
+                .then().log().all()
+                    .statusCode(200)
+                    .extract()
+                    .body()
+                    .jsonPath().getList(".", RoundingResponse.class);
+    }
+
+    public RoundingResponse readRounding() {
+        return RestAssured
+                .given().log().all()
+                    .port(port)
+                    .contentType(ContentType.JSON)
+                    .auth()
+                    .oauth2(accessToken)
+                .when()
+                    .request(Method.GET, "/api/roundings/{id}", 1)
+                .then().log().all()
+                    .statusCode(200)
+                    .extract()
+                    .as(RoundingResponse.class);
+    }
+
     public Long getId() {
         return id;
     }
@@ -232,5 +291,4 @@ public class TUser {
     public String getAccessToken() {
         return accessToken;
     }
-
 }

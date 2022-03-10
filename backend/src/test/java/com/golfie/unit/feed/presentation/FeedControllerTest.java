@@ -1,7 +1,6 @@
 package com.golfie.unit.feed.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.golfie.auth.util.JwtTokenProvider;
 import com.golfie.common.docs.DocumentationBase;
 import com.golfie.common.exception.ApplicationExceptionDto;

@@ -39,7 +39,6 @@ public class AuthAcceptanceTest extends AcceptanceTest {
                     .extract()
                     .as(SignUpReadyResponse.class);
 
-
         SignUpRequest signUpRequest = new SignUpRequest(
                 signUpReadyResponse.getEmail(),
                 signUpReadyResponse.getProfileImage(),
@@ -65,7 +64,6 @@ public class AuthAcceptanceTest extends AcceptanceTest {
             .then()
                 .extract()
                 .as(TokenDto.class);
-
 
         LoginRequest loginRequest = new LoginRequest("CODE", "TEST");
 
