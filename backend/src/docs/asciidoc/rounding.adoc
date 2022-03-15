@@ -33,6 +33,9 @@ include::{snippets}/rounding-save/http-response.adoc[]
 
 
 == 모든 라운딩 조회
+==== Request HTTP Example
+include::{snippets}/rounding-read-all/http-request.adoc[]
+
 ==== Response Data Fields
 include::{snippets}/rounding-read-all/response-fields.adoc[]
 
@@ -60,6 +63,9 @@ include::{snippets}/rounding-read-all-my/http-response.adoc[]
 
 
 == 단일 라운딩 조회
+==== Request HTTP Example
+include::{snippets}/rounding-read-one/http-request.adoc[]
+
 ==== Response Data Fields
 include::{snippets}/rounding-read-one/response-fields.adoc[]
 
