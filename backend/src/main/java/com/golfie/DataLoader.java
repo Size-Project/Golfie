@@ -7,6 +7,7 @@ import com.golfie.rounding.domain.Rounding;
 import com.golfie.rounding.domain.RoundingRepository;
 import com.golfie.rounding.domain.course.Course;
 import com.golfie.rounding.domain.course.CourseRepository;
+import com.golfie.style.domain.Style;
 import com.golfie.style.domain.StyleRepository;
 import com.golfie.user.domain.User;
 import com.golfie.user.domain.UserRepository;
@@ -35,14 +36,22 @@ public class DataLoader {
         userRepository.deleteAll();
         feedRepository.deleteAll();
 
+        Style style = Style.builder()
+                .averageHit("100-120")
+                .ageRange("20-30")
+                .mood("편안한")
+                .build();
+
+        styleRepository.save(style);
+
         SocialProfile socialProfile = new SocialProfile(ProviderName.KAKAO, "junslee@test.com", "imageUrl.com", Gender.MALE, AgeRange.TWENTY);
         BasicProfile basicProfile = new BasicProfile("junslee", "job", 100);
-        User junslee = new User(basicProfile, socialProfile);
+        User junslee = new User(basicProfile, socialProfile, style);
         userRepository.save(junslee);
 
         SocialProfile socialProfile1 = new SocialProfile(ProviderName.KAKAO, "mary@test.com", "imageUrl.com", Gender.FEMALE, AgeRange.THIRTY);
         BasicProfile basicProfile1 = new BasicProfile("mary", "job", 70);
-        User mary = new User(basicProfile1, socialProfile1);
+        User mary = new User(basicProfile1, socialProfile1, style);
         userRepository.save(mary);
 
         SocialProfile socialProfile2 = new SocialProfile(ProviderName.KAKAO, "john@test.com", "imageUrl.com", Gender.MALE, AgeRange.FORTY);
@@ -114,7 +123,6 @@ public class DataLoader {
         anna.addFollowing(mary);
         mary.addFollowing(anna);
 
-
         Course suwon = new Course("수원 C.C", "경기도 수원시");
         Course seoul = new Course("서울 C.C", "서울특별시");
         courseRepository.save(suwon);
@@ -123,6 +131,7 @@ public class DataLoader {
         Rounding johnRounding = roundingRepository.save(Rounding.builder()
                 .course(suwon)
                 .host(john)
+                .style(style)
                 .title("놀러오세요.")
                 .content("내용입니다.")
                 .joinNum(4)
