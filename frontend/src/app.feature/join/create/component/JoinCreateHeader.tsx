@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import SVGLeft from '../../../../../public/images/svg/arrow-left.svg';
+import { useRouter } from 'next/router';
 
 const JoinCreateHeader = () => {
+  const router = useRouter();
+
   return (
     <StyledWrapper>
-      <SVGLeft />
+      <SVGLeft onClick={() => router.back()} />
       <div className="title">조인 만들기</div>
       <div className="right-icon" />
     </StyledWrapper>

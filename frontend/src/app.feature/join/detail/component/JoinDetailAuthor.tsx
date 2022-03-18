@@ -1,23 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const JoinDetailAuthor = () => {
+const JoinDetailAuthor = ({ joinDetailData }) => {
+  const { style, host, content } = joinDetailData;
+
   return (
     <StyledWrapper>
       <div className="join-tag-wrap">
-        {[1, 2, 3, 5].map((tag, tagIdx) => (
-          <div className="join-tag" key={tagIdx}>
-            20-25세
-          </div>
-        ))}
+        <div className="join-tag">{style.ageRange}세</div>
+        <div className="join-tag">{style.averageHit}타</div>
+        <div className="join-tag">{style.mood}</div>
       </div>
       <div className="author-wrap">
-        <div className="author-img"></div>
+        <div className="author-img">
+          <img src={host.imageUrl} />
+        </div>
         <div className="author-right">
           <div className="author-info-wrap">
             <div className="author-info">
-              <div className="author-name">지영주</div>
-              <div className="author-profile">26세 / 회사원 / 100타</div>
+              <div className="author-name">{host.nickname}</div>
+              <div className="author-profile">
+                {host.ageRange}세 / {host.job} / {host.averageHit}타
+              </div>
             </div>
             <div className="author-question">
               <div className="question-background" />
@@ -25,10 +29,7 @@ const JoinDetailAuthor = () => {
               <div className="question-text">질문하기</div>
             </div>
           </div>
-          <div className="join-message">
-            골린이들끼리 열심히 치고 밥도 먹고 주변 예쁜카페도 함께 가실분이면
-            좋겠어요!
-          </div>
+          <div className="join-message">{content}</div>
         </div>
       </div>
     </StyledWrapper>
@@ -66,6 +67,7 @@ const StyledWrapper = styled.div`
     width: 100%;
 
     .author-img {
+      overflow: hidden;
       max-height: 48px;
       max-width: 48px;
       min-width: 48px;
@@ -76,6 +78,8 @@ const StyledWrapper = styled.div`
     }
 
     .author-right {
+      width: 100%;
+
       .author-info-wrap {
         width: 100%;
         margin-bottom: 4px;

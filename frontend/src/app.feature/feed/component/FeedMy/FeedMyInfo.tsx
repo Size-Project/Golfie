@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 const FeedMyInfo = ({ userInfo }) => {
-  console.log(userInfo);
   return (
     <StyledWrapper>
       <div className="user-info-top">

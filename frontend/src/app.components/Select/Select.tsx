@@ -3,15 +3,26 @@ import styled from 'styled-components';
 import { useFormContext } from 'react-hook-form';
 import SVGDown from '../../../public/images/svg/arrow-down.svg';
 
-const Select = ({ options, placeholder, name, ...props }) => {
+const Select = ({
+  options,
+  placeholder,
+  name,
+  defaultValue = [],
+  ...props
+}) => {
   const { register } = useFormContext();
 
-  console.log(
-    Array.from({ length: 5 }, (v, i) => new Date().getFullYear() + i)
-  );
   return (
-    <StyledWrapper {...register(name)} placeholder={placeholder} {...props}>
+    <StyledWrapper
+      {...register(name)}
+      placeholder={placeholder}
+      defaultValue={defaultValue}
+      {...props}
+    >
       <SVGDown />
+      <option disabled selected className="none">
+        {placeholder}
+      </option>
       {options.map((option, optionIdx) => (
         <option key={optionIdx} value={option}>
           {option}
@@ -23,13 +34,15 @@ const Select = ({ options, placeholder, name, ...props }) => {
 
 export default Select;
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.select`
+  background-color: #fff;
   width: 80px;
   padding: 10px;
   height: 40px;
   border-radius: 5px;
   border: solid 1px #6dd094;
   position: relative;
+  margin-right: 15px;
 
   svg {
     transform: rotate(180deg);

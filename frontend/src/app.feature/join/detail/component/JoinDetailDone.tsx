@@ -1,17 +1,34 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const JoinDetailDone = () => {
+const JoinDetailDone = ({ joinDetailData }) => {
+  const { attendees, joinNum } = joinDetailData;
+
   return (
     <StyledWrapper>
       <div className="join-done-header">조인 완료</div>
       <div className="join-done-wrap">
-        {[1, 2, 3].map((done, doneIdx) => (
-          <div className="done-item" key={doneIdx}>
-            <div className="user-img"></div>
-            <div className="user-info">현유진 / 26세</div>
+        {attendees &&
+          attendees.map((done, doneIdx) => (
+            <div className="done-item" key={doneIdx}>
+              <div className="user-img">
+                <img src={done.imageUrl} />
+              </div>
+              <div className="user-info">
+                {done.nickname} / {done.ageRange}세
+              </div>
+            </div>
+          ))}
+        {attendees.length < joinNum && (
+          <div className="undo-item">
+            <div className="user-img">
+              <div className="user-img">
+                <img src="/images/svg/plus.svg" />
+              </div>
+            </div>
+            <div className="user-info">친구에게 공유하기</div>
           </div>
-        ))}
+        )}
       </div>
     </StyledWrapper>
   );
@@ -37,7 +54,8 @@ const StyledWrapper = styled.div`
     display: flex;
     gap: 20px;
 
-    .done-item {
+    .done-item,
+    .undo-item {
       .user-img {
         margin: 0 auto 6px;
         max-height: 48px;
@@ -45,12 +63,26 @@ const StyledWrapper = styled.div`
         min-width: 48px;
         min-height: 48px;
         border-radius: 50%;
+        overflow: hidden;
         box-shadow: inset 0 3px 6px 0 rgba(0, 0, 0, 0.16);
       }
 
       .user-info {
         font-size: 8px;
         font-weight: 500;
+      }
+    }
+
+    .undo-item {
+      object-fit: contain;
+      .user-img {
+        background-color: var(--color-gray-100);
+        box-shadow: none;
+
+        img {
+          padding: 9px;
+          width: 48px;
+        }
       }
     }
   }

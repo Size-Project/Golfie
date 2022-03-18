@@ -4,10 +4,11 @@ import ScreenJoinDetail from 'app.feature/join/detail/screen/ScreenJoinDetail';
 
 const Page_JoinDetail = () => {
   const router = useRouter();
-  const { joinId } = router.query;
+  const { id } = router.query;
+
   return (
     <div>
-      <ScreenJoinDetail />
+      <ScreenJoinDetail joinId={id} />
       <div style={{ height: '130px' }} />
     </div>
   );

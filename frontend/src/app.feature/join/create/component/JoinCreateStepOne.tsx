@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Select from 'app.components/Select/Select';
+import API from 'app.modules/api';
+import { API_COURSES } from 'app.modules/api/fieldtrip.join';
+import useQueryFn from 'app.hooks/useQueryFn';
+import { useFormContext } from 'react-hook-form';
 
 const JoinCreateStepOne = ({ setStep }) => {
+  const [course, setCourse] = useState(null);
+
+  const { register, watch } = useFormContext();
+
+  const { isLoading, data = [] } = useQueryFn(API_COURSES);
+
+  console.log(course);
+
   return (
     <StyledWrapper>
       <div className="step-one-title">
@@ -18,8 +30,19 @@ const JoinCreateStepOne = ({ setStep }) => {
             <div className="label-text">골프장</div>
           </div>
           <input
+            {...register('course')}
             placeholder="골프장을 검색해보세요."
             style={{ width: '100%' }}
+            onChange={(e) => {
+              const course = data.find((item) =>
+                item.name.includes(e.target.value)
+              );
+              if (!!course) {
+                setCourse(course);
+              } else {
+                setCourse(null);
+              }
+            }}
           />
         </div>
         <div className="form-item-wrap">
@@ -27,36 +50,102 @@ const JoinCreateStepOne = ({ setStep }) => {
             <img src="/images/Join/calendar@3x.png" />
             <div className="label-text">날짜</div>
           </div>
-          <Select name="date-year" options={[2022, 2023]} placeholder="년" />
-          <input placeholder="골프장을 검색해보세요." />
+          <Select
+            name="dateYear"
+            options={Array.from(
+              { length: 5 },
+              (v, i) => new Date().getFullYear() + i
+            )}
+            placeholder="년"
+          />
+          <Select
+            name="dateMonth"
+            options={Array.from({ length: 12 }, (v, i) => i + 1)}
+            placeholder="월"
+          />
+          <Select
+            name="dateDay"
+            options={Array.from(
+              {
+                length: new Date(
+                  Number(watch().dateYear),
+                  Number(watch().dateMonth),
+                  0
+                ).getDate(),
+              },
+              (v, i) => i + 1
+            )}
+            placeholder="월"
+          />
         </div>
         <div className="form-item-wrap">
           <div className="form-item-label">
             <img src="/images/Join/alarm-outline@3x.png" />
             <div className="label-text">시간</div>
           </div>
-          <input placeholder="골프장을 검색해보세요." />
+          <Select
+            name="timeYear"
+            options={Array.from(
+              {
+                length: 12,
+              },
+              (v, i) => i + 1
+            )}
+            placeholder="시간"
+          />
+          <Select
+            name="timeMinute"
+            options={Array.from(
+              {
+                length: 60,
+              },
+              (v, i) => i + 1
+            )}
+            placeholder="분"
+          />
+          <Select
+            name="timeDay"
+            options={['오전', '오후']}
+            defaultValue={['오전']}
+            placeholder="오전 / 오후"
+          />
         </div>
         <div className="form-item-wrap">
           <div className="form-item-label">
             <img src="/images/Join/user@3x.png" />
             <div className="label-text">인원수</div>
           </div>
-          <input placeholder="골프장을 검색해보세요." />
+          <Select
+            name="userNumber"
+            options={Array.from(
+              {
+                length: 4,
+              },
+              (v, i) => i + 1
+            )}
+            placeholder="명"
+          />
         </div>
         <div className="form-item-wrap">
           <div className="form-item-label">
             <img src="/images/Join/cash-outline@3x.png" />
             <div className="label-text">가격</div>
           </div>
-          <input type="number" placeholder="가격을 입력하세요." />
+          <input
+            {...register('price')}
+            type="number"
+            placeholder="가격을 입력하세요."
+          />
         </div>
         <div className="form-item-wrap">
           <div className="form-item-label">
             <img src="/images/Join/message-square@3x.png" />
             <div className="label-text">메모</div>
           </div>
-          <textarea placeholder="이번 조인에 대한 내용 or  요청 사항을 입력하세요." />
+          <textarea
+            {...register('content')}
+            placeholder="이번 조인에 대한 내용 or  요청 사항을 입력하세요."
+          />
         </div>
       </div>
       <div className="next-step-button-wrap">

@@ -4,28 +4,38 @@ import SVGLocation from '../../../../../public/images/svg/tag-location.svg';
 import SVGSchedule from '../../../../../public/images/svg/tag-schedule.svg';
 import SVGCash from '../../../../../public/images/svg/tag-cash.svg';
 import SVGUser from '../../../../../public/images/svg/tag-user.svg';
+import moment from 'moment';
 
-const JoinDetailInfo = () => {
+const JoinDetailInfo = ({ joinDetailData }) => {
+  const { course, host, title, price, joinNum, attendees, dateTime } =
+    joinDetailData;
+
   return (
     <StyledWrapper>
-      <div className="author">지영주님 주최</div>
-      <div className="title">골프도 치고 카페투어 가실 분</div>
+      <div className="author">{host.nickname}님 주최</div>
+      <div className="title">{title}</div>
       <div className="detail-info-box">
         <div className="info-item">
           <SVGLocation />
-          <div className="info-text">파크밸리cc | 강원 원주</div>
+          <div className="info-text">
+            {course.name} | {course.address}
+          </div>
         </div>
         <div className="info-item">
           <SVGSchedule />
-          <div className="info-text">Jan 02 AM 11:00</div>
+          <div className="info-text">
+            {moment(dateTime).format('MMMM.DD A hh:mm')}
+          </div>
         </div>
         <div className="info-item">
           <SVGCash />
-          <div className="info-text">80,000원</div>
+          <div className="info-text">{price.toLocaleString()}원</div>
         </div>
         <div className="info-item">
           <SVGUser />
-          <div className="info-text">6명 | 4명 신청 완료</div>
+          <div className="info-text">
+            {joinNum}명 | {attendees.length}명 신청 완료
+          </div>
         </div>
       </div>
     </StyledWrapper>
