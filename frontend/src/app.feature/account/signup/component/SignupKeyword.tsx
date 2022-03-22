@@ -15,10 +15,11 @@ const SignupKeyword = () => {
           label="함께하고 싶은 평균 타수"
           name="preferredHit"
           options={[
-            { key: '126-', name: '126타 이상' },
-            { key: '100-126', name: '100타 이상' },
-            { key: '90-100', name: '90타 전후' },
-            { key: '72-81', name: '72 - 81타' },
+            { key: '120-150', name: '120타 이상' },
+            { key: '100-120', name: '100 - 120타' },
+            { key: '90-100', name: '90 - 100타' },
+            { key: '80-90', name: '80 - 90타' },
+            { key: '0-80', name: '80타 이하' },
           ]}
         />
         <SignupSelect

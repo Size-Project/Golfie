@@ -5,30 +5,45 @@ import JoinCreateHeader from 'app.feature/join/create/component/JoinCreateHeader
 import JoinCreateStepOne from 'app.feature/join/create/component/JoinCreateStepOne';
 import JoinCreateStepTwo from 'app.feature/join/create/component/JoinCreateStepTwo';
 import API from 'app.modules/api';
-import { API_ROUNDINGS_CREATE } from 'app.modules/api/fieldtrip.join';
+import {
+  API_ROUNDINGS_ALL,
+  API_ROUNDINGS_CREATE,
+} from 'app.modules/api/fieldtrip.join';
 import { useRouter } from 'next/router';
+import moment from 'moment';
+import { useQueryClient } from 'react-query';
 
 const ScreenJoinCreate = () => {
   const router = useRouter();
   const methods = useForm();
+  const queryClient = useQueryClient();
   const [step, setStep] = useState(1);
 
   const handleCreateJoin = async (formData) => {
     try {
+      const dateTime = `${formData.dateYear}-${formData.dateMonth}-${
+        formData.dateDay
+      } ${
+        formData.timeDay === '오전'
+          ? formData.timeHour
+          : Number(formData.timeHour) + 12
+      }:${formData.timeMinute}`;
+
       await API.POST({
         url: API_ROUNDINGS_CREATE,
         data: {
-          courseName: '서울 C.C',
-          title: '맛집 탐방까지 같이하실 분 구함',
-          content: '골프 치고 맛집 탐방할 사람 구합니다~!!',
-          price: 50000,
-          joinNum: 4,
-          dateTime: '2022-04-27T01:01:00',
-          preferredHit: '100-120',
-          preferredAge: '20-29',
-          preferredMood: '즐거운',
+          courseName: formData.courseName,
+          title: formData.title,
+          content: formData.content,
+          price: formData.price,
+          joinNum: formData.joinNum,
+          dateTime: moment(dateTime).format('YYYY-MM-DDTHH:mm:00'),
+          preferredHit: formData.preferredHit,
+          preferredAge: formData.preferredAge,
+          preferredMood: formData.preferredMood,
         },
       });
+      queryClient.removeQueries(API_ROUNDINGS_ALL);
       router.push('/join');
     } catch (err) {}
   };

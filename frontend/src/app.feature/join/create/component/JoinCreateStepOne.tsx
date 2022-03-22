@@ -1,20 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Select from 'app.components/Select/Select';
-import API from 'app.modules/api';
-import { API_COURSES } from 'app.modules/api/fieldtrip.join';
 import useQueryFn from 'app.hooks/useQueryFn';
+import { API_COURSES } from 'app.modules/api/fieldtrip.join';
 import { useFormContext } from 'react-hook-form';
 
 const JoinCreateStepOne = ({ setStep }) => {
-  const [course, setCourse] = useState(null);
-
   const { register, watch } = useFormContext();
-
   const { isLoading, data = [] } = useQueryFn(API_COURSES);
 
-  console.log(course);
-
+  if (isLoading) return null;
   return (
     <StyledWrapper>
       <div className="step-one-title">
@@ -29,20 +24,11 @@ const JoinCreateStepOne = ({ setStep }) => {
             <img src="/images/Join/map-pin@3x.png" />
             <div className="label-text">골프장</div>
           </div>
-          <input
-            {...register('course')}
-            placeholder="골프장을 검색해보세요."
+          <Select
+            name="courseName"
             style={{ width: '100%' }}
-            onChange={(e) => {
-              const course = data.find((item) =>
-                item.name.includes(e.target.value)
-              );
-              if (!!course) {
-                setCourse(course);
-              } else {
-                setCourse(null);
-              }
-            }}
+            options={data.map((item) => item.name)}
+            placeholder="골프장을 선택해주세요."
           />
         </div>
         <div className="form-item-wrap">
@@ -69,13 +55,13 @@ const JoinCreateStepOne = ({ setStep }) => {
               {
                 length: new Date(
                   Number(watch().dateYear),
-                  Number(watch().dateMonth),
+                  !watch()?.dateMonth ? Number(watch().dateMonth) : 1,
                   0
                 ).getDate(),
               },
               (v, i) => i + 1
             )}
-            placeholder="월"
+            placeholder="일"
           />
         </div>
         <div className="form-item-wrap">
@@ -84,7 +70,7 @@ const JoinCreateStepOne = ({ setStep }) => {
             <div className="label-text">시간</div>
           </div>
           <Select
-            name="timeYear"
+            name="timeHour"
             options={Array.from(
               {
                 length: 12,
@@ -99,7 +85,7 @@ const JoinCreateStepOne = ({ setStep }) => {
               {
                 length: 60,
               },
-              (v, i) => i + 1
+              (v, i) => i
             )}
             placeholder="분"
           />
@@ -116,10 +102,10 @@ const JoinCreateStepOne = ({ setStep }) => {
             <div className="label-text">인원수</div>
           </div>
           <Select
-            name="userNumber"
+            name="joinNum"
             options={Array.from(
               {
-                length: 4,
+                length: 8,
               },
               (v, i) => i + 1
             )}
@@ -140,8 +126,13 @@ const JoinCreateStepOne = ({ setStep }) => {
         <div className="form-item-wrap">
           <div className="form-item-label">
             <img src="/images/Join/message-square@3x.png" />
-            <div className="label-text">메모</div>
+            <div className="label-text">제목 & 메모</div>
           </div>
+          <input
+            {...register('title')}
+            style={{ marginBottom: '10px', width: '100%' }}
+            placeholder="제목을 입력하세요."
+          />
           <textarea
             {...register('content')}
             placeholder="이번 조인에 대한 내용 or  요청 사항을 입력하세요."
@@ -149,7 +140,24 @@ const JoinCreateStepOne = ({ setStep }) => {
         </div>
       </div>
       <div className="next-step-button-wrap">
-        <div className="next-step-button" onClick={() => setStep(2)}>
+        <div
+          className="next-step-button"
+          onClick={() => {
+            if (
+              !!watch()?.courseName &&
+              !!watch()?.dateYear &&
+              !!watch()?.dateMonth &&
+              !!watch()?.dateDay &&
+              !!watch()?.timeHour &&
+              !!watch()?.timeMinute &&
+              !!watch()?.timeDay &&
+              !!watch()?.joinNum &&
+              !!watch()?.title &&
+              !!watch()?.content
+            )
+              setStep(2);
+          }}
+        >
           다음 단계
         </div>
       </div>

@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useFormContext } from 'react-hook-form';
+import SignupSelect from 'app.feature/account/signup/component/SignupSelect';
+import JoinSelect from 'app.feature/join/create/component/JoinSelect';
 
 const JoinCreateStepTwo = ({ handleCreateJoin }) => {
-  const { register, handleSubmit } = useFormContext();
+  const { handleSubmit } = useFormContext();
 
   return (
     <StyledWrapper>
@@ -18,39 +20,54 @@ const JoinCreateStepTwo = ({ handleCreateJoin }) => {
 
       <div className="step-two-form">
         <div className="form-item-wrap">
-          <div className="form-item-label">
-            # 영주님의 기본 조인 태그를 수정해주세요.
-          </div>
           <div className="tag-item-wrap">
-            <div className="tag-item">26-30세</div>
-            <div className="tag-item">126타 이상</div>
-            <div className="tag-item">즐거운</div>
-            <div className="tag-item">친목골프</div>
-            <div className="tag-item">골린이</div>
+            <JoinSelect
+              label="# 함께하고 싶은 평균 타수"
+              name="preferredHit"
+              options={[
+                { key: '120-', name: '120타 이상' },
+                { key: '100-120', name: '100 - 120타' },
+                { key: '90-100', name: '90 - 100타' },
+                { key: '80-90', name: '80 - 90타' },
+                { key: '-80', name: '80타 이하' },
+              ]}
+            />
           </div>
         </div>
         <div className="form-item-wrap">
-          <div className="form-item-label">
-            # 이번 조인에 원하는 태그를 추가해보세요.
-          </div>
-          <input
-            {...register('keyword')}
-            placeholder="태그 키워드를 검색해보세요."
-            style={{ width: '100%' }}
+          <JoinSelect
+            label="# 함께하고 싶은 연령대"
+            name="preferredAge"
+            options={[
+              { key: '10-19', name: '10대 이하' },
+              { key: '20-29', name: '20대' },
+              { key: '30-39', name: '30대' },
+              { key: '40-49', name: '40대' },
+              { key: '50-59', name: '50대' },
+              { key: '60-69', name: '60대' },
+              { key: '70-', name: '70세 이상' },
+            ]}
           />
         </div>
         <div className="form-item-wrap">
-          <div className="form-item-label"># 추가 가능한 추천 태그.</div>
-          <div className="tag-item-wrap">
-            <div className="tag-item">가벼운</div>
-            <div className="tag-item">진지한</div>
-            <div className="tag-item">칭찬하는</div>
-            <div className="tag-item">침착한</div>
-            <div className="tag-item">예의바른</div>
-            <div className="tag-item">긍정적인</div>
-            <div className="tag-item">조용한</div>
-            <div className="tag-item">존중하는</div>
-          </div>
+          <SignupSelect
+            label="# 좋아하는 분위기"
+            name="preferredMood"
+            options={[
+              { key: '편안한', name: '편안한' },
+              { key: '즐거운', name: '즐거운' },
+              { key: '열정적인', name: '열정적인' },
+              { key: '교훈적인', name: '교훈적인' },
+              { key: '가벼운', name: '가벼운' },
+              { key: '진지한', name: '진지한' },
+              { key: '칭찬하는', name: '칭찬하는' },
+              { key: '침착한', name: '침착한' },
+              { key: '예의바른', name: '예의바른' },
+              { key: '긍정적인', name: '긍정적인' },
+              { key: '조용한', name: '조용한' },
+              { key: '존중하는', name: '존중하는' },
+            ]}
+          />
         </div>
       </div>
       <div className="submit-button-wrap">
