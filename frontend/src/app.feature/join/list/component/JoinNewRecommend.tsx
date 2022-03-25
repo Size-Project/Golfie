@@ -1,13 +1,55 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import JoinCardVertical from 'app.components/JoinCard/JoinCardVertical';
+import { useRouter } from 'next/router';
 
-const JoinNewRecommend = () => {
+const JoinNewRecommend = ({ roundingData }) => {
+  const router = useRouter();
   const [active, setActive] = useState('week');
 
   const handleChangeActive = (key) => {
     setActive(key);
   };
+
+  const data = {
+    course: {
+      id: 1,
+      name: '수원 C.C',
+      address: '경기도 수원시',
+    },
+    style: {
+      ageRange: '20-30',
+      averageHit: '100-120',
+      mood: '편안한',
+    },
+    host: {
+      id: '3',
+      nickname: 'john',
+      imageUrl: 'imageUrl.com',
+      ageRange: '40-49',
+      gender: 'MALE',
+      job: 'job',
+      averageHit: 110,
+    },
+    attendees: [
+      {
+        id: '5',
+        nickname: '진아',
+        imageUrl:
+          'http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg',
+        ageRange: '20-29',
+        gender: 'FEMALE',
+        job: '대학생',
+        averageHit: 100,
+      },
+    ],
+    title: '놀러오세요.',
+    content: '내용입니다.',
+    price: 100000,
+    joinNum: 4,
+    dateTime: '2022-03-17T13:15:01.505724',
+  };
+  console.log(roundingData);
   return (
     <StyledWrapper>
       <div className="top-title">
@@ -30,9 +72,14 @@ const JoinNewRecommend = () => {
           </div>
         </div>
         <div className="tab-pane-wrap">
-          {[1, 2, 3].map((item, idx) => (
-            <JoinCardVertical key={idx} />
-          ))}
+          {roundingData &&
+            roundingData?.map((item, idx) => (
+              <JoinCardVertical
+                data={item}
+                key={idx}
+                onClick={() => router.push(`/join/detail?id=${idx + 1}`)}
+              />
+            ))}
         </div>
       </div>
     </StyledWrapper>

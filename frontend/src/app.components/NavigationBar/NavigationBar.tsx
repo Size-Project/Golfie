@@ -6,6 +6,7 @@ import SVGMenuFeed from '../../../public/images/svg/menu-feed.svg';
 import SVGMenuForYou from '../../../public/images/svg/menu-for-you.svg';
 import SVGMenuMy from '../../../public/images/svg/menu-my.svg';
 import { useRouter } from 'next/router';
+import useGetUser from 'app.hooks/useGetUser';
 
 const NavigationBar = () => {
   const router = useRouter();
@@ -15,7 +16,15 @@ const NavigationBar = () => {
     router.push(link);
   };
 
-  if (router.pathname.includes('account')) return null;
+  const getUser = useGetUser();
+
+  if (getUser?.isLoading) return null;
+  if (
+    router.pathname.includes('account') ||
+    router.pathname.includes('create') ||
+    router.pathname.includes('detail')
+  )
+    return null;
   return (
     <StyledWrapper>
       <div
@@ -47,7 +56,9 @@ const NavigationBar = () => {
         <div className="menu-text">FOR YOU</div>
       </div>
       <div
-        onClick={() => handleLink('/my')}
+        onClick={() =>
+          getUser?.login ? handleLink('/my') : router.push('/account/login')
+        }
         className={`menu-item-wrap ${String(page === '/my')}`}
       >
         <SVGMenuMy />

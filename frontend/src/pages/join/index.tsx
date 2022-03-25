@@ -1,5 +1,5 @@
 import React from 'react';
-import ScreenJoin from 'app.feature/join/screen/ScreenJoin';
+import ScreenJoin from 'app.feature/join/list/screen/ScreenJoin';
 
 const Page_Join = () => {
   return (

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+    <g data-name="그룹 2442">
+        <g data-name="그룹 1584">
+            <path data-name="사각형 3091" style="fill:none" d="M0 0h16v16H0z" transform="rotate(90 8 8)"/>
+        </g>
+        <g data-name="그룹 1991">
+            <path data-name="패스 1365" d="M4 0a.666.666 0 0 0-.472.2L.2 3.529a.666.666 0 0 0 0 .942L3.529 7.8a.667.667 0 0 0 .943-.943L1.609 4l2.862-2.862A.667.667 0 0 0 4 0z" style="fill:#999" transform="rotate(90 3.2 8.8)"/>
+        </g>
+    </g>
+</svg>
